@@ -19,6 +19,7 @@ import {
 import { SectionForm } from "@/components/admin/form/section-form";
 import { Input } from "@/components/ui/input";
 import RichText from "@/components/rich-text";
+import { Dropzone } from "@/components/dropzone";
 
 export const FormProduct = () => {
   const form = useForm<z.infer<typeof ProductSchema>>({
@@ -102,6 +103,31 @@ export const FormProduct = () => {
               )}
             />
            
+          </SectionForm>
+          {/*  */}
+          <SectionForm
+            title="Images & CTA"
+            color="emerald"
+            isFirst
+            backHref="#"
+          >
+            <FormField
+              name="images"
+              control={form.control}
+              render={({field})=>(
+                <FormItem>
+                  <FormLabel>Cover images</FormLabel>
+                  <FormControl>
+                    <Dropzone 
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormDescription>Description du produit</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </SectionForm>
         </form>
       </Form>

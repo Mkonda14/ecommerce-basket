@@ -9,7 +9,7 @@ export const ProductSchema = z.object({
     pricePromo: z.number().transform((input)=> parseFloat(input.toString())),
     isPromo: z.boolean().default(false),
 
-    images: z.array(z.any().refine((input)=> input.size() < 50000, "images est trés lourd")),
+    images: z.any().refine((input)=> input.size() < 50000, "images est trés lourd"),
 
     colors: z.array(z.object({
         color: z.string().min(4, "veuillez que ca puisse être un code couleur hexadecimal"),
