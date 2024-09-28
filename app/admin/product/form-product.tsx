@@ -40,7 +40,7 @@ export const FormProduct = () => {
   return (
     <main>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <SectionForm
             title="Name & Description"
             color="emerald"
@@ -58,9 +58,9 @@ export const FormProduct = () => {
                       placeholder="Name"
                       type="text"
                       {...field}
+                      className="py-6"
                     />
                   </FormControl>
-                  <FormDescription>Name ou marke</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -77,9 +77,9 @@ export const FormProduct = () => {
                       placeholder="model"
                       type="text"
                       {...field}
+                      className="py-6"
                     />
                   </FormControl>
-                  <FormDescription>Name ou marke</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -97,7 +97,6 @@ export const FormProduct = () => {
                       onChange={field.onChange}
                     />
                   </FormControl>
-                  <FormDescription>Description du produit</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -107,9 +106,7 @@ export const FormProduct = () => {
           {/*  */}
           <SectionForm
             title="Images & CTA"
-            color="emerald"
-            isFirst
-            backHref="#"
+            color="cyan"
           >
             <FormField
               name="images"

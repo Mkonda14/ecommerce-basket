@@ -25,12 +25,12 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onChange }) => {
     return (
         <div
             {...getRootProps()}
-            className={`p-6 border-2 border-dashed rounded-md transition-colors duration-300 ${
+            className={`p-6 border-2 border-dashed py-8 min-h-[10rem] rounded-md transition-colors duration-300 ${
                 isDragActive ? 'border-blue-500 bg-blue-100' : 'border-gray-300 bg-gray-50'
             }`}
         >
             <input {...getInputProps()} />
-            <p className="text-center text-gray-500">
+            <p className="text-center text-gray-500 mt-6">
                 {isDragActive ? 'Déposez les fichiers ici...' : 'Glissez-déposez des fichiers ici, ou cliquez pour sélectionner des fichiers'}
             </p>
         </div>

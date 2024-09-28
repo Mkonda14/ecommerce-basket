@@ -21,7 +21,7 @@ interface SectionFormProps{
 
 export const SectionForm = ({title, color, isFirst, children, backHref = "#"}: SectionFormProps) => {
   return (
-    <section className="p-4 bg-white space-y-6">
+    <section className="p-4 bg-white space-y-6 rounded-lg">
         <div className="flex items-center justify-between">
             <div className="flex items-center gap-x-2">
                 <div className={cn("h-8 w-3", colors[color])}></div>
@@ -36,7 +36,7 @@ export const SectionForm = ({title, color, isFirst, children, backHref = "#"}: S
                 </Button>
             )}
         </div>
-        <div className="">
+        <div className="space-y-4">
             {children}
         </div>
     </section>

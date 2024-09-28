@@ -6,7 +6,7 @@ export default function ProductAdd() {
     <main className='p-4'>
       <Typographie component={"h1"} variant='h1' size="xl" className='mb-4'>New product</Typographie>
       <main className='w-full flex gap-x-4'>
-        <section className='w-3/4 bg-white'>
+        <section className='w-3/4'>
             <FormProduct />
         </section>
         <section className='w-1/4'></section>

@@ -16,7 +16,7 @@ export default function RichText ({value, onChange}: RichTextProps){
         content: value,
         editorProps: {
             attributes: {
-                class: "rounded-md border min-h-[150px] border-input bg-back-200 disabled:cursor-not-allowed disabled:opacity-50"
+                class: "min-h-[150px] p-2 border-input bg-slate-100 disabled:cursor-not-allowed disabled:opacity-50"
             },
         },
         onUpdate({editor}){
@@ -26,7 +26,7 @@ export default function RichText ({value, onChange}: RichTextProps){
     })
 
     return (
-        <div className="flex flex-col justify-stretch min-h-[250px]">
+        <div className="flex flex-col justify-stretch min-h-[200px] border rounded-lg overflow-hidden">
             <ToolBar editor={editor} />
             <EditorContent editor={editor} />
         </div>
