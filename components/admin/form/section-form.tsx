@@ -28,7 +28,7 @@ export const SectionForm = ({title, color, isFirst, children, backHref = "#"}: S
                 <Typographie component="h2" variant="h2" size="lg">{title}</Typographie>
             </div>
             {isFirst && (
-                <Button variant={"outline"} className="space-x-3" asChild>
+                <Button variant={"outline"} className="space-x-2 px-2" asChild>
                     <Link href={backHref}>
                         <BiArrowBack />
                         <span>Back</span>
@@ -36,7 +36,7 @@ export const SectionForm = ({title, color, isFirst, children, backHref = "#"}: S
                 </Button>
             )}
         </div>
-        <div className="space-y-4">
+        <div className="space-y-8">
             {children}
         </div>
     </section>

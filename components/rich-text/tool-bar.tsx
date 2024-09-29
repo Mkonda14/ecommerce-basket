@@ -19,7 +19,7 @@ export const ToolBar = ({editor}: ToolBarProps) => {
     if(!editor) return null;
 
     return (
-        <div className="space-x-2 border p-1 border-input bg-transparent bg-slate-300">
+        <div className="space-x-2 border p-1 border-input bg-transparent bg-white">
             <Toggle
                 size={"sm"}
                 pressed={editor.isActive("heading")}
@@ -27,7 +27,7 @@ export const ToolBar = ({editor}: ToolBarProps) => {
                     editor.chain().focus().toggleHeading({level: 2}).run()
                 }
             >
-                <Heading2 />
+                <Heading2 className="w-5 h-5" />
             </Toggle>
 
             <Toggle
@@ -37,7 +37,7 @@ export const ToolBar = ({editor}: ToolBarProps) => {
                     editor.chain().focus().toggleBold().run()
                 }
             >
-                <Bold />
+                <Bold className="w-5 h-5" />
             </Toggle>
 
             <Toggle
@@ -47,7 +47,7 @@ export const ToolBar = ({editor}: ToolBarProps) => {
                     editor.chain().focus().toggleItalic().run()
                 }
             >
-                <Italic />
+                <Italic className="w-5 h-5" />
             </Toggle>
 
             <Toggle
@@ -57,7 +57,7 @@ export const ToolBar = ({editor}: ToolBarProps) => {
                     editor.chain().focus().toggleStrike().run()
                 }
             >
-                <Strikethrough />
+                <Strikethrough className="w-5 h-5" />
             </Toggle>
             
             <Toggle
@@ -67,7 +67,7 @@ export const ToolBar = ({editor}: ToolBarProps) => {
                     editor.chain().focus().toggleBulletList().run()
                 }
             >
-                <List />
+                <List className="w-5 h-5" />
             </Toggle>
 
         </div>

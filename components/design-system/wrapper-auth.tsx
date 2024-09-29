@@ -23,7 +23,7 @@ interface WrapperProps{
 export const WrapperAuth = ({ title, subTitle, question, labelLink, link, children, oAuth }: WrapperProps) => {
     return (
         <section className="flex flex-col justify-between items-center w-full h-full">
-            <Card className="w-3/4 flex flex-col flex-grow justify-center items-center shadow-none border-none space-y-3 py-0">
+            <Card className="w-4/5 flex flex-col flex-grow justify-center items-center shadow-none border-none space-y-3 py-0">
                 <CardHeader className="text-center">
                     <CardTitle className="text-2xl">{title}</CardTitle>
                     <CardDescription>{subTitle}</CardDescription>

@@ -21,15 +21,15 @@ import { Input } from "@/components/ui/input";
 import RichText from "@/components/rich-text";
 import { Dropzone } from "@/components/dropzone";
 
+import { BsQuestionCircle } from "react-icons/bs"; 
+import { Switch } from "@/components/ui/switch";
+
 export const FormProduct = () => {
   const form = useForm<z.infer<typeof ProductSchema>>({
     resolver: zodResolver(ProductSchema),
     defaultValues: {
       name: "",
       model: "",
-      price: 0,
-      pricePromo: 0,
-      isPromo: false,
     },
   });
 
@@ -52,13 +52,12 @@ export const FormProduct = () => {
               control={form.control}
               render={({field})=>(
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
+                    <FormLabel className={"flex items-center gap-x-2 text-base"}> <span>Product title</span> <BsQuestionCircle /> </FormLabel><FormControl>
                     <Input
                       placeholder="Name"
                       type="text"
                       {...field}
-                      className="py-6"
+                      className="py-5"
                     />
                   </FormControl>
                   <FormMessage />
@@ -71,13 +70,13 @@ export const FormProduct = () => {
               control={form.control}
               render={({field})=>(
                 <FormItem>
-                  <FormLabel>Model</FormLabel>
+                  <FormLabel className={"flex items-center gap-x-2 text-base"}> <span>Product model</span> <BsQuestionCircle /> </FormLabel>
                   <FormControl>
                     <Input
                       placeholder="model"
                       type="text"
                       {...field}
-                      className="py-6"
+                      className="py-5"
                     />
                   </FormControl>
                   <FormMessage />
@@ -90,20 +89,84 @@ export const FormProduct = () => {
               control={form.control}
               render={({field})=>(
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel className={"flex items-center gap-x-2 text-base"}> <span>Description</span> <BsQuestionCircle /> </FormLabel>
                   <FormControl>
                     <RichText 
                       value={field.value}
                       onChange={field.onChange}
                     />
                   </FormControl>
+                  <FormDescription>Description du produit</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
            
           </SectionForm>
-          {/*  */}
+          {/* Section price */}
+          <SectionForm
+            title="Images & CTA"
+            color="cyan"
+          >
+            <FormField
+              name="price"
+              control={form.control}
+              render={({field})=>(
+                <FormItem>
+                  <FormLabel className={"flex items-center gap-x-2 text-base"}> <span>Amount</span> <BsQuestionCircle /> </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      {...field}
+                      className="py-5"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+                control={form.control}
+                name="isPromo"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row justify-between">
+                    <div className="space-y-0.5">
+                      <FormLabel className={"flex items-center gap-x-2 text-base"}> <span>Is promotion</span> <BsQuestionCircle /> </FormLabel>
+                      <FormDescription>
+                        Receive emails about new products, features, and more.
+                      </FormDescription>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                name="promoPrice"
+                control={form.control}
+                render={({field})=>(
+                  <FormItem>
+                    <FormLabel className={"flex items-center gap-x-2 text-base"}> <span>Promo price</span> <BsQuestionCircle /> </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        {...field}
+                        className="py-5"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+          </SectionForm>
+          {/* Section image */}
           <SectionForm
             title="Images & CTA"
             color="cyan"
@@ -113,14 +176,13 @@ export const FormProduct = () => {
               control={form.control}
               render={({field})=>(
                 <FormItem>
-                  <FormLabel>Cover images</FormLabel>
+                  <FormLabel className={"flex items-center gap-x-2 text-base"}> <span>Cover images</span> <BsQuestionCircle /> </FormLabel>
                   <FormControl>
                     <Dropzone 
-                      value={field.value}
                       onChange={field.onChange}
+                      className=""
                     />
                   </FormControl>
-                  <FormDescription>Description du produit</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
