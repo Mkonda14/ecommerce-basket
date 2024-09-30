@@ -1,4 +1,3 @@
-import { Footer } from '@/components/admin/footer';
 import { Navbar } from '@/components/admin/navbar';
 import { SidebarAdmin } from '@/components/admin/sidebar-admin';
 import React from 'react'
@@ -13,10 +12,9 @@ export default function LayoutAdmin({children}: Props) {
         <SidebarAdmin />
         <main className='flex flex-col w-[82%]'>
             <Navbar />
-                <main className='flex-grow'>
-                    {children}
-                </main>
-            <Footer />
+            <main className='flex-grow w-full'>
+                {children}
+            </main>
         </main>
     </main>
   )

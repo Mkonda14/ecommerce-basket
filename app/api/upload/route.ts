@@ -17,10 +17,10 @@ export const Upload = async (request: NextRequest) =>{
 
         const buffer = Buffer.from(bytes);
 
-        let path = `/public/uploads/${fileName}`;
+        const path = `/public/uploads/${fileName}`;
         await writeFile(path, buffer);
           
-        console.log('********************',fileName);
+        console.log(fileName);
         return NextResponse.json({ success: true, fileName });
 
     } catch (error) {

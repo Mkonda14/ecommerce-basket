@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useState, useTransition } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { useDropzone } from 'react-dropzone';
 import { BsUpload } from "react-icons/bs"; 
@@ -9,10 +9,9 @@ import { ItemFile } from './item-file';
 
 import { BsQuestionCircle } from "react-icons/bs"; 
 import { Button } from '../ui/button';
-import { Upload } from '@/actions/Upload';
 
 interface DropzoneProps {
-    onChange: (value: any[]) => void;
+    onChange: (value: File[]) => void;
     className?: string;
 }
 
@@ -21,20 +20,14 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onChange, className }) => {
     const [style, setStyle] = useState<string | undefined>(className)
     const [files, setFiles] = useState<File[]>([])
 
-    const onUpload = () => {
-        if(files.length)
-        {
-            const resultats = files.map(file => file.name)
-            onChange(files);
-        }        
-    }
-
-    const Clear = () => {
+    const onClear = () => {
         setFiles([]);
+        onChange([]);
     }
 
     const onDelete = (name: string) =>{
-        setFiles((files)=> files.filter((file) => file.name !== name))
+        setFiles((files)=> files.filter((file) => file.name !== name));
+        onChange(files);
     }
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -46,14 +39,15 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onChange, className }) => {
                 )
             ])
         }
+        onChange(files)
     }, [onChange]);
 
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({ 
+    const { getRootProps, getInputProps } = useDropzone({ 
         onDrop,
         accept: {
             'image/*': []
         },
-        maxSize: 1024 * 1000
+        maxSize: 1024 * 1000,
      });
 
     if(!style){
@@ -79,7 +73,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onChange, className }) => {
 
             <div className="space-y-4">
                 {files.map(file =>(
-                    <ItemFile name={file.name} size={file.size} time={"2"} progression={33} onDelete={onDelete} />
+                    <ItemFile key={file.name} name={file.name} size={file.size} time={"2"} progression={33} onDelete={onDelete} />
                 ))}
             </div>
 
@@ -89,8 +83,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onChange, className }) => {
                     <span>Help Center</span>
                 </Typographie>
                 <div className="space-x-4">
-                    <Button variant="outline" type='submit' >Clear</Button>
-                    <Button  type='button' onClick={onUpload}>Import</Button>
+                    <Button variant="outline" onClick={onClear} >Clear</Button>
                 </div>
             </div>
         </section>
