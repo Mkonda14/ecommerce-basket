@@ -11,7 +11,16 @@ export const ProductSchema = z.object({
     isPromo: z.boolean().default(false),
 
     category: z.string(),
-    tags: z.array(z.any()),
+    themes: z.array(z.string()).refine((value) => value.some((item) => item), {
+        message: "You have to select at least one item.",
+    }),
+    tags: z.array(z.any().transform((tag)=> tag.value)),
+
+    stock: z.string().transform((input)=> parseInt(input, 10)),
+    colors: z.array(z.object({
+        quantity: z.string().transform((input)=> parseInt(input, 10)),
+        color: z.string().min(4),
+    })),
 
     images: z.array(z.any().refine((input)=> input.size <= (1024 * 1000))),
 })

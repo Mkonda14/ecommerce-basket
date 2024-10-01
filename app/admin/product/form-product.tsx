@@ -28,11 +28,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 import Select2 from 'react-select';
 
-const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' }
-]
+import { Options, ItemThemes } from "./data-test";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 
 export const FormProduct = () => {
@@ -41,8 +40,12 @@ export const FormProduct = () => {
     defaultValues: {
       name: "",
       model: "",
+      themes: [],
+      colors: Array(1).fill({ quantity: "", color: "" }),
     },
   });
+
+  const [qcolor, setQcolor] = useState(1);
 
   const onSubmit = (data: z.infer<typeof ProductSchema>) => {
     console.log(data);
@@ -185,6 +188,83 @@ export const FormProduct = () => {
 
               </SectionForm>
 
+              {/* Stock, colors, sizes */}
+              <SectionForm
+                title="Stock, colors & sizes"
+                color="emerald"
+              >
+                <FormField
+                  name="stock"
+                  control={form.control}
+                  render={({field})=>(
+                    <FormItem>
+                        <FormLabel className={"flex items-center gap-x-2 text-base"}> <span>Product stock</span> <BsQuestionCircle /> </FormLabel><FormControl>
+                        <Input
+                          placeholder="0.0"
+                          type="number"
+                          {...field}
+                          className="py-5"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                    name="colors"
+                    control={form.control}
+                    render={({ field }) => (
+                      <FormItem>
+                        <div className="mb-4">
+                          <FormLabel className="flex items-center gap-x-2 text-base">
+                            <span>Product color and quantite</span> <BsQuestionCircle />
+                          </FormLabel>
+                          <FormDescription>Veuillez insérer chaque couleur ainsi que la quantité</FormDescription>
+                        </div>
+                        <div className="space-y-4">
+                          {Array.from({length: qcolor},(_, idx) => (
+                            <div key={idx} className="mb-2 flex gap-x-4">
+                              <FormField
+                                name={`colors.${idx}.color`}
+                                control={form.control}
+                                render={({ field }) => (
+                                  <FormItem className="w-1/4">
+                                    <FormLabel>Couleur</FormLabel>
+                                    <FormControl>
+                                      <Input {...field} type="color" placeholder="Couleur" />
+                                    </FormControl>
+                                  </FormItem>
+                                )}
+                              />
+
+                              <FormField
+                                name={`colors.${idx}.quantity`}
+                                control={form.control}
+                                render={({ field }) => (
+                                  <FormItem className="w-3/4">
+                                    <FormLabel>Quantite</FormLabel>
+                                    <FormControl>
+                                      <Input {...field} className="w-full" placeholder="Quantité" />
+                                    </FormControl>
+                                  </FormItem>
+                                )}
+                              />
+                            </div>
+                          ))}
+                          
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                    <Button type="button" onClick={()=>{
+                      setQcolor((q)=> q + 1);
+                    }} >ADD</Button>
+              
+              </SectionForm>
+
               {/* Categorie & tag */}
               <SectionForm
                 title="Category & attribut"
@@ -215,6 +295,55 @@ export const FormProduct = () => {
                 />
 
                 <FormField
+                  name="themes"
+                  control={form.control}
+                  render={({field})=>(
+                    <FormItem>
+                      <div className="mb-4">
+                        <FormLabel className={"flex items-center gap-x-2 text-base"}> <span>Themes</span> <BsQuestionCircle /> </FormLabel>
+                        <FormDescription>Sélectionnez des thèmes pour votre produit.</FormDescription>
+                      </div>
+                      <div className="grid grid-cols-3 gap-y-4">
+                      {ItemThemes.map((item) => (
+                        <FormField
+                          key={item.id}
+                          control={form.control}
+                          name="themes"
+                          render={({ field }) => {
+                            return (
+                              <FormItem
+                                key={item.id}
+                                className="flex flex-row items-start space-x-3 space-y-0"
+                              >
+                                <FormControl>
+                                  <Checkbox
+                                    checked={field.value?.includes(item.id)}
+                                    onCheckedChange={(checked) => {
+                                      return checked
+                                        ? field.onChange([...field.value, item.id])
+                                        : field.onChange(
+                                            field.value?.filter(
+                                              (value) => value !== item.id
+                                            )
+                                          )
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormLabel className="font-normal">
+                                  {item.label}
+                                </FormLabel>
+                              </FormItem>
+                            )
+                          }}
+                        />
+                      ))}
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
                   name="tags"
                   control={form.control}
                   render={({field})=>(
@@ -223,7 +352,7 @@ export const FormProduct = () => {
                       <FormControl>
                         <Select2
                           isMulti
-                          options={options} 
+                          options={Options} 
                           {...field}
                           placeholder="tags"
                           className="basic-multi-select"
