@@ -30,8 +30,13 @@ import Select2 from 'react-select';
 
 import { Options, ItemThemes } from "./data-test";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { ColorPicker } from "@/components/color-picker";
+
+import { useState } from "react";
+import {v4 as uuidv4} from "uuid";
+import { AiOutlineClose } from "react-icons/ai"; 
+import { IoMdAdd } from "react-icons/io"; 
 
 
 export const FormProduct = () => {
@@ -41,11 +46,30 @@ export const FormProduct = () => {
       name: "",
       model: "",
       themes: [],
-      colors: Array(1).fill({ quantity: "", color: "" }),
+      colors: {
+        primary: {
+          name: "primary",
+          code: "#000"
+        },
+        secondary: [{
+          name: "secondary",
+          code: "#000"
+        }]
+      }
     },
   });
 
-  const [qcolor, setQcolor] = useState(1);
+  const [nbColor, setNbColor] = useState<string[]>([
+    uuidv4()
+  ]);
+
+  const addColor = () => {
+    setNbColor((previous)=> [...previous, uuidv4()] )
+  };
+
+  const deleteColor = (id: string) => {
+    setNbColor((previous)=> previous.filter(color => color !== id))
+  };
 
   const onSubmit = (data: z.infer<typeof ProductSchema>) => {
     console.log(data);
@@ -218,50 +242,42 @@ export const FormProduct = () => {
                       <FormItem>
                         <div className="mb-4">
                           <FormLabel className="flex items-center gap-x-2 text-base">
-                            <span>Product color and quantite</span> <BsQuestionCircle />
+                            <span>Product color</span> <BsQuestionCircle />
                           </FormLabel>
                           <FormDescription>Veuillez insérer chaque couleur ainsi que la quantité</FormDescription>
                         </div>
-                        <div className="space-y-4">
-                          {Array.from({length: qcolor},(_, idx) => (
-                            <div key={idx} className="mb-2 flex gap-x-4">
-                              <FormField
-                                name={`colors.${idx}.color`}
-                                control={form.control}
-                                render={({ field }) => (
-                                  <FormItem className="w-1/4">
-                                    <FormLabel>Couleur</FormLabel>
-                                    <FormControl>
-                                      <Input {...field} type="color" placeholder="Couleur" />
-                                    </FormControl>
-                                  </FormItem>
-                                )}
-                              />
 
-                              <FormField
-                                name={`colors.${idx}.quantity`}
-                                control={form.control}
-                                render={({ field }) => (
-                                  <FormItem className="w-3/4">
-                                    <FormLabel>Quantite</FormLabel>
-                                    <FormControl>
-                                      <Input {...field} className="w-full" placeholder="Quantité" />
-                                    </FormControl>
-                                  </FormItem>
-                                )}
-                              />
-                            </div>
-                          ))}
-                          
+                        <FormLabel>Color primary</FormLabel>
+                        <ColorPicker form={form} nameCode={`colors.primary.code`} nameColor={`colors.primary.name`} />
+
+                        <div className="py-2"></div>
+
+                        <div className="border-t py-3">
+                          <FormLabel className="pb-4">Colors secondary</FormLabel>
+                          <div className="grid grid-cols-4 mt-2 gap-4">
+                          {nbColor.map((id, idx) => (
+                              <div key={id} className="relative transition-all duration-300 ease-out">
+                                <ColorPicker form={form} nameCode={`colors.secondary.${idx}.code`} nameColor={`colors.secondary.${idx}.name`} />
+                                <Button className="w-5 h-5 absolute rounded-full -top-2 -right-2" size="icon" variant="destructive" onClick={()=>{
+                                  field.onChange({
+                                    primary: field.value.primary, 
+                                    secondary: [...field.value.secondary.filter(val=> field.value.secondary.indexOf(val) !== idx)]
+                                  })
+                                  deleteColor(id)
+                                }}> <AiOutlineClose /> </Button>
+                              </div>
+                            ))}
+                          </div>
+                          <FormMessage />
+                          <div className="flex justify-end mt-4 border-t pt-4">
+                            <Button type="button" size="icon" onClick={addColor}> <IoMdAdd /> </Button>
+                          </div>
                         </div>
-                        <FormMessage />
+                        
                       </FormItem>
                     )}
                   />
 
-                    <Button type="button" onClick={()=>{
-                      setQcolor((q)=> q + 1);
-                    }} >ADD</Button>
               
               </SectionForm>
 
@@ -297,7 +313,7 @@ export const FormProduct = () => {
                 <FormField
                   name="themes"
                   control={form.control}
-                  render={({field})=>(
+                  render={({})=>(
                     <FormItem>
                       <div className="mb-4">
                         <FormLabel className={"flex items-center gap-x-2 text-base"}> <span>Themes</span> <BsQuestionCircle /> </FormLabel>

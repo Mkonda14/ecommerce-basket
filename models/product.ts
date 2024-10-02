@@ -17,10 +17,17 @@ export const ProductSchema = z.object({
     tags: z.array(z.any().transform((tag)=> tag.value)),
 
     stock: z.string().transform((input)=> parseInt(input, 10)),
-    colors: z.array(z.object({
-        quantity: z.string().transform((input)=> parseInt(input, 10)),
-        color: z.string().min(4),
-    })),
+
+    colors: z.object({
+        primary: z.object({
+            code: z.string(),
+            name: z.string()
+        }),
+        secondary: z.array(z.object({
+            code: z.string(),
+            name: z.string()
+        })),
+    }),
 
     images: z.array(z.any().refine((input)=> input.size <= (1024 * 1000))),
 })
