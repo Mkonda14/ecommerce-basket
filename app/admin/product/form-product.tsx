@@ -21,7 +21,6 @@ import { Input } from "@/components/ui/input";
 import RichText from "@/components/rich-text";
 import { Dropzone } from "@/components/dropzone";
 
-import { BsQuestionCircle } from "react-icons/bs"; 
 import { Switch } from "@/components/ui/switch";
 import { Footer } from "@/components/admin/footer";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -37,13 +36,15 @@ import { useState } from "react";
 import {v4 as uuidv4} from "uuid";
 import { AiOutlineClose } from "react-icons/ai"; 
 import { IoMdAdd } from "react-icons/io"; 
+import { Label } from "@/components/admin/form/label";
+import { CardProduct } from "@/components/card-product";
 
 
 export const FormProduct = () => {
   const form = useForm<z.infer<typeof ProductSchema>>({
     resolver: zodResolver(ProductSchema),
     defaultValues: {
-      name: "",
+      marque: "",
       model: "",
       themes: [],
       colors: {
@@ -55,7 +56,11 @@ export const FormProduct = () => {
           name: "secondary",
           code: "#000"
         }]
-      }
+      },
+      sizes: [{
+        size: 12,
+        quantity: 100
+      }]
     },
   });
 
@@ -63,10 +68,20 @@ export const FormProduct = () => {
     uuidv4()
   ]);
 
+  const [nbSize, setNbSize] = useState<string[]>([
+    uuidv4()
+  ]);
+
+  const addSize = () => {
+    setNbSize((previous)=> [...previous, uuidv4()] )
+  };
+  const deleteSize = (id: string) => {
+    setNbSize((previous)=> previous.filter(color => color !== id))
+  };
+
   const addColor = () => {
     setNbColor((previous)=> [...previous, uuidv4()] )
   };
-
   const deleteColor = (id: string) => {
     setNbColor((previous)=> previous.filter(color => color !== id))
   };
@@ -82,6 +97,7 @@ export const FormProduct = () => {
         <form onSubmit={form.handleSubmit(onSubmit)} id="myForm" className="min-h-screen w-full">
           <main className="w-full flex gap-x-4 p-4 pt-0">
             <section className="w-3/4 space-y-4">
+              {/* section name, mode, description */}
               <SectionForm
                 title="Name & Description"
                 color="emerald"
@@ -89,19 +105,20 @@ export const FormProduct = () => {
                 backHref="#"
               >
                 <FormField
-                  name="name"
+                  name="marque"
                   control={form.control}
                   render={({field})=>(
                     <FormItem>
-                        <FormLabel className={"flex items-center gap-x-2 text-base"}> <span>Product title</span> <BsQuestionCircle /> </FormLabel><FormControl>
-                        <Input
-                          placeholder="Name"
-                          type="text"
-                          {...field}
-                          className="py-5"
-                        />
-                      </FormControl>
-                      <FormMessage />
+                        <Label type="question"> Product title</Label>
+                        <FormControl>
+                          <Input
+                            placeholder="Name"
+                            type="text"
+                            {...field}
+                            className="py-5"
+                          />
+                        </FormControl>
+                        <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -111,7 +128,7 @@ export const FormProduct = () => {
                   control={form.control}
                   render={({field})=>(
                     <FormItem>
-                      <FormLabel className={"flex items-center gap-x-2 text-base"}> <span>Product model</span> <BsQuestionCircle /> </FormLabel>
+                      <Label type="question"> Product model</Label>
                       <FormControl>
                         <Input
                           placeholder="model"
@@ -130,7 +147,7 @@ export const FormProduct = () => {
                   control={form.control}
                   render={({field})=>(
                     <FormItem>
-                      <FormLabel className={"flex items-center gap-x-2 text-base"}> <span>Description</span> <BsQuestionCircle /> </FormLabel>
+                      <Label type="question"> Description</Label>
                       <FormControl>
                         <RichText 
                           value={field.value}
@@ -155,7 +172,7 @@ export const FormProduct = () => {
                   control={form.control}
                   render={({field})=>(
                     <FormItem>
-                      <FormLabel className={"flex items-center gap-x-2 text-base"}> <span>Amount</span> <BsQuestionCircle /> </FormLabel>
+                      <Label type="question"> Amount</Label>
                       <FormControl>
                         <Input
                           type="number"
@@ -175,7 +192,7 @@ export const FormProduct = () => {
                       render={({ field }) => (
                         <FormItem className="flex flex-row justify-between">
                           <div className="space-y-0.5">
-                            <FormLabel className={"flex items-center gap-x-2 text-base"}> <span>Is promotion</span> <BsQuestionCircle /> </FormLabel>
+                            <Label type="question"> Is promotion</Label>
                             <FormDescription>
                               Receive emails about new products, features, and more.
                             </FormDescription>
@@ -195,7 +212,7 @@ export const FormProduct = () => {
                       control={form.control}
                       render={({field})=>(
                         <FormItem>
-                          <FormLabel className={"flex items-center gap-x-2 text-base"}> <span>Promo price</span> <BsQuestionCircle /> </FormLabel>
+                          <Label type="question"> Promo price</Label>
                           <FormControl>
                             <Input
                               {...field}
@@ -217,66 +234,131 @@ export const FormProduct = () => {
                 title="Stock, colors & sizes"
                 color="emerald"
               >
-                <FormField
-                  name="stock"
-                  control={form.control}
-                  render={({field})=>(
-                    <FormItem>
-                        <FormLabel className={"flex items-center gap-x-2 text-base"}> <span>Product stock</span> <BsQuestionCircle /> </FormLabel><FormControl>
-                        <Input
-                          placeholder="0.0"
-                          type="number"
-                          {...field}
-                          className="py-5"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                    name="colors"
+                <div className="w-full">
+                  <FormField
+                    name="stock"
                     control={form.control}
-                    render={({ field }) => (
+                    render={({field})=>(
                       <FormItem>
-                        <div className="mb-4">
-                          <FormLabel className="flex items-center gap-x-2 text-base">
-                            <span>Product color</span> <BsQuestionCircle />
-                          </FormLabel>
-                          <FormDescription>Veuillez insérer chaque couleur ainsi que la quantité</FormDescription>
-                        </div>
-
-                        <FormLabel>Color primary</FormLabel>
-                        <ColorPicker form={form} nameCode={`colors.primary.code`} nameColor={`colors.primary.name`} />
-
-                        <div className="py-2"></div>
-
-                        <div className="border-t py-3">
-                          <FormLabel className="pb-4">Colors secondary</FormLabel>
-                          <div className="grid grid-cols-4 mt-2 gap-4">
-                          {nbColor.map((id, idx) => (
-                              <div key={id} className="relative transition-all duration-300 ease-out">
-                                <ColorPicker form={form} nameCode={`colors.secondary.${idx}.code`} nameColor={`colors.secondary.${idx}.name`} />
-                                <Button className="w-5 h-5 absolute rounded-full -top-2 -right-2" size="icon" variant="destructive" onClick={()=>{
-                                  field.onChange({
-                                    primary: field.value.primary, 
-                                    secondary: [...field.value.secondary.filter(val=> field.value.secondary.indexOf(val) !== idx)]
-                                  })
-                                  deleteColor(id)
-                                }}> <AiOutlineClose /> </Button>
-                              </div>
-                            ))}
-                          </div>
-                          <FormMessage />
-                          <div className="flex justify-end mt-4 border-t pt-4">
-                            <Button type="button" size="icon" onClick={addColor}> <IoMdAdd /> </Button>
-                          </div>
-                        </div>
-                        
+                          <Label type="question">Product stock </Label>
+                          <FormControl>
+                          <Input
+                            placeholder="0.0"
+                            type="number"
+                            {...field}
+                            className="py-5"
+                          />
+                        </FormControl>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
+                </div>
+
+                <div className="w-full">
+                  <FormField
+                      name="colors"
+                      control={form.control}
+                      render={({ field }) => (
+                        <FormItem>
+                          <div className="">
+                            <div className="mb-4">
+                              <Label type="question">Product colo </Label>
+                              <FormDescription>Veuillez insérer chaque couleur ainsi que la quantité</FormDescription>
+                            </div>
+
+                            {/* Color primary */}
+                            <div className="mb-6">
+                              <Label className="block mb-3">Color primary</Label>
+                              <ColorPicker form={form} nameCode={`colors.primary.code`} nameColor={`colors.primary.name`} />
+                            </div>
+
+                            {/* Color secondary */}
+                            <div className="">
+                              <Label className="block mb-3">Colors secondary</Label>
+                              <div className="grid grid-cols-3 mt-2 gap-4">
+                              {nbColor.map((id, idx) => (
+                                  <div key={id} className="relative transition-all duration-300 full ease-out">
+                                    <ColorPicker form={form} nameCode={`colors.secondary.${idx}.code`} nameColor={`colors.secondary.${idx}.name`} />
+                                    <Button className="w-5 h-5 absolute rounded-full -top-2 -right-2" size="icon" variant="destructive" onClick={()=>{
+                                      field.onChange({
+                                        primary: field.value.primary, 
+                                        secondary: [...field.value.secondary.filter(val=> field.value.secondary.indexOf(val) !== idx)]
+                                      })
+                                      deleteColor(id)
+                                    }}> <AiOutlineClose /> </Button>
+                                  </div>
+                                ))}
+                              </div>
+                              <FormMessage />
+                              <div className="flex justify-end mt-4 border-t pt-4">
+                                <Button type="button" size="icon" onClick={addColor}> <IoMdAdd /> </Button>
+                              </div>
+                            </div>
+                          </div>                          
+                        </FormItem>
+                      )}
+                    />
+                </div>
+
+
+                <div className="w-full">
+                  <FormField 
+                    name="sizes"
+                    control={form.control}
+                    render={({field})=>(
+                      <FormItem className="-mt-5">
+                        <div className="">
+                            <div className="">
+                                <div className="mb-5">
+                                  <Label type="question">Product sizes</Label>
+                                  <FormDescription>Veuillez insérer chaque size ainsi que la quantité</FormDescription>
+                                </div>
+
+                                <div className="w-full grid grid-cols-3">
+                                  {nbSize.map((item, idx)=>(
+                                    <div key={item} className="relative flex gap-x-1 w-full">
+                                      <FormField 
+                                        name={`sizes.${idx}.size`}
+                                        control={form.control}
+                                        render={({field})=>(
+                                          <FormItem className="">
+                                            <FormControl>
+                                              <Input max={99} className="w-12 h-10 py-5" placeholder="0.0" {...field} />
+                                            </FormControl>
+                                          </FormItem>
+                                        )}
+                                      />
+
+                                      <FormField 
+                                        name={`sizes.${idx}.quantity`}
+                                        control={form.control}
+                                        render={({ field})=>(
+                                          <FormItem>
+                                            <FormControl>
+                                              <Input type="number" className="py-5" placeholder="quantity" {...field} />
+                                            </FormControl>
+                                          </FormItem>
+                                        )}
+                                      />
+
+                                      <Button className="w-5 h-5 absolute rounded-full -top-2 -right-2" size="icon" variant="destructive" onClick={()=>{
+                                        field.onChange([...field.value.filter(val=> field.value.indexOf(val) !== idx)])
+                                        deleteSize(item)
+                                      }}> <AiOutlineClose /> </Button>
+                                    </div>
+                                  ))}
+                                </div>
+                            </div>
+                            <FormMessage />
+                            <div className="flex justify-end mt-4 border-t pt-4">
+                              <Button type="button" size="icon" onClick={addSize}> <IoMdAdd /> </Button>
+                            </div>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </div>
 
               
               </SectionForm>
@@ -291,7 +373,7 @@ export const FormProduct = () => {
                   control={form.control}
                   render={({field})=>(
                     <FormItem>
-                        <FormLabel className={"flex items-center gap-x-2 text-base"}> <span>Category</span> <BsQuestionCircle /> </FormLabel>
+                        <Label type="question"> Category </Label>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <SelectTrigger className="py-5">
@@ -301,7 +383,7 @@ export const FormProduct = () => {
                           <SelectContent>
                             <SelectItem value="m@example.com">Baskets de mode</SelectItem>
                             <SelectItem value="m@google.com">Baskets de basketball</SelectItem>
-                            <SelectItem value="m@support.com">Baskets de course</SelectItem>
+                            <SelectItem value="m@sup.com">Baskets de course</SelectItem>
                             <SelectItem value="m@support.com">Baskets de sport spècifique</SelectItem>
                           </SelectContent>
                         </Select>
@@ -316,7 +398,7 @@ export const FormProduct = () => {
                   render={({})=>(
                     <FormItem>
                       <div className="mb-4">
-                        <FormLabel className={"flex items-center gap-x-2 text-base"}> <span>Themes</span> <BsQuestionCircle /> </FormLabel>
+                        <Label type="question"> Thèmes </Label>
                         <FormDescription>Sélectionnez des thèmes pour votre produit.</FormDescription>
                       </div>
                       <div className="grid grid-cols-3 gap-y-4">
@@ -364,7 +446,7 @@ export const FormProduct = () => {
                   control={form.control}
                   render={({field})=>(
                     <FormItem>
-                      <FormLabel className={"flex items-center gap-x-2 text-base"}> <span>Tags</span> <BsQuestionCircle /> </FormLabel>
+                      <Label type="question"> Tags </Label>
                       <FormControl>
                         <Select2
                           isMulti
@@ -392,7 +474,7 @@ export const FormProduct = () => {
                   control={form.control}
                   render={({field})=>(
                     <FormItem>
-                      <FormLabel className={"flex items-center gap-x-2 text-base"}> <span>Cover images</span> <BsQuestionCircle /> </FormLabel>
+                      <Label type="question"> Cover images </Label>
                       <FormControl>
                         <Dropzone 
                           onChange={field.onChange}
@@ -404,8 +486,18 @@ export const FormProduct = () => {
                   )}
                 />
               </SectionForm>
+
             </section>
-            <section className="w-1/4"></section>
+            {/* --------------------------- */}
+            <section className="w-1/4">
+                <CardProduct
+                  marque={form.getValues().marque}
+                  model={""}
+                  description={""}
+                  price={""}
+                  imgUrl={""}
+                />
+            </section>
           </main>
           <Footer onReset={form.reset} />
         </form>

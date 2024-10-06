@@ -10,9 +10,11 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { UseFormReturn } from "react-hook-form";
 
+import { AiOutlineBgColors } from "react-icons/ai"; 
+
 interface ColorPickerProps{
-    nameCode: string;
-    nameColor?: string;
+    nameCode: "colors" | `colors.primary.code` | `colors.secondary.${number}.code` 
+    nameColor?: "colors" | "colors.primary.name" | `colors.secondary.${number}.name`;
     form: UseFormReturn<z.infer<typeof ProductSchema>>;
 }
 
@@ -28,15 +30,14 @@ export const ColorPicker = ({nameCode, nameColor="colors", form}: ColorPickerPro
     };
 
     const styles = {
-        swatch: "p-1 bg-white w-12 h-10 rounded-sm shadow-sm inline-block cursor-pointer",
-        color: `w-full h-full rounded-sm`,
+        swatch: "w-12 h-10 flex justify-center items-center",
         popover: "absolute z-10",
         cover: "fixed top-0 left-0 right-0 bottom-0",
     }
 
 
     return (           
-        <div className="flex border gap-x-1">
+        <div className="flex gap-x-1">
             <FormField
                 name={`${nameCode}`}
                 control={form.control}
@@ -44,8 +45,8 @@ export const ColorPicker = ({nameCode, nameColor="colors", form}: ColorPickerPro
                     <FormItem className="">
                     <FormControl>
                     <div>
-                        <Button type="button" variant={"outline"} className={ styles.swatch } onClick={ handleClick }>
-                            <div className={styles.color} style={{backgroundColor: state.color}} ></div>
+                        <Button type="button" style={{backgroundColor: state.color}} className={ styles.swatch } onClick={ handleClick }>
+                            <AiOutlineBgColors className="w-5 h-5" />
                         </Button>
                         { state.open ? <div className={ styles.popover }>
                         <div className={ styles.cover } onClick={ handleClick }/>
@@ -65,9 +66,13 @@ export const ColorPicker = ({nameCode, nameColor="colors", form}: ColorPickerPro
                 control={form.control}
                 render={({ field }) => (
                     <FormItem className="flex-grow">
-                    <FormControl>
-                        <Input {...field} className="w-full py-5" placeholder="Name color" />
-                    </FormControl>
+                        <FormControl>
+                            <Input 
+                                {...field} 
+                                className="w-full py-5" 
+                                placeholder="Name color" 
+                            />
+                        </FormControl>
                     </FormItem>
                 )}
             />

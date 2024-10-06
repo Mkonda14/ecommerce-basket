@@ -40,7 +40,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onChange, className }) => {
             ])
         }
         onChange(files)
-    }, [onChange]);
+    }, [files, onChange]);
 
     const { getRootProps, getInputProps } = useDropzone({ 
         onDrop,

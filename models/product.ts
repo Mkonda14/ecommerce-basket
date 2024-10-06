@@ -2,7 +2,7 @@
 import {z} from "zod";
 
 export const ProductSchema = z.object({
-    name: z.string().min(3, "minimum 3 caracters"),
+    marque: z.string().min(3, "minimum 3 caracters"),
     model: z.string().min(3, "minimum 3 caracters"),
     description: z.string().min(15, "minimum 15 caracters"),
 
@@ -28,6 +28,11 @@ export const ProductSchema = z.object({
             name: z.string()
         })),
     }),
+
+    sizes: z.array(z.object({
+        size: z.string().transform((input)=> parseInt(input)),
+        quantity: z.string().transform((input)=> parseInt(input))
+    })),
 
     images: z.array(z.any().refine((input)=> input.size <= (1024 * 1000))),
 })
