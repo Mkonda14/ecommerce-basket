@@ -1,31 +1,24 @@
-import { writeFile } from "fs/promises";
-import { NextRequest, NextResponse } from "next/server";
-import { v4 as uuidv4 } from "uuid";
+import { uploadToCloudinary } from "@/actions/cloudinary/upload";
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-export const Upload = async (request: NextRequest) =>{
 
-    const data = await request.formData();
-    const file: File | null = data.get("file") as unknown as File;
-
-    if(!file){
-        return NextResponse.json({ success: false})
+export async function POST (req: NextApiRequest, res: NextApiResponse) {
+    if (req.method !== 'POST') {
+        return res.status(405).end('Method Not Allowed ok in POST request');
     }
-    
+
+    const file = req.body.file;
+
+    if (!file) {
+        return res.status(400).json({ success: false, message: 'No file provided' });
+    }
+
     try {
-        const fileName = uuidv4().toString();
-        const bytes = await file.arrayBuffer();
-
-        const buffer = Buffer.from(bytes);
-
-        const path = `/public/uploads/${fileName}`;
-        await writeFile(path, buffer);
-          
-        console.log(fileName);
-        return NextResponse.json({ success: true, fileName });
-
+        const secure_url = await uploadToCloudinary(file, "product");
+        return res.status(200).json({ secure_url });
     } catch (error) {
-        console.error(error);
-        return NextResponse.json({ success: false})
+        console.error('Error uploading to Cloudinary:', error);
+        return res.status(500).json({ success: false, message: `Internal Server Error` });
     }
+};
 
-}

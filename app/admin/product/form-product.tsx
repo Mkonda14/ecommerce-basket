@@ -37,7 +37,8 @@ import {v4 as uuidv4} from "uuid";
 import { AiOutlineClose } from "react-icons/ai"; 
 import { IoMdAdd } from "react-icons/io"; 
 import { Label } from "@/components/admin/form/label";
-import { CardProduct } from "@/components/card-product";
+import { CardPreviewProduct } from "@/components/admin/card-preview-product";
+import { saveProduct } from "@/actions/product/saveProduct";
 
 
 export const FormProduct = () => {
@@ -60,7 +61,8 @@ export const FormProduct = () => {
       sizes: [{
         size: 12,
         quantity: 100
-      }]
+      }],
+      images:[]
     },
   });
 
@@ -86,8 +88,9 @@ export const FormProduct = () => {
     setNbColor((previous)=> previous.filter(color => color !== id))
   };
 
-  const onSubmit = (data: z.infer<typeof ProductSchema>) => {
-    console.log(data);
+  const onSubmit = async (data: z.infer<typeof ProductSchema>) => {
+    console.log(data)
+    await saveProduct(data);
   };
 
 
@@ -490,12 +493,12 @@ export const FormProduct = () => {
             </section>
             {/* --------------------------- */}
             <section className="w-1/4">
-                <CardProduct
+                <CardPreviewProduct
                   marque={form.getValues().marque}
-                  model={""}
-                  description={""}
-                  price={""}
-                  imgUrl={""}
+                  model={form.getValues().model}
+                  description={form.getValues().description}
+                  price={form.getValues().price}
+                  imgUrl={form.getValues().images[0] as string}
                 />
             </section>
           </main>

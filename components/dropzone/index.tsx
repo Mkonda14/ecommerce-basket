@@ -25,6 +25,40 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onChange, className }) => {
         onChange([]);
     }
 
+    const onImport = async () => {
+        const file = files[0];
+        if (file) {
+            const formData = new FormData();
+            formData.append('file', file);
+    
+            console.log(formData.get('file'));
+    
+            try {
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData,
+                });
+    
+                if (!response.ok) {
+                    console.log('Network response was not ok', response);
+                    return;
+                }
+    
+                const data = await response.json();
+                console.log(data);
+    
+                if (data.secure_url) {
+                    onChange([data.secure_url]);
+                } else {
+                    console.log('No secure_url found in response data');
+                }
+            } catch (error) {
+                console.error('Error during file upload:', error);
+            }
+        }
+    };
+    
+
     const onDelete = (name: string) =>{
         setFiles((files)=> files.filter((file) => file.name !== name));
         onChange(files);
@@ -38,9 +72,10 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onChange, className }) => {
                     Object.assign(file, { preview: URL.createObjectURL(file)})
                 )
             ])
+            onChange(files)
+            
         }
-        onChange(files)
-    }, [files, onChange]);
+    }, [onChange]);
 
     const { getRootProps, getInputProps } = useDropzone({ 
         onDrop,
@@ -83,7 +118,8 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onChange, className }) => {
                     <span>Help Center</span>
                 </Typographie>
                 <div className="space-x-4">
-                    <Button variant="outline" onClick={onClear} >Clear</Button>
+                    <Button variant="outline" type='button' onClick={onClear} >Clear</Button>
+                    <Button  type='button' onClick={onImport} >Import</Button>
                 </div>
             </div>
         </section>

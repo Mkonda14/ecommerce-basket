@@ -34,5 +34,5 @@ export const ProductSchema = z.object({
         quantity: z.string().transform((input)=> parseInt(input))
     })),
 
-    images: z.array(z.any().refine((input)=> input.size <= (1024 * 1000))),
+    images: z.array(z.string()),
 })
