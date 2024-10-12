@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { ProductSchema } from "@/models/product";
 import { FormControl, FormField, FormItem } from "./ui/form"
-import { Input } from "./ui/input";
+import { Input } from "@/components/ui/input";
 
 import { SketchPicker } from 'react-color';
 import { useState } from "react";
@@ -16,9 +16,10 @@ interface ColorPickerProps{
     nameCode: "colors" | `colors.primary.code` | `colors.secondary.${number}.code` 
     nameColor?: "colors" | "colors.primary.name" | `colors.secondary.${number}.name`;
     form: UseFormReturn<z.infer<typeof ProductSchema>>;
+    key?: string;
 }
 
-export const ColorPicker = ({nameCode, nameColor="colors", form}: ColorPickerProps) => {
+export const ColorPicker = ({nameCode, nameColor="colors", form, key}: ColorPickerProps) => {
 
     const [state, setState] = useState({
         open: false,
@@ -42,21 +43,21 @@ export const ColorPicker = ({nameCode, nameColor="colors", form}: ColorPickerPro
                 name={`${nameCode}`}
                 control={form.control}
                 render={({ field }) => (
-                    <FormItem className="">
-                    <FormControl>
-                    <div>
-                        <Button type="button" style={{backgroundColor: state.color}} className={ styles.swatch } onClick={ handleClick }>
-                            <AiOutlineBgColors className="w-5 h-5" />
-                        </Button>
-                        { state.open ? <div className={ styles.popover }>
-                        <div className={ styles.cover } onClick={ handleClick }/>
-                        <SketchPicker color={ state.color } onChange={(color)=> {
-                            field.onChange(color.hex);
-                            setState((previous) => ({...previous, color: color.hex}));                                
-                        } } />
-                        </div> : null }
-                    </div>
-                    </FormControl>
+                    <FormItem key={key} className="">
+                        <FormControl>
+                            <div>
+                                <Button type="button" style={{backgroundColor: state.color}} className={ styles.swatch } onClick={ handleClick }>
+                                    <AiOutlineBgColors className="w-5 h-5" />
+                                </Button>
+                                { state.open ? <div className={ styles.popover }>
+                                <div className={ styles.cover } onClick={ handleClick }/>
+                                <SketchPicker color={ state.color } onChange={(color)=> {
+                                    field.onChange(color.hex);
+                                    setState((previous) => ({...previous, color: color.hex}));                                
+                                } } />
+                                </div> : null }
+                            </div>
+                        </FormControl>
                     </FormItem>
                 )}
             />
@@ -65,12 +66,14 @@ export const ColorPicker = ({nameCode, nameColor="colors", form}: ColorPickerPro
                 name={`${nameColor}`}
                 control={form.control}
                 render={({ field }) => (
-                    <FormItem className="flex-grow">
+                    <FormItem key={key} className="flex-grow">
                         <FormControl>
                             <Input 
-                                {...field} 
+                                type="text"
                                 className="w-full py-5" 
                                 placeholder="Name color" 
+                                {...field}
+                                value={field.value.toString()}
                             />
                         </FormControl>
                     </FormItem>

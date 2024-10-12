@@ -1,4 +1,6 @@
-import { Typographie } from "@/components/typographie";
+
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -21,24 +23,29 @@ interface SectionFormProps{
 
 export const SectionForm = ({title, color, isFirst, children, backHref = "#"}: SectionFormProps) => {
   return (
-    <section className="p-4 bg-white space-y-6 rounded-lg">
-        <div className="flex items-center justify-between">
-            <div className="flex items-center gap-x-2">
-                <div className={cn("h-8 w-3", colors[color])}></div>
-                <Typographie component="h2" variant="h2" size="lg">{title}</Typographie>
+    <Card className="p-4 bg-white space-y-6 rounded-lg">
+        <CardHeader className="">
+            <div className="w-full flex items-center justify-between">
+                <div className="flex items-center gap-x-2">
+                    <div className={cn("h-8 w-3", colors[color])}></div>
+                    <div className="">
+                        <CardTitle>{title}</CardTitle>
+                        <CardDescription>Lorem ipsum dolor sit amet consectetur adipisicing.</CardDescription>
+                    </div>
+                </div>
+                {isFirst && (
+                    <Button variant={"outline"} className="space-x-2 px-2" asChild>
+                        <Link href={backHref}>
+                            <BiArrowBack />
+                            <span>Back</span>
+                        </Link>
+                    </Button>
+                )}
             </div>
-            {isFirst && (
-                <Button variant={"outline"} className="space-x-2 px-2" asChild>
-                    <Link href={backHref}>
-                        <BiArrowBack />
-                        <span>Back</span>
-                    </Link>
-                </Button>
-            )}
-        </div>
-        <div className="space-y-8">
+        </CardHeader>
+        <CardContent className="space-y-8">
             {children}
-        </div>
-    </section>
+        </CardContent>
+    </Card>
   )
 }

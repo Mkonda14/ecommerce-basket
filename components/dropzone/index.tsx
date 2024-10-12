@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useTransition } from 'react';
 
 import { useDropzone } from 'react-dropzone';
 import { BsUpload } from "react-icons/bs"; 
@@ -9,9 +9,11 @@ import { ItemFile } from './item-file';
 
 import { BsQuestionCircle } from "react-icons/bs"; 
 import { Button } from '../ui/button';
+import { getSignature } from '@/actions/cloudinary/upload';
+import { LoaderSpin } from '../loader-spin';
 
 interface DropzoneProps {
-    onChange: (value: File[]) => void;
+    onChange: (value: {secure_url: string, public_id: string}[]) => void;
     className?: string;
 }
 
@@ -19,49 +21,71 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onChange, className }) => {
 
     const [style, setStyle] = useState<string | undefined>(className)
     const [files, setFiles] = useState<File[]>([])
+    const [isLoading, startTransition] = useTransition();
 
     const onClear = () => {
         setFiles([]);
         onChange([]);
     }
 
-    const onImport = async () => {
-        const file = files[0];
-        if (file) {
-            const formData = new FormData();
-            formData.append('file', file);
+    const onImport = async (): Promise<undefined> => {
+        const imgs = [];
+
+        for (let idx = 0; idx < files.length; idx++) {
+            const file = files[idx];
+
+            if (file) {
+
+                const {timestamp, signature} = await getSignature("product");
     
-            console.log(formData.get('file'));
+                const formData = new FormData();
     
-            try {
-                const response = await fetch('/api/upload', {
-                    method: 'POST',
-                    body: formData,
-                });
+                formData.append('file', file);
+                formData.append('api_key', process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY as string);
+                formData.append('signature', signature);
+                formData.append('timestamp', timestamp.toString());
+                formData.append('folder', 'product');
     
-                if (!response.ok) {
-                    console.log('Network response was not ok', response);
-                    return;
+                const endpoint = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_URL as string;
+        
+                try {
+                    const response = await fetch(endpoint, {
+                        method: 'POST',
+                        body: formData,
+                    });
+    
+                    console.log(response);
+                    
+        
+                    if (!response.ok) {
+                        console.log('Network response was not ok', response);
+                        return;
+                    }
+        
+                    const data = await response.json();
+                    console.log(data);
+        
+                    if (data.secure_url) {
+                        imgs.push({
+                            secure_url: data.secure_url,
+                            public_id: data.public_id
+                        });
+                        console.log('yes upload successful');
+                    } else {
+                        console.log('No secure_url found in response data');
+                    }
+                } catch (error) {
+                    console.error('Error during file upload:', error);
                 }
-    
-                const data = await response.json();
-                console.log(data);
-    
-                if (data.secure_url) {
-                    onChange([data.secure_url]);
-                } else {
-                    console.log('No secure_url found in response data');
-                }
-            } catch (error) {
-                console.error('Error during file upload:', error);
             }
         }
-    };
+
+        onChange(imgs);          
+    }
     
 
     const onDelete = (name: string) =>{
         setFiles((files)=> files.filter((file) => file.name !== name));
-        onChange(files);
     }
 
     const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -72,10 +96,9 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onChange, className }) => {
                     Object.assign(file, { preview: URL.createObjectURL(file)})
                 )
             ])
-            onChange(files)
-            
+         
         }
-    }, [onChange]);
+    }, []);
 
     const { getRootProps, getInputProps } = useDropzone({ 
         onDrop,
@@ -119,7 +142,13 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onChange, className }) => {
                 </Typographie>
                 <div className="space-x-4">
                     <Button variant="outline" type='button' onClick={onClear} >Clear</Button>
-                    <Button  type='button' onClick={onImport} >Import</Button>
+                    <Button disabled={isLoading} type='button' onClick={()=>{
+                        startTransition(async () => {
+                            await onImport();
+                        });
+                    }} > 
+                    {isLoading ? <LoaderSpin /> : <span>Import</span> }                    
+                    </Button>
                 </div>
             </div>
         </section>

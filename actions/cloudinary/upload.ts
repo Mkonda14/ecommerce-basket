@@ -3,10 +3,11 @@
 import { v2 as cloudinary, UploadApiResponse, UploadApiErrorResponse } from "cloudinary";
 
 // Configuration de Cloudinary
-cloudinary.config({
+const cloudinaryConfig = cloudinary.config({
     cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME as string,
     api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY as string,
-    api_secret: process.env.NEXT_PUBLIC_CLOUDINARY_API_SECRET as string,
+    api_secret: process.env.CLOUDINARY_API_SECRET as string,
+    secure: true
 });
 
 // Fonction pour télécharger un fichier sur Cloudinary
@@ -23,3 +24,17 @@ export const uploadToCloudinary = async (file: string, folder?: string): Promise
         throw new Error(uploadError.message);
     }
 };
+
+export async function getSignature(folder?: string){
+    const timestamp = Math.round(new Date().getTime() / 1000);
+
+    const signature = cloudinary.utils.api_sign_request(
+        {
+            timestamp,
+            folder: folder || "product",
+        },
+        cloudinaryConfig?.api_secret as string
+    )
+
+    return {timestamp, signature}
+}
