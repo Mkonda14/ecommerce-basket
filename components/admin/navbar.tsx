@@ -2,11 +2,9 @@
 import { IoMdNotificationsOutline } from "react-icons/io"; 
 import { MdAdd } from "react-icons/md"; 
 import { BsChatLeftQuote } from "react-icons/bs"; 
-import { IoMdAdd } from "react-icons/io"; 
 import { Button } from "../ui/button"
 import { InputSearch } from "./navbar/input-search"
 import { DropdownMenuUser } from "./navbar/dropdown-menuUser";
-import { DropdownMenuDemo } from "../design-system/dropdown-menu";
 
 
 export const Navbar = () => {

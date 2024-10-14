@@ -65,6 +65,7 @@ enum UserRole {
 }
  
 model VerificationToken {
+  id         String @id @default(cuid())
   email      String   @unique
   token      String   @unique
   expires    DateTime
@@ -74,10 +75,96 @@ model VerificationToken {
 }
 
 model ResetPasswordToken {
+  id         String @id @default(cuid())
   email      String   @unique
   token      String   @unique
   expires    DateTime
  
   @@unique([email, token])
   @@map("passwordresettokens")
+}
+
+model Sneaker{
+  id          String @id @default(cuid())
+  marque      String 
+  model       String
+  description String
+  
+  price       Float
+  promoPrice  Float
+  isPromo     Boolean
+
+  stock Int
+  colorPrimary String
+  colorPrimaryName String
+
+  colorSecondaries ColorSecondary[]
+  sizes Size[]
+
+  categoryId  String
+  category Category @relation(fields: [categoryId], references: [id])
+  themes Theme[]
+  tags Tag[]
+
+  images Image[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Size{
+  id String @id @default(cuid())
+  size Int
+  quantity Int
+  sneakerId String
+  sneaker Sneaker @relation(fields:[sneakerId], references: [id])
+}
+model ColorSecondary{
+  id String @id @default(cuid())
+  name String
+  color String
+  sneakerId String
+  sneaker Sneaker @relation(fields:[sneakerId], references: [id])
+}
+
+model Image{
+  id String @id @default(cuid())
+  publicId String
+  secureUrl String
+  sneakerId String 
+  sneaker Sneaker @relation(fields: [sneakerId], references: [id])
+}
+
+model Category{
+  id String @id @default(cuid())
+  name String
+  description String
+
+  designer String
+  popularity Int @default(0)
+  sneaker Sneaker[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Tag{
+  id String @id @default(cuid())
+  name String
+  description String
+
+  popularity Int @default(0)
+  sneakers Sneaker[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Theme{
+  id String @id @default(cuid())
+  name String
+  description String
+
+  popularity Int @default(0)
+  sneakers Sneaker[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

@@ -12,21 +12,22 @@ import {
 } from "@tanstack/react-table"
 
 
-import { DTable } from "@/components/admin/table/products/table";
+import { DTable } from "@/components/admin/table/categories/table";
 import { useState } from "react";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { Sneaker } from "./data";
 import { WrapperTable } from "@/components/admin/table/wrapper-table";
+
+import { Category } from "@prisma/client"
 
 
 interface DataTableProps{
-  columns: ColumnDef<Sneaker>[];
-  data: Sneaker[];
+  columns: ColumnDef<Category>[];
+  data?: Category[];
 }
 
 
-export function DataTable({columns, data}: DataTableProps) {
+export function DataTable({columns, data = []}: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     []

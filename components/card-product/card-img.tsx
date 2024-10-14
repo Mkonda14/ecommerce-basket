@@ -15,7 +15,7 @@ export const CardImg = ({className, public_id, alt="Description du produit"}:Car
 
     return (
         <div>
-            {!isLoading ? 
+            {isLoading ? 
                 <Skeleton className="w-full h-[220px]" /> :
                 <CldImage
                     alt={alt} 

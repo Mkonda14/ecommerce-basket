@@ -11,12 +11,12 @@ import {
     flexRender,
 } from "@tanstack/react-table"
 
-import { Sneaker } from "@/app/admin/product/products/data";
+import { Category } from "@prisma/client";
 import type { ColumnDef, Table as TableType } from "@tanstack/react-table";
 
 interface DataTableProps{
-    table: TableType<Sneaker>;
-    columns: ColumnDef<Sneaker>[];
+    table: TableType<Category>;
+    columns: ColumnDef<Category>[];
 }
 
 
