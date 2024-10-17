@@ -11,8 +11,11 @@ import {
     flexRender,
 } from "@tanstack/react-table"
 
-import { Sneaker } from "@/app/admin/product/products/data";
+import { Sneaker } from "@prisma/client";
 import type { ColumnDef, Table as TableType } from "@tanstack/react-table";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { MdAdd } from "react-icons/md";
 
 interface DataTableProps{
     table: TableType<Sneaker>;
@@ -21,6 +24,7 @@ interface DataTableProps{
 
 
 export const DTable = ({table, columns}:DataTableProps) => {
+
     return (
         <div className="rounded-md border">
         <Table>
@@ -63,9 +67,13 @@ export const DTable = ({table, columns}:DataTableProps) => {
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className="h-32 text-center"
                 >
-                  No results.
+                  <Button className="space-x-2" asChild>
+                    <Link href={"/admin/product/add"}>
+                      <MdAdd className="h-5 w-5" /> <span>Create product</span>
+                    </Link>
+                  </Button>
                 </TableCell>
               </TableRow>
             )}

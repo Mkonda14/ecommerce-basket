@@ -18,9 +18,9 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import { Category } from "@prisma/client"
+import { Theme } from "@prisma/client"
 
-export const columns: ColumnDef<Category>[] = [
+export const columns: ColumnDef<Theme>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -62,13 +62,6 @@ export const columns: ColumnDef<Category>[] = [
     },
     cell: ({ row }) => (
       <div className="capitalize">{row.getValue("name")}</div>
-    ),
-  },
-  {
-    accessorKey: "designer",
-    header: "Designer",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("designer")}</div>
     ),
   },
   {
@@ -114,11 +107,11 @@ export const columns: ColumnDef<Category>[] = [
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(payment.id)}
             >
-              Copy payment ID
+              Copy thème ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View category details</DropdownMenuItem>
+            <DropdownMenuItem>View thème details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

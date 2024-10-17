@@ -16,7 +16,7 @@ import { DTable } from "@/components/admin/table/products/table";
 import { useState } from "react";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { Sneaker } from "./data";
+import { Sneaker } from "@prisma/client";
 import { WrapperTable } from "@/components/admin/table/wrapper-table";
 
 

@@ -3,7 +3,6 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { ProductSchema } from "@/models/product";
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from "@/components/ui/form";
 
@@ -19,7 +18,7 @@ import RichText from "@/components/rich-text";
 
 export const FormCategory = () => {
   const form = useForm<z.infer<typeof CategorySchema>>({
-    resolver: zodResolver(ProductSchema),
+    resolver: zodResolver(CategorySchema),
     defaultValues: {
       name: "",
       description: "",
@@ -68,7 +67,7 @@ export const FormCategory = () => {
                 control={form.control}
                 render={({field})=>(
                     <FormItem>
-                        <Label type="question"> Category name</Label>
+                        <Label type="question"> Designations </Label>
                         <FormControl>
                         <Input
                             placeholder="Designer"
@@ -94,13 +93,13 @@ export const FormCategory = () => {
                         onChange={field.onChange}
                         />
                     </FormControl>
-                    <FormDescription>Description du produit</FormDescription>
+                    <FormDescription>Description du category</FormDescription>
                     <FormMessage />
                     </FormItem>
                 )}
                 />
             
-        </SectionForm>
+            </SectionForm>
           </main>
           <Footer onReset={form.reset} />
         </form>

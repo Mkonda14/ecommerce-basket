@@ -23,7 +23,7 @@ interface SectionFormProps{
 
 export const SectionForm = ({title, color, isFirst, children, backHref = "#"}: SectionFormProps) => {
   return (
-    <Card className="p-4 bg-white space-y-6 rounded-lg">
+    <Card className="w-full p-4 bg-white space-y-6 rounded-lg">
         <CardHeader className="">
             <div className="w-full flex items-center justify-between">
                 <div className="flex items-center gap-x-2">

@@ -9,7 +9,7 @@ import Link from "next/link";
 
 export const SidebarAdmin = () => {
   return (
-    <aside className="w-[18%] flex flex-col p-3 bg-white">
+    <aside className="w-[18%] min-h-screen flex flex-col p-3 bg-white">
         <header className="flex gap-x-2 mb-8">
             <Button variant={"outline"} size={"icon"} className="w-12 h-12 p-0 rounded-none border-none shadow-none">
                 <MdDashboard className="w-14 h-14" />

@@ -11,15 +11,15 @@ import {
     flexRender,
 } from "@tanstack/react-table"
 
-import { Category } from "@prisma/client";
+import { Tag } from "@prisma/client";
 import type { ColumnDef, Table as TableType } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { MdAdd } from "react-icons/md";
 
 interface DataTableProps{
-    table: TableType<Category>;
-    columns: ColumnDef<Category>[];
+    table: TableType<Tag>;
+    columns: ColumnDef<Tag>[];
 }
 
 
@@ -69,8 +69,8 @@ export const DTable = ({table, columns}:DataTableProps) => {
                   className="h-32 text-center"
                 >
                   <Button className="space-x-2" asChild>
-                    <Link href={"/admin/category/add"}>
-                      <MdAdd className="h-5 w-5" /> <span>Create catégorie</span>
+                    <Link href={"/admin/product/add"}>
+                      <MdAdd className="h-5 w-5" /> <span>Create tag</span>
                     </Link>
                   </Button>
                 </TableCell>

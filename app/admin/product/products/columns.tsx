@@ -18,7 +18,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import { Sneaker } from "./data";
+import { Sneaker } from "@prisma/client";
 import { CellImg } from "@/components/admin/table/cell-img"
 import { CellBool } from "@/components/admin/table/cell-bool"
 
@@ -80,10 +80,10 @@ export const columns: ColumnDef<Sneaker>[] = [
     ),
   },
   {
-    accessorKey: "amount",
-    header: () => <div className="">Amount</div>,
+    accessorKey: "price",
+    header: () => <div className="">Price</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
+      const amount = parseFloat(row.getValue("price"))
 
       // Format the amount as a dollar amount
       const formatted = new Intl.NumberFormat("en-US", {
