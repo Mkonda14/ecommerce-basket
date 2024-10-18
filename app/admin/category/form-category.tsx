@@ -15,8 +15,14 @@ import { Label } from "@/components/admin/form/label";
 import { Input } from "@/components/ui/input";
 import RichText from "@/components/rich-text";
 
+import { useTransition } from "react";
+import { ToastSave } from "@/hooks/use-toast-save";
+
 
 export const FormCategory = () => {
+
+  const [isLoading, startTransition] = useTransition();
+
   const form = useForm<z.infer<typeof CategorySchema>>({
     resolver: zodResolver(CategorySchema),
     defaultValues: {
@@ -26,9 +32,12 @@ export const FormCategory = () => {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof CategorySchema>) => {
-    console.log(data)
-    await saveCategory(data);
+  const onSubmit = (data: z.infer<typeof CategorySchema>) => {
+    startTransition(async () => {
+      const res = await saveCategory(data);
+      if (res.type === "success") form.reset();
+      ToastSave(res)
+    });
   };
 
 
@@ -101,7 +110,7 @@ export const FormCategory = () => {
             
             </SectionForm>
           </main>
-          <Footer onReset={form.reset} />
+          <Footer onReset={form.reset} loading={isLoading} />
         </form>
       </Form>
     </main>

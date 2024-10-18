@@ -18,8 +18,14 @@ import { CardPreviewProduct } from "@/components/admin/card-preview-product";
 
 import { saveProduct } from "@/actions/product/saveProduct";
 
+import { useTransition } from "react";
+import { ToastSave } from "@/hooks/use-toast-save";
+
 
 export const FormProduct = () => {
+
+  const [isLoading, startTransition] = useTransition();
+
   const form = useForm<z.infer<typeof ProductSchema>>({
     resolver: zodResolver(ProductSchema),
     defaultValues: {
@@ -44,9 +50,12 @@ export const FormProduct = () => {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof ProductSchema>) => {
-    console.log(data)
-    await saveProduct(data);
+  const onSubmit = (data: z.infer<typeof ProductSchema>) => {
+    startTransition(async ()=> {
+      const res = await saveProduct(data);
+      if (res.type === "success") form.reset();
+      ToastSave(res);
+    })
   };
 
 
@@ -83,7 +92,7 @@ export const FormProduct = () => {
                 />
             </section>
           </main>
-          <Footer onReset={form.reset} />
+          <Footer onReset={form.reset} loading={isLoading} />
         </form>
       </Form>
     </main>

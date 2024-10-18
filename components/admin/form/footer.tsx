@@ -2,12 +2,14 @@ import { FiMoreVertical } from "react-icons/fi";
 import { BiCheckDouble } from "react-icons/bi"; 
 import { Typographie } from "../../typographie"
 import { Button } from "../../ui/button";
+import { LoaderSpin } from "@/components/loader-spin";
 
 interface FooterProps{
     onReset?: ()=>void;
+    loading: boolean;
 }
 
-export const Footer = ({onReset}:FooterProps) => {
+export const Footer = ({onReset, loading}:FooterProps) => {
 
     return (
         <footer className="flex justify-between items-center px-6 p-3 bg-white">
@@ -17,7 +19,9 @@ export const Footer = ({onReset}:FooterProps) => {
             </Typographie>
            <div className="flex gap-x-2">
                 <Button variant={"outline"} type="button" onClick={onReset}>Reset form</Button>
-                <Button>Save product</Button>
+                <Button disabled={loading}>
+                    {loading ? <LoaderSpin /> : <span>Save object</span> }
+                </Button>
                 <Button variant={"outline"} size={"icon"}><FiMoreVertical /></Button>
            </div>
         </footer>

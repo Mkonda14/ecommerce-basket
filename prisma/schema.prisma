@@ -107,6 +107,7 @@ model Sneaker{
   tags Tag[]
 
   images Image[]
+  createdAt DateTime
   updatedAt DateTime @updatedAt
 }
 
@@ -142,6 +143,7 @@ model Category{
   popularity Int @default(0)
   sneaker Sneaker[]
 
+  createdAt DateTime
   updatedAt DateTime @updatedAt
 }
 model Tag{
@@ -151,7 +153,8 @@ model Tag{
 
   popularity Int @default(0)
   sneakers Sneaker[]
-
+  
+  createdAt DateTime
   updatedAt DateTime @updatedAt
 }
 model Theme{
@@ -162,5 +165,6 @@ model Theme{
   popularity Int @default(0)
   sneakers Sneaker[]
 
+  createdAt DateTime
   updatedAt DateTime @updatedAt
 }

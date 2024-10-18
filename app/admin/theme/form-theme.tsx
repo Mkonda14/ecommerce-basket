@@ -15,8 +15,14 @@ import { Label } from "@/components/admin/form/label";
 import { Input } from "@/components/ui/input";
 import RichText from "@/components/rich-text";
 
+import { useTransition } from "react";
+import { ToastSave } from "@/hooks/use-toast-save";
+
 
 export const FormTheme = () => {
+
+  const [isLoading, startTransition] = useTransition();
+
   const form = useForm<z.infer<typeof ThemeSchema>>({
     resolver: zodResolver(ThemeSchema),
     defaultValues: {
@@ -25,9 +31,12 @@ export const FormTheme = () => {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof ThemeSchema>) => {
-    console.log(data)
-    await saveTheme(data);
+  const onSubmit =  (data: z.infer<typeof ThemeSchema>) => {
+    startTransition(async () => {
+      const res = await saveTheme(data);
+      if (res.type === "success") form.reset();
+      ToastSave(res);
+    });
   };
 
 
@@ -82,7 +91,7 @@ export const FormTheme = () => {
             
             </SectionForm>
           </main>
-          <Footer onReset={form.reset} />
+          <Footer onReset={form.reset} loading={isLoading} />
         </form>
       </Form>
     </main>

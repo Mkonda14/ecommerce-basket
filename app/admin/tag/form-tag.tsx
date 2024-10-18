@@ -15,8 +15,14 @@ import { Label } from "@/components/admin/form/label";
 import { Input } from "@/components/ui/input";
 import RichText from "@/components/rich-text";
 
+import { useTransition } from "react";
+import { ToastSave } from "@/hooks/use-toast-save";
+
 
 export const FormTag = () => {
+
+  const [isLoading, startTransition] = useTransition();
+
   const form = useForm<z.infer<typeof TagSchema>>({
     resolver: zodResolver(TagSchema),
     defaultValues: {
@@ -25,9 +31,12 @@ export const FormTag = () => {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof TagSchema>) => {
-    console.log(data)
-    await saveTag(data);
+  const onSubmit = (data: z.infer<typeof TagSchema>) => {
+    startTransition(async () => {
+      const res = await saveTag(data);
+      if(res.type === "success") form.reset();
+      ToastSave(res);
+    });
   };
 
 
@@ -82,7 +91,7 @@ export const FormTag = () => {
             
             </SectionForm>
           </main>
-          <Footer onReset={form.reset} />
+          <Footer onReset={form.reset} loading={isLoading} />
         </form>
       </Form>
     </main>
