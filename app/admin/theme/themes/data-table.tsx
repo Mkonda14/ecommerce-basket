@@ -12,7 +12,7 @@ import {
 } from "@tanstack/react-table"
 
 
-import { DTable } from "@/components/admin/table/tags/table";
+import { DTable } from "@/components/admin/table/themes/table";
 import { useState } from "react";
 
 import type { ColumnDef } from "@tanstack/react-table";
@@ -57,7 +57,7 @@ export function DataTable({columns, data = []}: DataTableProps) {
 
   return (
     <div className="w-full">
-      <WrapperTable table={table} color={"violet"} title={"Attribut tag"}  >
+      <WrapperTable table={table} color={"violet"} title={"Attribut thèmes"}  >
         <DTable table={table} columns={columns} />
       </WrapperTable>
     </div>

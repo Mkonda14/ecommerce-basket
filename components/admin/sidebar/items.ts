@@ -1,3 +1,6 @@
+import { AiOutlineTag } from "react-icons/ai"; 
+import { DiIllustrator } from "react-icons/di"; 
+import { MdOutlineCategory } from "react-icons/md"; 
 import { AiOutlineShop } from "react-icons/ai"; 
 import { BiUserCircle } from "react-icons/bi"; 
 import { BiDiamond } from "react-icons/bi"; 
@@ -20,22 +23,85 @@ export const Items: NavGroupItemProps[] = [
         items: [
             {
                 label: "Dashboard",
-                href: "/products/dashboard",
+                href: "/admin/product",
                 notif: 2
             },
             {
-                label: "Drafts",
-                href: "/products/drafts",
+                label: "Create Product",
+                href: "/admin/product/add",
             },
             {
-                label: "Released",
-                href: "/products/released",
+                label: "Table Products",
+                href: "/admin/product/products",
             },
             {
                 label: "Scheduled",
-                href: "/products/scheduled",
+                href: "#",
                 notif: 8
             },
+        ]
+    },
+    {
+        isGroup: true,
+        label: "Categories",
+        icon: MdOutlineCategory,
+        subHref: "/admin/category/add",
+        items: [
+            {
+                label: "Dashboard",
+                href: "/admin/category",
+                notif: 2
+            },
+            {
+                label: "Create Category",
+                href: "/admin/category/add",
+            },
+            {
+                label: "Table Products",
+                href: "/admin/category/categories",
+            }
+        ]
+    },
+    {
+        isGroup: true,
+        label: "Thèmes",
+        icon: DiIllustrator,
+        subHref: "/admin/theme/add",
+        items: [
+            {
+                label: "Dashboard",
+                href: "/admin/theme",
+                notif: 2
+            },
+            {
+                label: "Create Thème",
+                href: "/admin/theme/add",
+            },
+            {
+                label: "Table Thèmes",
+                href: "/admin/theme/themes",
+            }
+        ]
+    },
+    {
+        isGroup: true,
+        label: "Tags",
+        icon: AiOutlineTag,
+        subHref: "/admin/tag/add",
+        items: [
+            {
+                label: "Dashboard",
+                href: "/admin/tag",
+                notif: 2
+            },
+            {
+                label: "Create Tag",
+                href: "/admin/tag/add",
+            },
+            {
+                label: "Table Tags",
+                href: "/admin/tag/tags",
+            }
         ]
     },
     {

@@ -44,7 +44,7 @@ export const FormCategory = () => {
   return (
     <main>
       <Form {...form} >
-        <form onSubmit={form.handleSubmit(onSubmit)} className="min-h-screen w-full">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="min-h-[calc(100vh-139px)] flex flex-col justify-between w-full">
           <main className="w-full flex gap-x-4 p-4 pt-0">
             <SectionForm
                 title="Name & Description"

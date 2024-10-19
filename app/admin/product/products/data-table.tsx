@@ -56,7 +56,7 @@ export function DataTable({columns, data}: DataTableProps) {
 
   return (
     <div className="w-full">
-      <WrapperTable table={table} color={"violet"} title={"Product sneakers"}  >
+      <WrapperTable filter="marque" table={table} color={"violet"} title={"Product sneakers"}  >
         <DTable table={table} columns={columns} />
       </WrapperTable>
     </div>

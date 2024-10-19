@@ -17,13 +17,14 @@ const colors = {
 
 interface SectionTableProps{
     title: string;
-    color: keyof typeof colors,
-    children: React.ReactNode
+    color: keyof typeof colors;
+    children: React.ReactNode;
+    filter?: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     table: Table<any>;
 }
 
-export const WrapperTable = ({color, title, table, children}: SectionTableProps) => {
+export const WrapperTable = ({color, title, table, filter="name", children}: SectionTableProps) => {
 
     return (
         <Card>
@@ -40,9 +41,9 @@ export const WrapperTable = ({color, title, table, children}: SectionTableProps)
                                 placeholder="Search or type a command"
                                 type="text"
                                 className="border-none bg-transparent outline-none shadow-none focus-visible:ring-0"
-                                value={(table.getColumn("marque")?.getFilterValue() as string) ?? ""}
+                                value={(table.getColumn(filter)?.getFilterValue() as string) ?? ""}
                                 onChange={(event) =>
-                                  table.getColumn("marque")?.setFilterValue(event.target.value)
+                                  table.getColumn(filter)?.setFilterValue(event.target.value)
                                 }
                             /> 
                             <Button variant={"outline"} className="bg-white text-slate-800 px-2 h-7">⌘ K</Button>

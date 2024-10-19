@@ -16,6 +16,8 @@ import type { ColumnDef, Table as TableType } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { MdAdd } from "react-icons/md";
+import { useDataTable } from "@/hooks/use-store";
+import { LoaderSpin } from "@/components/loader-spin";
 
 interface DataTableProps{
     table: TableType<Category>;
@@ -24,6 +26,11 @@ interface DataTableProps{
 
 
 export const DTable = ({table, columns}:DataTableProps) => {
+
+    const loading = useDataTable((state)=> state.isLoading);
+    console.log(loading);
+    
+
     return (
         <div className="rounded-md border">
         <Table>
@@ -68,11 +75,13 @@ export const DTable = ({table, columns}:DataTableProps) => {
                   colSpan={columns.length}
                   className="h-32 text-center"
                 >
-                  <Button className="space-x-2" asChild>
-                    <Link href={"/admin/category/add"}>
-                      <MdAdd className="h-5 w-5" /> <span>Create catégorie</span>
-                    </Link>
-                  </Button>
+                  {loading ? <LoaderSpin className="mx-auto" /> : 
+                    <Button className="space-x-2" asChild>
+                      <Link href={"/admin/category/add"}>
+                        <MdAdd className="h-5 w-5" /> <span>Create catégorie</span>
+                      </Link>
+                    </Button>
+                  }
                 </TableCell>
               </TableRow>
             )}
