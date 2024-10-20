@@ -23,7 +23,7 @@ export const CardPreviewProduct = ({...props}: CardProductProps) => {
                     <div className=""> <MdOutlineZoomInMap className="w-6 h-6" /> </div>
                 </div>
             </CardHeader>
-            <CardContent className="p-0">
+            <CardContent className="p-0 flex justify-center">
                <CardProduct {...props} />
             </CardContent>
         </Card>

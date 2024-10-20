@@ -11,13 +11,39 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import Select2 from 'react-select';
 
-import { Options, ItemThemes } from "./data-test";
+import { useQuery } from "@tanstack/react-query";
+
+import { getCategories, getTags, getThemes } from "@/actions/category-attribut";
+import { Category, Tag, Theme } from "@prisma/client";
 
 interface SectionFourProps{
     form: UseFormReturn<z.infer<typeof ProductSchema>>;
 }
 
 export const SectionFour = ({form}: SectionFourProps) => {
+
+    const iCategories: Category[] = [];
+    const iThemes: Theme[] = [];
+    const iTags: Tag[] = [];
+
+    const {data: categories} = useQuery<Category[]>({
+        queryKey: ['categories'],
+        queryFn: ()=> getCategories(),
+        initialData: iCategories,
+    })
+   
+    const {data: themes} = useQuery<Theme[]>({
+        queryKey: ['themes'],
+        queryFn: ()=> getThemes(),
+        initialData: iThemes,
+    })
+
+    const {data: tags} = useQuery<Tag[]>({
+        queryKey: ['tags'],
+        queryFn: ()=> getTags(),
+        initialData: iTags,
+    })
+
     return (
         <SectionForm
             title="Category & attribut"
@@ -32,14 +58,13 @@ export const SectionFour = ({form}: SectionFourProps) => {
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                         <SelectTrigger className="py-5">
-                            <SelectValue placeholder="Select a verified email to display" />
+                            <SelectValue placeholder="Select a verified category to display" />
                         </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                        <SelectItem value="m@example.com">Baskets de mode</SelectItem>
-                        <SelectItem value="m@google.com">Baskets de basketball</SelectItem>
-                        <SelectItem value="m@sup.com">Baskets de course</SelectItem>
-                        <SelectItem value="m@support.com">Baskets de sport spècifique</SelectItem>
+                            {categories.map(category =>(
+                                <SelectItem key={category.id} value={category.id}>{category.name}</SelectItem>
+                            ))}
                         </SelectContent>
                     </Select>
                     <FormMessage />
@@ -57,33 +82,33 @@ export const SectionFour = ({form}: SectionFourProps) => {
                     <FormDescription>Sélectionnez des thèmes pour votre produit.</FormDescription>
                     </div>
                     <div className="grid grid-cols-3 gap-y-4">
-                    {ItemThemes.map((item) => (
+                    {themes.map((theme) => (
                     <FormField
-                        key={item.id}
+                        key={theme.id}
                         control={form.control}
                         name="themes"
                         render={({ field }) => {
                         return (
                             <FormItem
-                                key={item.id}
+                                key={theme.id}
                                 className="flex flex-row items-start space-x-3 space-y-0"
                             >
                             <FormControl>
                                 <Checkbox
-                                checked={field.value?.includes(item.id)}
+                                checked={field.value?.includes(theme.id)}
                                 onCheckedChange={(checked) => {
                                     return checked
-                                    ? field.onChange([...field.value, item.id])
+                                    ? field.onChange([...field.value, theme.id])
                                     : field.onChange(
                                         field.value?.filter(
-                                            (value) => value !== item.id
+                                            (value) => value !== theme.id
                                         )
                                         )
                                 }}
                                 />
                             </FormControl>
                             <FormLabel className="font-normal">
-                                {item.label}
+                                {theme.name}
                             </FormLabel>
                             </FormItem>
                         )
@@ -105,7 +130,7 @@ export const SectionFour = ({form}: SectionFourProps) => {
                     <FormControl>
                     <Select2
                         isMulti
-                        options={Options} 
+                        options={tags.map(tag => ({value: tag.id, label: tag.name}) )} 
                         {...field}
                         placeholder="tags"
                         className="basic-multi-select"

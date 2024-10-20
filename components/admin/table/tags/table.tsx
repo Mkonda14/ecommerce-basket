@@ -16,6 +16,8 @@ import type { ColumnDef, Table as TableType } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { MdAdd } from "react-icons/md";
+import { LoaderSpin } from "@/components/loader-spin";
+import { useDataTable } from "@/hooks/use-store";
 
 interface DataTableProps{
     table: TableType<Tag>;
@@ -24,6 +26,9 @@ interface DataTableProps{
 
 
 export const DTable = ({table, columns}:DataTableProps) => {
+
+    const {isLoading} = useDataTable();
+
     return (
         <div className="rounded-md border">
         <Table>
@@ -68,11 +73,13 @@ export const DTable = ({table, columns}:DataTableProps) => {
                   colSpan={columns.length}
                   className="h-32 text-center"
                 >
-                  <Button className="space-x-2" asChild>
-                    <Link href={"/admin/product/add"}>
-                      <MdAdd className="h-5 w-5" /> <span>Create tag</span>
-                    </Link>
-                  </Button>
+                  {isLoading ? <LoaderSpin className="mx-auto" /> : 
+                    <Button className="space-x-2" asChild>
+                      <Link href={"/admin/category/add"}>
+                        <MdAdd className="h-5 w-5" /> <span>Create tag</span>
+                      </Link>
+                    </Button>
+                  }
                 </TableCell>
               </TableRow>
             )}

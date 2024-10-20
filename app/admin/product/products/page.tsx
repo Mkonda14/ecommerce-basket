@@ -9,6 +9,8 @@ import { Footer } from "@/components/admin/table/footer";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { Sneaker } from "@prisma/client";
+import { useDataTable } from "@/hooks/use-store";
+import { useEffect } from "react";
 
 interface TypeData {
     data: Sneaker[];
@@ -16,14 +18,19 @@ interface TypeData {
 
 export default function Products() {
 
+    const {onChangeLoading} = useDataTable();
     const sneakers: TypeData = {data: []};
 
     const queryKey = ["products"]
-    const {data} = useQuery<TypeData>({
+    const {data, isLoading} = useQuery<TypeData>({
         queryKey: queryKey,
         queryFn: ()=> axios("/api/products"),
         initialData: sneakers
     })
+
+    useEffect(()=>{
+        onChangeLoading(isLoading)
+    },[isLoading, onChangeLoading])
 
     return (
         <main className='min-h-[calc(100vh-68px)] flex flex-col justify-between gap-y-4'>

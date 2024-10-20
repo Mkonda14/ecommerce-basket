@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Category } from "@prisma/client";
 import { useDataTable } from "@/hooks/use-store";
+import { useEffect } from "react";
 
 interface TypeData {
     data: Category[];
@@ -17,6 +18,8 @@ interface TypeData {
 
 
 export default function Categories() {
+
+    const {onChangeLoading} = useDataTable();
 
     const categories: TypeData = {data: []};
     const queryKey = ["categories"]
@@ -27,9 +30,11 @@ export default function Categories() {
         initialData: categories
     })
 
-    useDataTable((state)=> state.onChangeLoading(isLoading))
 
-    console.log(data, "categories");
+    useEffect(()=>{
+        onChangeLoading(isLoading)
+    },[isLoading, onChangeLoading])
+
     
     return (
         <main className='min-h-[calc(100vh-68px)] flex flex-col justify-between gap-y-4'>

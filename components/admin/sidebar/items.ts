@@ -57,7 +57,7 @@ export const Items: NavGroupItemProps[] = [
                 href: "/admin/category/add",
             },
             {
-                label: "Table Products",
+                label: "Table Catégories",
                 href: "/admin/category/categories",
             }
         ]

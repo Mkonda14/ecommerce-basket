@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import {create} from "zustand"
+import { create } from "zustand";
 
 interface IDataTable {
-    isLoading?: boolean;
+    isLoading: boolean;
     onChangeLoading: (loading: boolean) => void;
 }
 
 export const useDataTable = create<IDataTable>((set) => ({
     isLoading: true,
-    onChangeLoading: (loading: boolean) => set({isLoading: loading}),
-  }))
+    onChangeLoading: (loading: boolean) => set({ isLoading: loading }),
+}));

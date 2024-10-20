@@ -73,7 +73,7 @@ export const ColorPicker = ({nameCode, nameColor="colors", form, key}: ColorPick
                                 className="w-full py-5" 
                                 placeholder="Name color" 
                                 {...field}
-                                value={field.value.toString()}
+                                value={field.value as string}
                             />
                         </FormControl>
                     </FormItem>

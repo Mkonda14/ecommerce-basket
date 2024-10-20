@@ -61,7 +61,7 @@ export const SectionThree = ({form}: SectionThreeProps) => {
                         <FormControl>
                         <Input
                         placeholder="0.0"
-                        type="number"
+                        type="text"
                         {...field}
                         className="py-5"
                         />
@@ -141,7 +141,7 @@ export const SectionThree = ({form}: SectionThreeProps) => {
                                             render={({field})=>(
                                                 <FormItem key={item} className="">
                                                     <FormControl>
-                                                        <Input max={99} className="w-12 h-10 py-5" placeholder="0.0" {...field} />
+                                                        <Input max={99} type="text" className="w-12 h-10 py-5" placeholder="0.0" {...field} />
                                                     </FormControl>
                                                 </FormItem>
                                         )}
@@ -153,7 +153,7 @@ export const SectionThree = ({form}: SectionThreeProps) => {
                                         render={({ field})=>(
                                             <FormItem>
                                             <FormControl>
-                                                <Input type="number" className="py-5" placeholder="quantity" {...field} />
+                                                <Input type="text" className="py-5" placeholder="quantity" {...field} />
                                             </FormControl>
                                             </FormItem>
                                         )}

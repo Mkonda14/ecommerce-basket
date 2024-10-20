@@ -27,9 +27,7 @@ interface DataTableProps{
 
 export const DTable = ({table, columns}:DataTableProps) => {
 
-    const loading = useDataTable((state)=> state.isLoading);
-    console.log(loading);
-    
+    const {isLoading} = useDataTable();
 
     return (
         <div className="rounded-md border">
@@ -75,7 +73,7 @@ export const DTable = ({table, columns}:DataTableProps) => {
                   colSpan={columns.length}
                   className="h-32 text-center"
                 >
-                  {loading ? <LoaderSpin className="mx-auto" /> : 
+                  {isLoading ? <LoaderSpin className="mx-auto" /> : 
                     <Button className="space-x-2" asChild>
                       <Link href={"/admin/category/add"}>
                         <MdAdd className="h-5 w-5" /> <span>Create catégorie</span>

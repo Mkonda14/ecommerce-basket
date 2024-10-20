@@ -43,6 +43,7 @@ export const FormProduct = () => {
         }]
       },
       sizes: [],
+      tags:[],
       images:[{
         public_id: "product/mhpcchmackb8wjphvth2",
         secure_url: "https://res.cloudinary.com/dlqnx8srw/image/upload/v1728696317/product/mhpcchmackb8wjphvth2.jpg"
@@ -52,13 +53,14 @@ export const FormProduct = () => {
 
   const onSubmit = (data: z.infer<typeof ProductSchema>) => {
     startTransition(async ()=> {
+      console.log(data);  
       const res = await saveProduct(data);
       if (res.type === "success") form.reset();
       ToastSave(res);
     })
   };
 
-
+ 
   return (
     <main>
       <Form {...form} >

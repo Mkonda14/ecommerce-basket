@@ -14,9 +14,12 @@ export const ProductSchema = z.object({
     themes: z.array(z.string()).refine((value) => value.some((item) => item), {
         message: "You have to select at least one item.",
     }),
-    tags: z.array(z.any().transform((tag)=> tag.value)),
+    tags: z.array(z.object({
+        label: z.string(),
+        value: z.string()
+    })),
 
-    stock: z.string().transform((input)=> parseInt(input, 10)),
+    stock: z.string(),
 
     colors: z.object({
         primary: z.object({
@@ -30,8 +33,8 @@ export const ProductSchema = z.object({
     }),
 
     sizes: z.array(z.object({
-        size: z.string().transform((input)=> parseInt(input)),
-        quantity: z.string().transform((input)=> parseInt(input))
+        size: z.string(),
+        quantity: z.string()
     })),
 
     images: z.array(z.object({

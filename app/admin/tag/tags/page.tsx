@@ -9,6 +9,8 @@ import { Footer } from "@/components/admin/table/footer";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Tag } from "@prisma/client";
+import { useDataTable } from "@/hooks/use-store";
+import { useEffect } from "react";
 
 interface TypeData {
     data: Tag[];
@@ -16,14 +18,19 @@ interface TypeData {
 
 export default function Tags() {
 
+    const {onChangeLoading} = useDataTable();
     const tags: TypeData = {data:[]};
     const queryKey = ["tags"]
 
-    const {data} = useQuery<TypeData>({
+    const {data, isLoading} = useQuery<TypeData>({
         queryKey: queryKey,
         queryFn: ()=> axios("/api/tags"),
         initialData: tags
     })
+
+    useEffect(()=>{
+        onChangeLoading(isLoading)
+    },[isLoading, onChangeLoading])
     
 
     return (

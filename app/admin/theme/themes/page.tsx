@@ -9,6 +9,8 @@ import { Footer } from "@/components/admin/table/footer";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Theme } from "@prisma/client";
+import { useDataTable } from "@/hooks/use-store";
+import { useEffect } from "react";
 
 interface TypeData {
     data: Theme[];
@@ -16,14 +18,19 @@ interface TypeData {
 
 export default function Themes() {
 
+    const {onChangeLoading} = useDataTable();
     const themes: TypeData = {data: []};
     const queryKey = ["themes"]
 
-    const {data} = useQuery<TypeData>({
+    const {data, isLoading} = useQuery<TypeData>({
         queryKey: queryKey,
         queryFn: ()=> axios("/api/themes"),
         initialData: themes
     })
+
+    useEffect(()=>{
+        onChangeLoading(isLoading)
+    },[isLoading, onChangeLoading])
     
     return (
         <main className='min-h-[calc(100vh-68px)] flex flex-col justify-between gap-y-4'>
