@@ -49,7 +49,7 @@ export const columns: ColumnDef<Sneaker>[] = [
     accessorKey: "image",
     header: "Image",
     cell: ({ row }) => (
-      <CellImg public_id={row.getValue("image")} />
+      <CellImg public_id={row.getValue("images.publicId")} />
     ),
   },
   {
@@ -114,7 +114,7 @@ export const columns: ColumnDef<Sneaker>[] = [
     accessorKey: "category",
     header: "Category",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("category")}</div>
+      <div className="capitalize">{row.getValue("category.name")}</div>
     ),
   },
   {

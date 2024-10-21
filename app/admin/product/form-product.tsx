@@ -1,8 +1,5 @@
-"use client";
-
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { UseFormReturn } from "react-hook-form";
 import { ProductSchema } from "@/models/product";
 
 import { Form } from "@/components/ui/form";
@@ -21,35 +18,14 @@ import { saveProduct } from "@/actions/product/saveProduct";
 import { useTransition } from "react";
 import { ToastSave } from "@/hooks/use-toast-save";
 
+interface FormProductProps{
+  form: UseFormReturn<z.infer<typeof ProductSchema>>;
+}
 
-export const FormProduct = () => {
+
+export const FormProduct = ({form}: FormProductProps) => {
 
   const [isLoading, startTransition] = useTransition();
-
-  const form = useForm<z.infer<typeof ProductSchema>>({
-    resolver: zodResolver(ProductSchema),
-    defaultValues: {
-      marque: "",
-      model: "",
-      themes: [],
-      colors: {
-        primary: {
-          name: "primary",
-          code: "#000"
-        },
-        secondary: [{
-          name: "secondary",
-          code: "#000"
-        }]
-      },
-      sizes: [],
-      tags:[],
-      images:[{
-        public_id: "product/mhpcchmackb8wjphvth2",
-        secure_url: "https://res.cloudinary.com/dlqnx8srw/image/upload/v1728696317/product/mhpcchmackb8wjphvth2.jpg"
-      }]
-    },
-  });
 
   const onSubmit = (data: z.infer<typeof ProductSchema>) => {
     startTransition(async ()=> {

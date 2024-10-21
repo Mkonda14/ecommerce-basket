@@ -1,8 +1,7 @@
 "use client";
 
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { UseFormReturn } from "react-hook-form";
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from "@/components/ui/form";
 
@@ -18,18 +17,14 @@ import RichText from "@/components/rich-text";
 import { useTransition } from "react";
 import { ToastSave } from "@/hooks/use-toast-save";
 
+interface FormThemetProps{
+  form: UseFormReturn<z.infer<typeof ThemeSchema>>;
+}
 
-export const FormTheme = () => {
+
+export const FormTheme = ({form}: FormThemetProps) => {
 
   const [isLoading, startTransition] = useTransition();
-
-  const form = useForm<z.infer<typeof ThemeSchema>>({
-    resolver: zodResolver(ThemeSchema),
-    defaultValues: {
-      name: "",
-      description: "",
-    },
-  });
 
   const onSubmit =  (data: z.infer<typeof ThemeSchema>) => {
     startTransition(async () => {

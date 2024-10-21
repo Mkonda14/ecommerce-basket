@@ -5,14 +5,14 @@ import StarterKit from "@tiptap/starter-kit";
 import { ToolBar } from "./tool-bar";
 
 interface RichTextProps{
-    value: string;
+    value?: string;
     onChange: (value: string) => void;
 }
 
 export default function RichText ({value, onChange}: RichTextProps){
 
     const editor = useEditor({
-        extensions: [StarterKit.configure()],
+        extensions: [StarterKit],
         content: value,
         editorProps: {
             attributes: {
@@ -22,6 +22,7 @@ export default function RichText ({value, onChange}: RichTextProps){
         onUpdate({editor}){
             onChange(editor.getHTML());
         },
+        immediatelyRender: false
     })
 
     return (

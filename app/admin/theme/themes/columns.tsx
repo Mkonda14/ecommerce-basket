@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { Theme } from "@prisma/client"
+import { InnerHTML } from "@/components/InnerHTML"
 
 export const columns: ColumnDef<Theme>[] = [
   {
@@ -68,7 +69,7 @@ export const columns: ColumnDef<Theme>[] = [
     accessorKey: "description",
     header: "Description",
     cell: ({ row }) => (
-      <div className="">{row.getValue("description")}</div>
+      <InnerHTML text={row.getValue("description")} />
     ),
   },
   {

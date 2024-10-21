@@ -1,45 +1,26 @@
 "use client";
 
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { UseFormReturn } from "react-hook-form";
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from "@/components/ui/form";
 
 import { Footer } from "@/components/admin/form/footer";
 
-import { saveCategory } from "@/actions/category-attribut/save";
 import { CategorySchema } from "@/models/category-attributs";
 import { SectionForm } from "@/components/admin/form/section-form";
 import { Label } from "@/components/admin/form/label";
 import { Input } from "@/components/ui/input";
 import RichText from "@/components/rich-text";
 
-import { useTransition } from "react";
-import { ToastSave } from "@/hooks/use-toast-save";
+interface FormCategoryProps{
+  form: UseFormReturn<z.infer<typeof CategorySchema>>;
+  onSubmit: (data: z.infer<typeof CategorySchema>) => void;
+  isLoading: boolean;
+}
 
 
-export const FormCategory = () => {
-
-  const [isLoading, startTransition] = useTransition();
-
-  const form = useForm<z.infer<typeof CategorySchema>>({
-    resolver: zodResolver(CategorySchema),
-    defaultValues: {
-      name: "",
-      description: "",
-      designer: "",
-    },
-  });
-
-  const onSubmit = (data: z.infer<typeof CategorySchema>) => {
-    startTransition(async () => {
-      const res = await saveCategory(data);
-      if (res.type === "success") form.reset();
-      ToastSave(res)
-    });
-  };
-
+export const FormCategory = ({form, onSubmit, isLoading}: FormCategoryProps) => {
 
   return (
     <main>
@@ -98,8 +79,8 @@ export const FormCategory = () => {
                     <Label type="question"> Description</Label>
                     <FormControl>
                         <RichText 
-                        value={field.value}
-                        onChange={field.onChange}
+                          value={field.value}
+                          onChange={field.onChange}
                         />
                     </FormControl>
                     <FormDescription>Description du category</FormDescription>

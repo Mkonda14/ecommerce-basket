@@ -34,7 +34,9 @@ export const SectionThree = ({form}: SectionThreeProps) => {
         setNbSize((previous)=> [...previous, uuidv4()] )
     };
     const deleteSize = (id: string) => {
-        setNbSize((previous)=> previous.filter(color => color !== id))
+        if(nbSize){
+            setNbSize((previous)=> previous.filter(color => color !== id))
+        }
     };
 
 
@@ -42,7 +44,9 @@ export const SectionThree = ({form}: SectionThreeProps) => {
         setNbColor((previous)=> [...previous, uuidv4()] )
     };
     const deleteColor = (id: string) => {
-        setNbColor((previous)=> previous.filter(color => color !== id))
+        if(nbColor.length > 1){
+            setNbColor((previous)=> previous.filter(color => color !== id))
+        }
     };
     
 

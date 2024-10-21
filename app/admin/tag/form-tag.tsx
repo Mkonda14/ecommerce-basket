@@ -1,8 +1,7 @@
 "use client";
 
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { UseFormReturn } from "react-hook-form";
 
 import { Form, FormControl, FormDescription, FormField, FormItem, FormMessage } from "@/components/ui/form";
 
@@ -18,18 +17,14 @@ import RichText from "@/components/rich-text";
 import { useTransition } from "react";
 import { ToastSave } from "@/hooks/use-toast-save";
 
+interface FormTagtProps{
+  form: UseFormReturn<z.infer<typeof TagSchema>>;
+}
 
-export const FormTag = () => {
+
+export const FormTag = ({form}: FormTagtProps) => {
 
   const [isLoading, startTransition] = useTransition();
-
-  const form = useForm<z.infer<typeof TagSchema>>({
-    resolver: zodResolver(TagSchema),
-    defaultValues: {
-      name: "",
-      description: "",
-    },
-  });
 
   const onSubmit = (data: z.infer<typeof TagSchema>) => {
     startTransition(async () => {

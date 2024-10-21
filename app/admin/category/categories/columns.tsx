@@ -19,6 +19,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { Category } from "@prisma/client"
+import { InnerHTML } from "@/components/InnerHTML"
+import Link from "next/link"
 
 export const columns: ColumnDef<Category>[] = [
   {
@@ -75,7 +77,7 @@ export const columns: ColumnDef<Category>[] = [
     accessorKey: "description",
     header: "Description",
     cell: ({ row }) => (
-      <div className="">{row.getValue("description")}</div>
+      <InnerHTML text={row.getValue("description")} />
     ),
   },
   {
@@ -88,18 +90,21 @@ export const columns: ColumnDef<Category>[] = [
     },
   },
   {
-    accessorKey: "updatedAt",
-    header: "Updated At",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("updatedAt")}</div>
-    ),
+    accessorKey: "createdAt",
+    header: "Create At",
+    cell: ({ row }) => {
+      const date = new Date(row.getValue("createdAt")).toLocaleDateString('fr-FR');
+      return (
+        <div className="capitalize">{date}</div>
+      )
+    },
   },
   {
     id: "actions",
     header: "Actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original
+      const category = row.original
 
       return (
         <DropdownMenu>
@@ -112,13 +117,14 @@ export const columns: ColumnDef<Category>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(category.id)}
             >
               Copy payment ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View customer</DropdownMenuItem>
             <DropdownMenuItem>View category details</DropdownMenuItem>
+            <DropdownMenuItem className="text-red-500"> <Link href={`/admin/category/update/${category.id}`}>Updated</Link> </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )
