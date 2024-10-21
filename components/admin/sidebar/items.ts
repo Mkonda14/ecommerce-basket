@@ -19,20 +19,20 @@ export const Items: NavGroupItemProps[] = [
         isGroup: true,
         label: "Products",
         icon: BiDiamond,
-        subHref: "/admin/product/add",
+        subHref: "/admin/products/add",
         items: [
             {
                 label: "Dashboard",
-                href: "/admin/product",
+                href: "/admin/products/dashboard",
                 notif: 2
             },
             {
                 label: "Create Product",
-                href: "/admin/product/add",
+                href: "/admin/products/add",
             },
             {
                 label: "Table Products",
-                href: "/admin/product/products",
+                href: "/admin/products",
             },
             {
                 label: "Scheduled",
@@ -45,20 +45,20 @@ export const Items: NavGroupItemProps[] = [
         isGroup: true,
         label: "Categories",
         icon: MdOutlineCategory,
-        subHref: "/admin/category/add",
+        subHref: "/admin/categories/add",
         items: [
             {
                 label: "Dashboard",
-                href: "/admin/category",
+                href: "/admin/categories/dashboard",
                 notif: 2
             },
             {
                 label: "Create Category",
-                href: "/admin/category/add",
+                href: "/admin/categories/add",
             },
             {
                 label: "Table Catégories",
-                href: "/admin/category/categories",
+                href: "/admin/categories",
             }
         ]
     },
@@ -66,20 +66,20 @@ export const Items: NavGroupItemProps[] = [
         isGroup: true,
         label: "Thèmes",
         icon: DiIllustrator,
-        subHref: "/admin/theme/add",
+        subHref: "/admin/themes/add",
         items: [
             {
                 label: "Dashboard",
-                href: "/admin/theme",
+                href: "/admin/themes/dashboard",
                 notif: 2
             },
             {
                 label: "Create Thème",
-                href: "/admin/theme/add",
+                href: "/admin/themes/add",
             },
             {
                 label: "Table Thèmes",
-                href: "/admin/theme/themes",
+                href: "/admin/themes",
             }
         ]
     },
@@ -87,20 +87,20 @@ export const Items: NavGroupItemProps[] = [
         isGroup: true,
         label: "Tags",
         icon: AiOutlineTag,
-        subHref: "/admin/tag/add",
+        subHref: "/admin/tags/add",
         items: [
             {
                 label: "Dashboard",
-                href: "/admin/tag",
+                href: "/admin/tags/dashboard",
                 notif: 2
             },
             {
                 label: "Create Tag",
-                href: "/admin/tag/add",
+                href: "/admin/tags/add",
             },
             {
                 label: "Table Tags",
-                href: "/admin/tag/tags",
+                href: "/admin/tags",
             }
         ]
     },
