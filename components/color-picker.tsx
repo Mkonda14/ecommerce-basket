@@ -17,13 +17,14 @@ interface ColorPickerProps{
     nameColor?: "colors" | "colors.primary.name" | `colors.secondary.${number}.name`;
     form: UseFormReturn<z.infer<typeof ProductSchema>>;
     key?: string;
+    value?: string
 }
 
-export const ColorPicker = ({nameCode, nameColor="colors", form, key}: ColorPickerProps) => {
+export const ColorPicker = ({nameCode, nameColor="colors", form, key, value = "#333"}: ColorPickerProps) => {
 
     const [state, setState] = useState({
         open: false,
-        color: "#333",
+        color: value,
     });
     
     const handleClick = () => {
@@ -49,13 +50,16 @@ export const ColorPicker = ({nameCode, nameColor="colors", form, key}: ColorPick
                                 <Button type="button" style={{backgroundColor: state.color}} className={ styles.swatch } onClick={ handleClick }>
                                     <AiOutlineBgColors className="w-5 h-5" />
                                 </Button>
-                                { state.open ? <div className={ styles.popover }>
-                                <div className={ styles.cover } onClick={ handleClick }/>
-                                <SketchPicker color={ state.color } onChange={(color)=> {
-                                    field.onChange(color.hex);
-                                    setState((previous) => ({...previous, color: color.hex}));                                
-                                } } />
-                                </div> : null }
+                                { state.open ? 
+                                <div className={ styles.popover }>
+                                    <div className={ styles.cover } onClick={ handleClick }/>
+                                    <SketchPicker color={ state.color }  onChange={(color)=> {
+                                        field.onChange(color.hex);
+                                        setState((previous) => ({...previous, color: color.hex}));                                
+                                    } } />
+                                    </div> : 
+                                null 
+                                }
                             </div>
                         </FormControl>
                     </FormItem>

@@ -48,11 +48,15 @@ export const columns: ColumnDef<Sneaker>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "image",
+    accessorKey: "images",
     header: "Image",
-    cell: ({ row }) => (
-      <CellImg public_id={row.getValue("images.publicId")} />
-    ),
+    cell: ({ row }) => {
+      const image: {publicId: string}[] = row.getValue("images");
+      
+      return (
+        <CellImg public_id={image[0].publicId} />
+      )
+    },
   },
   {
     accessorKey: "marque",
@@ -97,10 +101,10 @@ export const columns: ColumnDef<Sneaker>[] = [
     },
   },
   {
-    accessorKey: "quantity",
-    header: "Quantity",
+    accessorKey: "stock",
+    header: "Stock",
     cell: ({ row }) => (
-      <div className="">{row.getValue("quantity")}</div>
+      <div className="">{row.getValue("stock")}</div>
     ),
   },
   {
@@ -115,9 +119,12 @@ export const columns: ColumnDef<Sneaker>[] = [
   {
     accessorKey: "category",
     header: "Category",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("category.name")}</div>
-    ),
+    cell: ({ row }) => {
+      const category : {name: string} = row.getValue("category");
+      return (
+        <div className="capitalize">{category.name}</div>
+      )
+    },
   },
   {
     id: "actions",
@@ -144,7 +151,7 @@ export const columns: ColumnDef<Sneaker>[] = [
             <DropdownMenuSeparator />
             <DropdownMenuItem>View customer</DropdownMenuItem>
             <DropdownMenuItem>View sneaker details</DropdownMenuItem>
-            <DropdownMenuItem><Link className="flex items-center gap-x-4" href={`/admin/categories/update/${product.id}`}> <BiMessageSquareEdit className="w-4 h-4" /> <span>Updated</span> </Link> </DropdownMenuItem>
+            <DropdownMenuItem><Link className="flex items-center gap-x-4" href={`/admin/products/update/${product.id}`}> <BiMessageSquareEdit className="w-4 h-4" /> <span>Updated</span> </Link> </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

@@ -21,13 +21,11 @@ interface SectionThreeProps{
 
 export const SectionThree = ({form}: SectionThreeProps) => {
 
+    const initialColor = form.getValues().colors.secondary.map(() => uuidv4());
+    const initialSize = form.getValues().sizes.map(() => uuidv4());
 
-    const [nbColor, setNbColor] = useState<string[]>([
-        uuidv4()
-    ]);
-    const [nbSize, setNbSize] = useState<string[]>([
-        uuidv4()
-    ]);
+    const [nbColor, setNbColor] = useState<string[]>(initialColor);
+    const [nbSize, setNbSize] = useState<string[]>(initialSize);
 
 
     const addSize = () => {
@@ -83,39 +81,39 @@ export const SectionThree = ({form}: SectionThreeProps) => {
                     render={({ field }) => (
                     <FormItem>
                         <div className="">
-                        <div className="mb-4">
-                            <Label type="question">Product colo </Label>
-                            <FormDescription>Veuillez insérer chaque couleur ainsi que la quantité</FormDescription>
-                        </div>
+                            <div className="mb-4">
+                                <Label type="question">Product colo </Label>
+                                <FormDescription>Veuillez insérer chaque couleur ainsi que la quantité</FormDescription>
+                            </div>
 
-                        {/* Color primary */}
-                        <div className="mb-6">
-                            <Label className="block mb-3">Color primary</Label>
-                            <ColorPicker form={form} nameCode={`colors.primary.code`} nameColor={`colors.primary.name`} />
-                        </div>
+                            {/* Color primary */}
+                            <div className="mb-6">
+                                <Label className="block mb-3">Color primary</Label>
+                                <ColorPicker value={form.getValues().colors.primary.code} form={form} nameCode={`colors.primary.code`} nameColor={`colors.primary.name`} />
+                            </div>
 
-                        {/* Color secondary */}
-                        <div className="">
-                            <Label className="block mb-3">Colors secondary</Label>
-                            <div className="grid grid-cols-3 mt-2 gap-4">
-                            {nbColor.map((id, idx) => (
-                                <div key={id} className="relative transition-all duration-300 full ease-out">
-                                    <ColorPicker key={id} form={form} nameCode={`colors.secondary.${idx}.code`} nameColor={`colors.secondary.${idx}.name`} />
-                                    <Button className="w-5 h-5 absolute rounded-full -top-2 -right-2" size="icon" variant="destructive" onClick={()=>{
-                                        field.onChange({
-                                        primary: field.value.primary, 
-                                        secondary: [...field.value.secondary.filter(val=> field.value.secondary.indexOf(val) !== idx)]
-                                        })
-                                        deleteColor(id)
-                                    }}> <AiOutlineClose /> </Button>
+                            {/* Color secondary */}
+                            <div className="">
+                                <Label className="block mb-3">Colors secondary</Label>
+                                <div className="grid grid-cols-3 mt-2 gap-4">
+                                {nbColor.map((id, idx) => (
+                                    <div key={id} className="relative transition-all duration-300 full ease-out">
+                                        <ColorPicker value={form.getValues().colors.secondary[idx].code} key={id} form={form} nameCode={`colors.secondary.${idx}.code`} nameColor={`colors.secondary.${idx}.name`} />
+                                        <Button className="w-5 h-5 absolute rounded-full -top-2 -right-2" size="icon" variant="destructive" onClick={()=>{
+                                            field.onChange({
+                                            primary: field.value.primary, 
+                                            secondary: [...field.value.secondary.filter(val=> field.value.secondary.indexOf(val) !== idx)]
+                                            })
+                                            deleteColor(id)
+                                        }}> <AiOutlineClose /> </Button>
+                                    </div>
+                                ))}
                                 </div>
-                            ))}
+                                <FormMessage />
+                                <div className="flex justify-end mt-4 border-t pt-4">
+                                <Button type="button" size="icon" onClick={addColor}> <IoMdAdd /> </Button>
+                                </div>
                             </div>
-                            <FormMessage />
-                            <div className="flex justify-end mt-4 border-t pt-4">
-                            <Button type="button" size="icon" onClick={addColor}> <IoMdAdd /> </Button>
-                            </div>
-                        </div>
                         </div>                          
                     </FormItem>
                     )}

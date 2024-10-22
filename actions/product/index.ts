@@ -7,6 +7,7 @@ export const getProducts = async () => {
 
         const sneakers = await db.sneaker.findMany({
             select:{
+                id: true,
                 marque: true,
                 model: true,
                 price: true,
@@ -40,6 +41,7 @@ export const getProductCard = async (id: string) => {
                 id
             },
             select:{
+                id: true,
                 marque: true,
                 model: true,
                 price: true,
@@ -95,6 +97,7 @@ export const getProductById = async (id: string) => {
                 tags:{
                     select:{
                         id: true,
+                        name: true,
                     },
                 },
                 themes:{

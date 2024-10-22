@@ -1,3 +1,5 @@
+"use client"
+
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { ProductSchema } from "@/models/product";
@@ -21,9 +23,16 @@ import { ToastSave } from "@/hooks/use-toast-save";
 import { Sneaker } from "@prisma/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+type Product = {
+  themes: {id: string}[],
+  colorSecondaries: {color: string, name: string}[],
+  sizes: {size: number, quantity: number}[],
+  tags: {id: string, name: string}[],
+}
+
 interface FormProductProps{
   productId?: string;
-  product?: Sneaker
+  product?: Sneaker & Product
 }
 
 
@@ -34,21 +43,27 @@ export const FormProduct = ({productId, product}: FormProductProps) => {
   const form = useForm<z.infer<typeof ProductSchema>>({
     resolver: zodResolver(ProductSchema),
     defaultValues: {
-      marque: "",
-      model: "",
-      themes: [],
+      marque: product?.marque || "",
+      model: product?.model || "",
+      description: product?.description || "",
+      isPromo: true,
+      promoPrice: `${product?.promoPrice}` || "0.0",
+      price: `${product?.price}` || "0.0",
+      stock: `${product?.stock}` || "0",
+      themes: product?.themes.map(theme => theme.id) || [],
+      category: product?.categoryId || "",
       colors: {
         primary: {
-          name: "primary",
-          code: "#000"
+          name: product?.colorPrimaryName || "primary",
+          code: product?.colorPrimary || "#000"
         },
-        secondary: [{
+        secondary: product?.colorSecondaries.map(clr => ({code: clr.color, name: clr.name})) || [{
           name: "secondary",
           code: "#000"
         }]
       },
-      sizes: [],
-      tags:[],
+      sizes: product?.sizes.map(size => ({size: `${size.size}`, quantity: `${size.quantity}`})) || [],
+      tags: product?.tags.map(tag => ({value: tag.id, label: tag.name})) || [],
       images:[{
         public_id: "product/mhpcchmackb8wjphvth2",
         secure_url: "https://res.cloudinary.com/dlqnx8srw/image/upload/v1728696317/product/mhpcchmackb8wjphvth2.jpg"
