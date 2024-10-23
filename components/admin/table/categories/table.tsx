@@ -75,7 +75,7 @@ export const DTable = ({table, columns}:DataTableProps) => {
                 >
                   {isLoading ? <LoaderSpin className="mx-auto" /> : 
                     <Button className="space-x-2" asChild>
-                      <Link href={"/admin/category/add"}>
+                      <Link href={"/admin/categories/add"}>
                         <MdAdd className="h-5 w-5" /> <span>Create catégorie</span>
                       </Link>
                     </Button>

@@ -85,6 +85,8 @@ export const saveProduct = async (data: z.infer<typeof ProductSchema>) => {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
+    console.log(error);
+    
     return {
       type: "error",
       message: `Sneaker saved failed error: ${error.message}`,

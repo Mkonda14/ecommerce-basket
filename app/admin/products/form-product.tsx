@@ -46,10 +46,10 @@ export const FormProduct = ({productId, product}: FormProductProps) => {
       marque: product?.marque || "",
       model: product?.model || "",
       description: product?.description || "",
-      isPromo: true,
-      promoPrice: `${product?.promoPrice}` || "0.0",
-      price: `${product?.price}` || "0.0",
-      stock: `${product?.stock}` || "0",
+      isPromo: product?.isPromo || false,
+      promoPrice: `${product?.promoPrice || "0.0"}`,
+      price: `${product?.price || "0.0"}`,
+      stock: `${product?.stock || "0"}`,
       themes: product?.themes.map(theme => theme.id) || [],
       category: product?.categoryId || "",
       colors: {
@@ -109,8 +109,8 @@ export const FormProduct = ({productId, product}: FormProductProps) => {
                   marque={form.getValues().marque}
                   model={form.getValues().model}
                   description={form.getValues().description}
-                  price={form.getValues().price}
-                  public_id={form.getValues().images[0].public_id}
+                  price={form.getValues().price || "0.00"}
+                  public_id={form.getValues().images[0]?.public_id || ""}
                 />
             </section>
           </main>

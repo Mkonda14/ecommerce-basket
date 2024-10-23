@@ -4,7 +4,7 @@ import { Typographie } from '@/components/typographie'
 import { FormProduct } from '../form-product'
 
 
-export default function ProductAdd() {
+export default async function ProductAdd() {
 
   return (
     <main className=''>

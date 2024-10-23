@@ -89,7 +89,7 @@ export const SectionThree = ({form}: SectionThreeProps) => {
                             {/* Color primary */}
                             <div className="mb-6">
                                 <Label className="block mb-3">Color primary</Label>
-                                <ColorPicker value={form.getValues().colors.primary.code} form={form} nameCode={`colors.primary.code`} nameColor={`colors.primary.name`} />
+                                <ColorPicker value={form.getValues().colors.primary.code || "#333"} form={form} nameCode={`colors.primary.code`} nameColor={`colors.primary.name`} />
                             </div>
 
                             {/* Color secondary */}
@@ -98,8 +98,8 @@ export const SectionThree = ({form}: SectionThreeProps) => {
                                 <div className="grid grid-cols-3 mt-2 gap-4">
                                 {nbColor.map((id, idx) => (
                                     <div key={id} className="relative transition-all duration-300 full ease-out">
-                                        <ColorPicker value={form.getValues().colors.secondary[idx].code} key={id} form={form} nameCode={`colors.secondary.${idx}.code`} nameColor={`colors.secondary.${idx}.name`} />
-                                        <Button className="w-5 h-5 absolute rounded-full -top-2 -right-2" size="icon" variant="destructive" onClick={()=>{
+                                        <ColorPicker value={form.getValues().colors.secondary[idx]?.code || "#333"} key={id} form={form} nameCode={`colors.secondary.${idx}.code`} nameColor={`colors.secondary.${idx}.name`} />
+                                        <Button type="button" className="w-5 h-5 absolute rounded-full -top-2 -right-2" size="icon" variant="destructive" onClick={()=>{
                                             field.onChange({
                                             primary: field.value.primary, 
                                             secondary: [...field.value.secondary.filter(val=> field.value.secondary.indexOf(val) !== idx)]
@@ -161,7 +161,7 @@ export const SectionThree = ({form}: SectionThreeProps) => {
                                         )}
                                         />
 
-                                        <Button className="w-5 h-5 absolute rounded-full -top-2 -right-2" size="icon" variant="destructive" onClick={()=>{
+                                        <Button type="button" className="w-5 h-5 absolute rounded-full -top-2 -right-2" size="icon" variant="destructive" onClick={()=>{
                                             field.onChange([...field.value.filter(val=> field.value.indexOf(val) !== idx)])
                                             deleteSize(item)
                                         }}> <AiOutlineClose /> </Button>
