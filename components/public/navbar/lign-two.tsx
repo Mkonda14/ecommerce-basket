@@ -4,7 +4,7 @@ import { LogoMarket } from "./logo-market"
 
 export const LignTwo = () => {
   return (
-    <section className="w-full h-2/5 container flex items-center justify-between">
+    <section className="w-full container flex items-center justify-between py-4">
         <LogoMarket />
         <div className="flex items-center gap-x-8">
             <InputSearch />

@@ -1,31 +1,43 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { LinkTag } from "./link-tag"
+
+import { usePathname } from "next/navigation"
 
 export const LignThree = () => {
+
+  const linkCurrent = usePathname();
+  console.log(linkCurrent);
+  
+
   return (
-    <section className="h-3/4 w-full container bg-gray-200 flex justify-between items-center py-4">
+    <section className="w-full container bg-gray-200 flex justify-between items-center">
         <div className="flex justify-between items-center gap-x-8">
           <div className="flex items-center gap-x-4">
-            <Button variant={"link"} asChild>
+            <Button variant={"default"} asChild>
               <Link href="/">HOME</Link>
             </Button>
-            <Button variant={"link"} asChild>
+            <Button variant={"ghost"} asChild>
               <Link href="#">SHOP</Link>
             </Button>
-            <Button variant={"link"} asChild>
-              <Link href="#">NEW</Link>
+
+            <LinkTag tagName="NEW" isActive={linkCurrent === ""} tagColor="emerald" >NEW SNEAKER</LinkTag>
+            
+            <Button variant={"ghost"} asChild>
+              <Link href="#">PROMOTION</Link>
             </Button>
-            <Button variant={"link"} asChild>
-              <Link href="#">SALE</Link>
+            <Button variant={"ghost"} asChild>
+              <Link href="#">ABOUT US</Link>
             </Button>
-            <Button variant={"link"} asChild>
-              <Link href="#">ABOUT</Link>
+            <Button variant={"ghost"} asChild>
+              <Link href="#">CONTACT US</Link>
             </Button>
-            <Button variant={"link"} asChild>
+            <Button variant={"ghost"} asChild>
               <Link href="#">FAQ</Link>
             </Button>
           </div>
-          <div className="flex items-center gap-x-4"></div>
         </div>
       </section>
   )

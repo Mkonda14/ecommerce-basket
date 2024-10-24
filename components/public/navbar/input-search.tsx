@@ -26,7 +26,7 @@ export const InputSearch = () => {
         resolver: zodResolver(SearchSchema),
         defaultValues: {
             search: "",
-            category: "",
+            category: "all",
         }
     })
 
@@ -55,11 +55,12 @@ export const InputSearch = () => {
                             <FormItem className={"bg-slate-100"}>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                        <SelectTrigger className="py-5">
-                                            <SelectValue placeholder="Select a verified category to display" />
+                                        <SelectTrigger className="">
+                                            <SelectValue placeholder="All categories" />
                                         </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
+                                        <SelectItem value={"all"}>{"All categories"}</SelectItem>
                                         {categories.map(category =>(
                                             <SelectItem key={category.id} value={category.id}>{category.name}</SelectItem>
                                         ))}
@@ -76,9 +77,9 @@ export const InputSearch = () => {
                                 <FormItem>
                                     <FormControl>
                                         <Input
-                                            placeholder="Search or type a command"
+                                            placeholder="chercher votre sneaker à travers son model"
                                             type="text"
-                                            className="border-none bg-transparent outline-none shadow-none focus-visible:ring-0"
+                                            className="w-[500px] border-none bg-transparent outline-none shadow-none focus-visible:ring-0"
                                             {...field}
                                         />
                                     </FormControl>
@@ -86,7 +87,7 @@ export const InputSearch = () => {
                             )}
                         />
 
-                        <Button size={"icon"}>
+                        <Button size={"icon"} className="">
                             <FiSearch className="h-5 w-5" />   
                         </Button>
                     </form>

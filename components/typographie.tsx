@@ -12,8 +12,8 @@ const variants = {
 const sizes = {
     sm: "text-sm font-light leading-tight",
     md: "text-base font-normal leading-normal",
-    lg: "text-2xl font-semibold leading-relaxed",
-    xl: "text-4xl font-extrabold leading-loose",
+    lg: "text-2xl font-semibold leading-snug",
+    xl: "text-4xl font-extrabold leading-normal",
 }
 
 const colors ={

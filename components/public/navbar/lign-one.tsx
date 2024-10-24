@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Link from "next/link"
@@ -7,8 +9,8 @@ import { MdOutlineManageAccounts } from "react-icons/md"
 
 export const LignOne = () => {
     return (
-        <section className="h-1/4 w-full container bg-gray-200 flex justify-between items-center">
-            <div className="flex items-center gap-x-4 py-4 border-b">
+        <section className="w-full container bg-gray-200 flex justify-between items-center">
+            <div className="flex items-center gap-x-4 border-b">
                 <Select onValueChange={(val)=> val} defaultValue={'en'}>
                     <SelectTrigger className="py-5">
                         <SelectValue placeholder="Select a verified category to display" />
@@ -31,15 +33,15 @@ export const LignOne = () => {
             </div>
             <div className="flex items-center gap-x-4">
                 <Button variant={"default"} asChild>
-                    <Link href="#" className="flex gap-x-4">
-                        <MdOutlineManageAccounts /> <span>My Account</span>
+                    <Link href="#" className="flex gap-x-2">
+                        <MdOutlineManageAccounts className="w-5 h-5" /> <span>My Account</span>
                     </Link>
                 </Button>
                 <Button variant={"outline"} size={"icon"} asChild>
-                    <Link href="/auth/sign-up"><AiOutlineUserAdd /></Link>
+                    <Link href="/auth/sign-up"><AiOutlineUserAdd className="w-5 h-5" /></Link>
                 </Button>
                 <Button variant={"outline"} size={'icon'} asChild>
-                    <Link href="/auth/sign-in"><GoSignIn /></Link>
+                    <Link href="/auth/sign-in"><GoSignIn className="w-5 h-5" /></Link>
                 </Button>
             </div>
         </section>
