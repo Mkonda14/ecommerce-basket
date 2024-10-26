@@ -1,15 +1,14 @@
-import { CheckboxReactHookFormMultiple } from "@/components/design-system/checkbox";
 import { Footer } from "@/components/public/footer";
+import { HeroHome } from "@/components/public/hero-home";
 import { Navbar } from "@/components/public/navbar";
 import { Subscribe } from "@/components/public/subscribe";
-import { SignOutBtn } from "@/components/signOut-btn";
 
 export default function Home() {
   return (
     <div className="">
       <Navbar />
-      <CheckboxReactHookFormMultiple />
-      <SignOutBtn />
+      <HeroHome />
+      
       <Subscribe />
       <Footer />
     </div>

@@ -19,10 +19,11 @@ export const useLocalStorage = (key: string) =>{
     const addBasket = (value: BasketType) => {
         const baskets = getBasket();
         const basketExist = baskets.find(basket => basket.id === value.id);
-        if (basketExist){
+        if (basketExist !== undefined) {
             basketExist.quantity++
         }
         else{
+            value.quantity = 1;
             baskets.push(value);
         }
         saveBasket(baskets);
@@ -36,11 +37,11 @@ export const useLocalStorage = (key: string) =>{
 
     const subtractQuantity = (id: string) => {
         const baskets = getBasket();
-        const subtractQuantity = baskets.map((basket)=>{
-            if(basket.id === id) basket.quantity - 1;
-            return basket;
-        })
-        saveBasket(subtractQuantity);
+        const subtractQuantity = baskets.find((basket)=> basket.id === id);
+        if(subtractQuantity !== undefined && subtractQuantity.quantity > 0) {
+            subtractQuantity.quantity--
+        }
+        saveBasket(baskets);
     }
 
     return {saveBasket, getBasket, addBasket, removeBasket, subtractQuantity}

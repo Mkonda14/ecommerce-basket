@@ -37,8 +37,8 @@ export const CardContact = ({title, children, href="#", type}:CardContactProps) 
 
     return (
         <div className="flex items-center gap-x-4">
-            <div className="w-14 h-14 flex justify-center items-center border-2 border-slate-700">
-                <Icon className="w-8 h-8" />
+            <div className="w-12 h-12 flex justify-center items-center border-2 border-slate-500">
+                <Icon className="w-7 h-7" />
             </div>
             {type === "adresse" ?
                 <Typographie component="p" variant="p" size="md">

@@ -6,14 +6,15 @@ const variants = {
     h3: "font-semibold tracking-normal",
     h4: "font-medium tracking-normal",
     p:  "tracking-tight",
-    blockquote: "mt-6 border-l-2 pl-6 italic"
+    blockquote: "relative mb-2 before:absolute before:left-0 before:top-1/2 before:w-4 before:h-[2px] before:rounded-full before:bg-emerald-500 pl-6 italic",
 }
 
 const sizes = {
     sm: "text-sm font-light leading-tight",
     md: "text-base font-normal leading-normal",
     lg: "text-2xl font-semibold leading-snug",
-    xl: "text-4xl font-extrabold leading-normal",
+    xl: "text-3xl font-extrabold leading-snug",
+    "2xl": "text-5xl font-extrabold leading-tight",
 }
 
 const colors ={

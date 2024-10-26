@@ -32,11 +32,14 @@ const colors = {
 interface IconSocialProps{
     name: keyof typeof icons;
     size?: keyof typeof sizes;
+    isColor?: boolean;
 }
 
-export const IconSocial = ({name, size="md"}: IconSocialProps) => {
+export const IconSocial = ({name, size="md", isColor}: IconSocialProps) => {
     const Icon : IconType = icons[name];
+    const color = isColor ? colors[name] : "text-slate-800";
+    
     return (
-        <Icon className={cn(sizes[size], colors[name])} />
+        <Icon className={cn(sizes[size], color)} />
     )
 }

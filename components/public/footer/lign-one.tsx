@@ -9,10 +9,19 @@ export const LignOne = () => {
     <section className="w-full container bg-gray-200 flex justify-between py-4">
       <section>
         <TitleLink>CONTACT</TitleLink>
-        <div className="space-y-2">
+        <div className="space-y-2 mb-5">
           <CardContact type="adresse" title="adresse">C/ Bumbu, av. KIMAYALA n° 150bis</CardContact>
           <CardContact type="email" title="e-mail" href="">martinkonda14@gmail.com</CardContact>
           <CardContact type="phone" title="phone" href="">+243 89 17 40 689</CardContact>
+        </div>
+
+        <TitleLink>CONNECT US</TitleLink>
+        <div className="flex items-center gap-x-4">
+          <IconSocial size={"lg"} name={"facebook"} />
+          <IconSocial size={"lg"} name={"instagram"} />
+          <IconSocial size={"lg"} name={"snapchat"} />
+          <IconSocial size={"lg"} name={"twitter"} />
+          <IconSocial size={"lg"} name={"whatsapp"} />
         </div>
       </section>
 
@@ -52,13 +61,6 @@ export const LignOne = () => {
           <CardPhotoInsta src={"/assets/imgs/dior.jpg"} href={"#"} />
           <CardPhotoInsta src={"/assets/imgs/givenchy.jpg"} href={"#"} />
         </div>
-        <div className="flex items-center gap-x-4">
-          <IconSocial size={"lg"} name={"facebook"} />
-          <IconSocial size={"lg"} name={"instagram"} />
-          <IconSocial size={"lg"} name={"snapchat"} />
-          <IconSocial size={"lg"} name={"twitter"} />
-          <IconSocial size={"lg"} name={"whatsapp"} />
-      </div>
       </section>
     </section>
   )

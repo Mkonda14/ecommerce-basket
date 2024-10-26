@@ -5,10 +5,9 @@ import { InputSubscribe } from "./subscribe/input-subscribe"
 
 export const Subscribe = () => {
   return (
-    <section className="w-full flex flex-col items-center gap-y-4 bg-slate-100 py-4">
-        <section className="container w-2/5 flex flex-col items-center space-y-4">
-            <Typographie component="h2" variant="h2" size="lg" className="text-center">
-                Subscribe to our newsletter to get updates to our latest collections and updates to our sale
+    <section className="container w-2/4 flex flex-col items-center gap-y-4 bg-slate-100 py-4">
+            <Typographie component="h2" variant="h2" size="xl" className="text-center">
+                Subscribe to our newsletter to get updates to our latest collections
             </Typographie>
 
             <Typographie component="p" variant="p" size="md" className="text-center">
@@ -22,7 +21,6 @@ export const Subscribe = () => {
                     You will  be able to subscribe at any tame Read our Privacy Policy <Link href="#" className="font-bold">here</Link>
                 </Typographie>
             </div>
-        </section>
     </section>
   )
 }
