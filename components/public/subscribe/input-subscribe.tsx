@@ -35,7 +35,7 @@ export const InputSubscribe = () => {
                 className="flex justify-center items-center"
             >
                 <div className="flex justify-between items-center border">
-                    <span><BsSend className="w-5 h-5" /></span>
+                    <span className="p-2"><BsSend className="w-5 h-5" /></span>
 
                     <FormField
                         name="email"
