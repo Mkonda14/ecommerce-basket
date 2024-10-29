@@ -1,6 +1,5 @@
 import * as React from "react"
 
-import { Card, CardContent } from "@/components/ui/card"
 import {
   Carousel,
   CarouselContent,
@@ -8,25 +7,28 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
+import { CardTheme, CardThemeProps } from "./card-theme";
 
-export function CarouselSpacing() {
+interface CarouselTheme{
+  items: CardThemeProps[];
+}
+
+export function CarouselTheme({ items}: CarouselTheme) {
   return (
-    <Carousel className="w-full max-w-sm">
+    <Carousel className="w-full">
       <CarouselContent className="-ml-1">
-        {Array.from({ length: 5 }).map((_, index) => (
-          <CarouselItem key={index} className="pl-1 md:basis-1/2 lg:basis-1/3">
-            <div className="p-1">
-              <Card>
-                <CardContent className="flex aspect-square items-center justify-center p-6">
-                  <span className="text-2xl font-semibold">{index + 1}</span>
-                </CardContent>
-              </Card>
+        {items.map((item, index) => (
+          <CarouselItem key={index} className="pl-1 md:basis-1/3 lg:basis-1/4">
+            <div className="p-2">
+              <CardTheme {...item} />
             </div>
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
+      <div className="absolute -top-6 right-14">
+          <CarouselPrevious variant={"default"} className="rounded-sm" />  
+          <CarouselNext variant={"default"} className="rounded-sm" />
+      </div>
     </Carousel>
   )
 }

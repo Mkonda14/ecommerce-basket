@@ -10,3 +10,11 @@ export function dateFormat(date: Date | string): string {
     dateStyle: "full"
   }).format(new Date(date))
 }
+
+export function milleToK(nbre: number): string {
+  if (nbre > 1000){
+    if(nbre >= 1100) return (nbre / 1000).toFixed(1) + "k";
+    return (nbre / 1000).toFixed(0) + "k";
+  }
+  return nbre.toString();
+}
