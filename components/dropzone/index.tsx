@@ -13,11 +13,14 @@ import { getSignature } from '@/actions/cloudinary/upload';
 import { LoaderSpin } from '../loader-spin';
 
 interface DropzoneProps {
-    onChange: (value: {secure_url: string, public_id: string}[]) => void;
+    onChange: (value: { secure_url: string, public_id: string } | { secure_url: string, public_id: string }[]) => void;
     className?: string;
+    folder?: string;
+    maxFiles?: number;
+
 }
 
-export const Dropzone: React.FC<DropzoneProps> = ({ onChange, className }) => {
+export const Dropzone: React.FC<DropzoneProps> = ({ onChange, className, maxFiles=1, folder="product" }) => {
 
     const [style, setStyle] = useState<string | undefined>(className)
     const [files, setFiles] = useState<File[]>([])
@@ -36,7 +39,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onChange, className }) => {
 
             if (file) {
 
-                const {timestamp, signature} = await getSignature("product");
+                const {timestamp, signature} = await getSignature(folder);
     
                 const formData = new FormData();
     
@@ -44,7 +47,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onChange, className }) => {
                 formData.append('api_key', process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY as string);
                 formData.append('signature', signature);
                 formData.append('timestamp', timestamp.toString());
-                formData.append('folder', 'product');
+                formData.append('folder', folder);
     
                 const endpoint = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_URL as string;
         
@@ -80,6 +83,11 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onChange, className }) => {
             }
         }
 
+        if(folder === "theme")
+        {
+            onChange(imgs[0]);  
+            return;        
+        }        
         onChange(imgs);          
     }
     
@@ -106,6 +114,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({ onChange, className }) => {
             'image/*': []
         },
         maxSize: 1024 * 1000,
+        maxFiles: maxFiles
      });
 
     if(!style){

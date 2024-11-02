@@ -33,7 +33,8 @@ export const saveTheme = async (data: z.infer<typeof ThemeSchema>) => {
     try {
         const theme = await db.theme.create({
             data:{
-                ...verified.data,
+                name: data.name,
+                description: data.description,
                 createdAt: new Date(),
             }
         })

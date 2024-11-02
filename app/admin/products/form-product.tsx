@@ -86,7 +86,7 @@ export const FormProduct = ({productId, product}: FormProductProps) => {
       <Form {...form} >
         <form onSubmit={form.handleSubmit(onSubmit)} id="myForm" className="min-h-[calc(100vh-139px)] flex flex-col justify-between w-full">
           <main className="w-full flex gap-x-4 p-4 pt-0">
-            <section className="w-3/4 space-y-4">
+            <section className="w-2/3 space-y-4">
               {/* section name, mode, description */}
               <SectionOne form={form} />
 
@@ -104,12 +104,12 @@ export const FormProduct = ({productId, product}: FormProductProps) => {
 
             </section>
             {/* --------------------------- */}
-            <section className="w-1/4">
+            <section className="w-1/3">
                 <CardPreviewProduct
                   marque={form.getValues().marque}
                   model={form.getValues().model}
                   description={form.getValues().description}
-                  price={form.getValues().price || "0.00"}
+                  price={parseInt(form.getValues().price) || 0}
                   public_id={form.getValues().images[0]?.public_id || ""}
                 />
             </section>

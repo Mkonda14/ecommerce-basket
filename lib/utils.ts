@@ -18,3 +18,11 @@ export function milleToK(nbre: number): string {
   }
   return nbre.toString();
 }
+
+export function sizes(size: number){
+  const debut = size - 35.5;
+  const usHomme = 3.5 + debut;
+  const usFemme = 5 + debut;
+  const RU = 3 + debut;
+  return {usHomme, usFemme, RU, UE: size};
+}

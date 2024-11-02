@@ -162,6 +162,9 @@ model Theme{
   name String
   description String
 
+  publicId String
+  secureUrl String
+
   popularity Int @default(0)
   sneakers Sneaker[]
 

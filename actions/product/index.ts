@@ -34,6 +34,54 @@ export const getProducts = async () => {
     }
 }
 
+export const getProductCardDerniers = async () => {
+    try {
+        const sneakers = await db.sneaker.findMany({
+            select:{
+                id: true,
+                marque: true,
+                model: true,
+                price: true,
+                isPromo: true,
+                stock: true,
+                promoPrice: true,
+                images:{
+                    select:{
+                        publicId: true,
+                    },
+                    take: 1,
+                },
+                sizes: {
+                    select:{
+                        size: true,
+                        quantity: true,
+                    },
+                },
+                colorSecondaries:{
+                    select:{
+                        color: true,
+                        name: true,
+                    },
+                },
+                tags:{
+                    select:{
+                        name: true
+                    },
+                    take: 3
+                },
+            },
+            take: 8,
+            orderBy: {
+                createdAt: 'desc',
+            },
+
+        });
+        return sneakers;
+    } catch (error) {
+        throw new Error("Error get sneakers to database: " + error)
+    }
+}
+
 export const getProductCard = async (id: string) => {
     try {
         const sneaker = await db.sneaker.findUnique({

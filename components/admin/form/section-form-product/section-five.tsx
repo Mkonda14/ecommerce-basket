@@ -29,6 +29,8 @@ export const SectionFive = ({form}: SectionFiveProps) => {
                     <FormControl>
                     <Dropzone 
                         onChange={field.onChange}
+                        maxFiles={4}
+                        folder="product"
                         className=""
                     />
                     </FormControl>

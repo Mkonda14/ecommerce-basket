@@ -3,7 +3,7 @@
 import { Typographie } from '@/components/typographie'
 import { FormTheme } from '@/app/admin/themes/form-theme'
 
-export default function ThemeAdd() {
+export default async function ThemeAdd() {
 
   return (
     <main className=''>

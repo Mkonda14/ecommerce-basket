@@ -33,6 +33,6 @@ export const LogoSneaker = ({marque, className}: LogoSneakerProps) => {
             break;
     }
     return (
-        <Icon className={cn("h-6 w-6", className)} />
+        <Icon className={cn("h-8 w-8", className)} />
     )
 }
