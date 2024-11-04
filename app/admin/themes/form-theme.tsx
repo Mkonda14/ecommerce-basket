@@ -16,10 +16,13 @@ import RichText from "@/components/rich-text";
 import { useTransition } from 'react';
 import { ToastSave } from '@/hooks/use-toast-save';
 import { updateTheme } from '@/actions/category-attribut/update';
-import { Theme } from "@prisma/client";
+import { CategoryTheme, Theme } from "@prisma/client";
 import { saveTheme } from "@/actions/category-attribut/save";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Dropzone } from "@/components/dropzone";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { getCategoryThemes } from "@/actions/category-attribut";
+import { useQuery } from "@tanstack/react-query";
 
 
 interface FormThemeProps{
@@ -31,6 +34,7 @@ interface FormThemeProps{
 export const FormTheme = ({themeId, theme}: FormThemeProps) => {
 
   const [isLoading, startTransition] = useTransition();
+  const iCategories: CategoryTheme[] = [];
 
   const form = useForm<z.infer<typeof ThemeSchema>>({
     resolver: zodResolver(ThemeSchema),
@@ -39,6 +43,12 @@ export const FormTheme = ({themeId, theme}: FormThemeProps) => {
       description: theme?.description || "",
     },
   });
+
+  const {data: categories} = useQuery<CategoryTheme[]>({
+      queryKey: ['categories'],
+      queryFn: ()=> getCategoryThemes(),
+      initialData: iCategories,
+  })
 
   const onSubmit =  (data: z.infer<typeof ThemeSchema>) => {
     startTransition(async () => {
@@ -96,6 +106,29 @@ export const FormTheme = ({themeId, theme}: FormThemeProps) => {
                     <FormMessage />
                     </FormItem>
                 )}
+                />
+
+              <FormField
+                    name="category"
+                    control={form.control}
+                    render={({field})=>(
+                    <FormItem>
+                        <Label type="question"> Category </Label>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                            <SelectTrigger className="py-5">
+                                <SelectValue placeholder="Select a verified category to display" />
+                            </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                                {categories.map(category =>(
+                                    <SelectItem key={category.id} value={category.id}>{category.globalName}/{category.name}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                        <FormMessage />
+                    </FormItem>
+                    )}
                 />
             
             </SectionForm>

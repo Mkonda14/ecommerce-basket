@@ -1,12 +1,27 @@
+"use client"
+
 import { BsChevronRight } from "react-icons/bs"; 
 import Link from "next/link"
 import { Typographie } from "../typographie"
 import { Button } from "../ui/button"
 import { CarouselTheme } from "./section-themes/carousel-themes"
-import { items } from "./section-themes/items"
+import { getThemeCards } from "@/actions/category-attribut";
+import { CardThemeProps } from "./section-themes/card-theme";
 
+import { useQuery } from "@tanstack/react-query";
 
 export const SectionTheme = () => {
+
+  const iThemes: CardThemeProps[] = [];
+
+  const queryKey = ["themes"];
+  const {data: themes} = useQuery<CardThemeProps[]>({
+    queryKey: queryKey,
+    queryFn: ()=> getThemeCards(),
+    initialData: iThemes,
+  })
+
+  
   return (
     <section className='w-full'>
         <section className="container py-10">
@@ -18,7 +33,8 @@ export const SectionTheme = () => {
             </Button>
          </div>
 
-          <CarouselTheme items={items} />
+          <CarouselTheme themes={themes} />
+
         </section>
     </section>
   )

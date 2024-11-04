@@ -13,8 +13,8 @@ import Select2 from 'react-select';
 
 import { useQuery } from "@tanstack/react-query";
 
-import { getCategories, getTags, getThemes } from "@/actions/category-attribut";
-import { Category, Tag, Theme } from "@prisma/client";
+import { getCategorySneakers, getTagSneakers, getThemes } from "@/actions/category-attribut";
+import { CategorySneaker, TagSneaker, Theme } from "@prisma/client";
 
 interface SectionFourProps{
     form: UseFormReturn<z.infer<typeof ProductSchema>>;
@@ -22,13 +22,13 @@ interface SectionFourProps{
 
 export const SectionFour = ({form}: SectionFourProps) => {
 
-    const iCategories: Category[] = [];
+    const iCategories: CategorySneaker[] = [];
     const iThemes: Theme[] = [];
-    const iTags: Tag[] = [];
+    const iTags: TagSneaker[] = [];
 
-    const {data: categories} = useQuery<Category[]>({
+    const {data: categories} = useQuery<CategorySneaker[]>({
         queryKey: ['categories'],
-        queryFn: ()=> getCategories(),
+        queryFn: ()=> getCategorySneakers(),
         initialData: iCategories,
     })
    
@@ -38,9 +38,9 @@ export const SectionFour = ({form}: SectionFourProps) => {
         initialData: iThemes,
     })
 
-    const {data: tags} = useQuery<Tag[]>({
+    const {data: tags} = useQuery<TagSneaker[]>({
         queryKey: ['tags'],
-        queryFn: ()=> getTags(),
+        queryFn: ()=> getTagSneakers(),
         initialData: iTags,
     })
 

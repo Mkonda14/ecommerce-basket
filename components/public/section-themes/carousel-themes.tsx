@@ -10,14 +10,14 @@ import {
 import { CardTheme, CardThemeProps } from "./card-theme";
 
 interface CarouselTheme{
-  items: CardThemeProps[];
+  themes: CardThemeProps[];
 }
 
-export function CarouselTheme({ items}: CarouselTheme) {
+export function CarouselTheme({ themes}: CarouselTheme) {
   return (
     <Carousel className="w-full">
       <CarouselContent className="-ml-1">
-        {items.map((item, index) => (
+        {themes.map((item, index) => (
           <CarouselItem key={index} className="pl-1 md:basis-1/3 lg:basis-1/4">
             <div className="p-2">
               <CardTheme {...item} />

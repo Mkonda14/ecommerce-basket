@@ -1,13 +1,14 @@
 "use client"
 
+import { BtnAuth } from "@/components/btn-auth"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Link from "next/link"
 import { AiOutlineUserAdd } from "react-icons/ai"
-import { GoSignIn } from "react-icons/go"
 import { MdOutlineManageAccounts } from "react-icons/md"
 
 export const LignOne = () => {
+
     return (
         <section className="w-full container bg-gray-200 flex justify-between items-center">
             <div className="flex items-center gap-x-4 border-b">
@@ -40,9 +41,7 @@ export const LignOne = () => {
                 <Button variant={"outline"} size={"icon"} asChild>
                     <Link href="/auth/sign-up"><AiOutlineUserAdd className="w-5 h-5" /></Link>
                 </Button>
-                <Button variant={"outline"} size={'icon'} asChild>
-                    <Link href="/auth/sign-in"><GoSignIn className="w-5 h-5" /></Link>
-                </Button>
+                <BtnAuth />
             </div>
         </section>
     )

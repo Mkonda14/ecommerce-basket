@@ -51,17 +51,17 @@ export const EntiteTheme = () => {
                                     <SidebarMenuSub>
                                         <SidebarMenuSubItem>
                                                 <SidebarMenuSubButton>
-                                                    <Link href={"#"}>Dashboard</Link>
+                                                    <Link href={"/admin/category-themes/dashboard"}>Dashboard</Link>
                                                 </SidebarMenuSubButton>
                                         </SidebarMenuSubItem>
                                         <SidebarMenuSubItem>
                                                 <SidebarMenuSubButton>
-                                                    <Link href={"#"}>Catégories</Link>
+                                                    <Link href={"/admin/category-themes"}>Catégories</Link>
                                                 </SidebarMenuSubButton>
                                         </SidebarMenuSubItem>
                                         <SidebarMenuSubItem>
                                                 <SidebarMenuSubButton>
-                                                    <Link href={"#"}>Add</Link>
+                                                    <Link href={"/admin/category-themes/add"}>Add</Link>
                                                 </SidebarMenuSubButton>
                                         </SidebarMenuSubItem>
                                     </SidebarMenuSub>

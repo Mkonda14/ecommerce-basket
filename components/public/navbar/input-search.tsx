@@ -10,8 +10,8 @@ import { Form, FormField, FormItem, FormControl } from "@/components/ui/form"
 import { FiSearch } from "react-icons/fi"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useQuery } from "@tanstack/react-query"
-import { Category } from "@prisma/client"
-import { getCategories } from "@/actions/category-attribut"
+import { CategorySneaker } from "@prisma/client"
+import { getCategorySneakers } from "@/actions/category-attribut"
 
 export const InputSearch = () => {
 
@@ -20,7 +20,7 @@ export const InputSearch = () => {
         category: z.string()
     })
 
-    const iCategories: Category[] = [];
+    const iCategories: CategorySneaker[] = [];
 
     const form = useForm<z.infer<typeof SearchSchema>>({
         resolver: zodResolver(SearchSchema),
@@ -30,9 +30,9 @@ export const InputSearch = () => {
         }
     })
 
-    const {data: categories} = useQuery<Category[]>({
-        queryKey: ['categories'],
-        queryFn: ()=> getCategories(),
+    const {data: categories} = useQuery<CategorySneaker[]>({
+        queryKey: ['category-sneakers'],
+        queryFn: ()=> getCategorySneakers(),
         initialData: iCategories,
     })
 

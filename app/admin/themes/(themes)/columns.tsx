@@ -23,6 +23,7 @@ import { InnerHTML } from "@/components/InnerHTML"
 import { dateFormat } from "@/lib/utils"
 import { BiMessageSquareEdit } from "react-icons/bi"
 import Link from "next/link"
+import { CellImg } from "@/components/admin/table/cell-img"
 
 export const columns: ColumnDef<Theme>[] = [
   {
@@ -47,7 +48,17 @@ export const columns: ColumnDef<Theme>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  
+  {
+    accessorKey: "image",
+    header: "Image",
+    cell: ({ row }) => {
+      const image: {publicId: string} = row.getValue("image");
+      
+      return (
+        <CellImg public_id={image.publicId} />
+      )
+    },
+  },
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -74,6 +85,16 @@ export const columns: ColumnDef<Theme>[] = [
     cell: ({ row }) => (
       <InnerHTML text={row.getValue("description")} />
     ),
+  },
+  {
+    accessorKey: "category",
+    header: "Category",
+    cell: ({ row }) => {
+      const category : {name: string, globalName: string} = row.getValue("category");
+      return (
+        <div className="capitalize">{category?.globalName} / {category.name}</div>
+      )
+    },
   },
   {
     accessorKey: "popularity",

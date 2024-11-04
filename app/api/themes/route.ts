@@ -2,7 +2,7 @@
 
 import { NextResponse } from "next/server";
 
-import { getThemes } from "@/actions/category-attribut";
+import { getThemeCards } from "@/actions/category-attribut";
 
 
 export async function GET(req: Request){
@@ -11,7 +11,7 @@ export async function GET(req: Request){
     }
 
     try {
-        const themes = await getThemes();
+        const themes = await getThemeCards();
         return new NextResponse(JSON.stringify(themes), {status: 200});
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {

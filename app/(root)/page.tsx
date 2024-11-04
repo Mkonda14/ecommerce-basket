@@ -1,3 +1,4 @@
+
 import { Footer } from "@/components/public/footer";
 import { HeroHome } from "@/components/public/hero-home";
 import { Navbar } from "@/components/public/navbar";

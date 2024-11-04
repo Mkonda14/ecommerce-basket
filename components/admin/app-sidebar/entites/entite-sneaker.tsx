@@ -53,17 +53,17 @@ export const EntiteSneaker = () => {
                                     <SidebarMenuSub>
                                         <SidebarMenuSubItem>
                                                 <SidebarMenuSubButton asChild>
-                                                    <Link href={"/admin/categories/dashboard"}>Dashboard</Link>
+                                                    <Link href={"/admin/category-sneakers/dashboard"}>Dashboard</Link>
                                                 </SidebarMenuSubButton>
                                         </SidebarMenuSubItem>
                                         <SidebarMenuSubItem>
                                                 <SidebarMenuSubButton asChild>
-                                                    <Link href={"/admin/categories"}>Catégories</Link>
+                                                    <Link href={"/admin/category-sneakers"}>Catégories</Link>
                                                 </SidebarMenuSubButton>
                                         </SidebarMenuSubItem>
                                         <SidebarMenuSubItem>
                                                 <SidebarMenuSubButton asChild>
-                                                    <Link href={"/admin/categories/add"}>Add</Link>
+                                                    <Link href={"/admin/category-sneakers/add"}>Add</Link>
                                                 </SidebarMenuSubButton>
                                         </SidebarMenuSubItem>
                                     </SidebarMenuSub>
@@ -84,17 +84,17 @@ export const EntiteSneaker = () => {
                                     <SidebarMenuSub>
                                         <SidebarMenuSubItem>
                                                 <SidebarMenuSubButton asChild>
-                                                    <Link href={"/admin/tags/dashboard"}>Dashboard</Link>
+                                                    <Link href={"/admin/tag-sneakers/dashboard"}>Dashboard</Link>
                                                 </SidebarMenuSubButton>
                                         </SidebarMenuSubItem>
                                         <SidebarMenuSubItem>
                                                 <SidebarMenuSubButton asChild>
-                                                    <Link href={"/admin/tags"}>Tags</Link>
+                                                    <Link href={"/admin/tag-sneakers"}>Tags</Link>
                                                 </SidebarMenuSubButton>
                                         </SidebarMenuSubItem>
                                         <SidebarMenuSubItem>
                                                 <SidebarMenuSubButton asChild>
-                                                    <Link href={"/admin/tags/add"}>Add</Link>
+                                                    <Link href={"/admin/tag-sneakers/add"}>Add</Link>
                                                 </SidebarMenuSubButton>
                                         </SidebarMenuSubItem>
                                     </SidebarMenuSub>

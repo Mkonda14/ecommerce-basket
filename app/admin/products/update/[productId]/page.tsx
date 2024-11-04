@@ -25,9 +25,9 @@ export default async function ProductUpdate({params}: ProductUpdateProps) {
     return (
         <main className=''>
         <Typographie component={"h1"} variant='h1' size="lg" className='p-4'>Updated category</Typographie>
-        <main className='w-full'>
-                <FormProduct productId={params.productId} product={product} />
-        </main>
+            <main className='w-full'>
+                    <FormProduct productId={params.productId} product={product} />
+            </main>
         </main>
     )
 }

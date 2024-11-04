@@ -46,6 +46,9 @@ model User {
   accounts      Account[]
   profile       Profile?
   role          UserRole @default(USER)
+
+  likeThemes    LikeTheme[]
+  likeSneakers  LikeSneaker[]
   
   @@map("users")
 }
@@ -102,11 +105,13 @@ model Sneaker{
   sizes Size[]
 
   categoryId  String
-  category Category @relation(fields: [categoryId], references: [id])
+  category CategorySneaker @relation(fields: [categoryId], references: [id])
   themes Theme[]
-  tags Tag[]
+  tags TagSneaker[]
 
-  images Image[]
+  likes LikeSneaker[]
+
+  images ImageSneaker[]
   createdAt DateTime
   updatedAt DateTime @updatedAt
 }
@@ -126,7 +131,7 @@ model ColorSecondary{
   sneaker Sneaker @relation(fields:[sneakerId], references: [id])
 }
 
-model Image{
+model ImageSneaker{
   id String @id @default(cuid())
   publicId String
   secureUrl String
@@ -134,7 +139,7 @@ model Image{
   sneaker Sneaker @relation(fields: [sneakerId], references: [id])
 }
 
-model Category{
+model CategorySneaker{
   id String @id @default(cuid())
   name String
   description String
@@ -146,7 +151,7 @@ model Category{
   createdAt DateTime
   updatedAt DateTime @updatedAt
 }
-model Tag{
+model TagSneaker{
   id String @id @default(cuid())
   name String
   description String
@@ -157,17 +162,67 @@ model Tag{
   createdAt DateTime
   updatedAt DateTime @updatedAt
 }
+
+model LikeSneaker{
+  id        String  @id @default(cuid())
+
+  sneakerId String
+  sneaker   Sneaker @relation(fields: [sneakerId], references: [id])
+
+  userId    String
+  user      User @relation(fields: [userId], references: [id])
+}
+
+// ----- Thèmes
+
 model Theme{
   id String @id @default(cuid())
   name String
   description String
 
-  publicId String
-  secureUrl String
+  image ImageTheme?
 
   popularity Int @default(0)
   sneakers Sneaker[]
 
+  categoryId String
+  category CategoryTheme @relation(fields: [categoryId], references: [id])
+  likes LikeTheme[]
+
   createdAt DateTime
   updatedAt DateTime @updatedAt
+}
+
+model ImageTheme{
+  id String @id @default(cuid())
+
+  publicId String
+  secureUrl String
+
+  themeId String @unique
+  theme Theme @relation(fields: [themeId], references: [id])
+}
+
+model CategoryTheme{
+  id String @id @default(cuid())
+  name String
+  globalName String
+  description String
+
+  popularity Int @default(0)
+  theme Theme[]
+
+  createdAt DateTime
+  updatedAt DateTime @updatedAt
+}
+
+model LikeTheme{
+  id String @id @default(cuid())
+
+  themeId String
+  theme Theme @relation(fields: [themeId], references: [id])
+
+  userId String
+  user User @relation(fields: [userId], references: [id])
+
 }

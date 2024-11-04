@@ -14,6 +14,7 @@ import { Button } from "./ui/button";
 
 
 export interface CardProductProps{
+    id?: string;
     marque: string;
     model: string;
     description?: string;
@@ -27,6 +28,7 @@ export interface CardProductProps{
 }
 
 export const CardProduct = ({
+        id,
         marque, 
         model, 
         price, 
@@ -46,7 +48,7 @@ export const CardProduct = ({
 
     return (     
         <article className={`${isPreview ? "w-[245px] h-[400px]" : "w-[350px]"} shadow-sm rounded-md relative`}>    
-            <BtnLike />
+            <BtnLike sneakerId={id}  />
             <Link href={"#"}>
                 <figure className="relative">
                     <div className="w-full absolute z-10">
@@ -63,7 +65,7 @@ export const CardProduct = ({
                     </div>
                 </figure>
                 <div className="p-2 bg-white">
-                    <div className="flex gap-x-4">
+                    <div className="flex gap-x-2">
                         {isPreview ? (
                             <>
                                 <Typographie component="h3" variant="p">{model || "AIR STRUCTURE"}</Typographie>

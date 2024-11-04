@@ -38,7 +38,7 @@ export const ProductSchema = z.object({
     })),
 
     images: z.array(z.object({
-        secure_url: z.string(),
-        public_id: z.string()
+        secure_url: z.string().default(""),
+        public_id: z.string().default("")
     })),
 })

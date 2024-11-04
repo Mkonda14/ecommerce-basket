@@ -2,75 +2,102 @@
 
 import {z} from "zod"
 
-import { CategorySchema, TagSchema, ThemeSchema } from "@/models/category-attributs";
+import { CategorySneakerSchema, TagSneakerSchema, CategoryThemeSchema, ThemeSchema } from "@/models/category-attributs";
 import { db } from "@/lib/db";
-import { getCategoryById, getTagById, getThemeById } from ".";
+import { getCategorySneakerById, getTagSneakerById, getCategoryThemeById, getThemeById } from ".";
 
-export const updateCategory = async (id: string, data: z.infer<typeof CategorySchema>) => {
-    const verified = CategorySchema.safeParse(data);
+export const updateCategorySneaker = async (id: string, data: z.infer<typeof CategorySneakerSchema>) => {
+    const verified = CategorySneakerSchema.safeParse(data);
 
-    if(!verified.success) return { type: "error", message:"Category schema validation failed"}
+    if(!verified.success) return { type: "error", message:"Category sneaker schema validation failed"}
 
-    const categoryExists = await getCategoryById(id);
+    const categoryExists = await getCategorySneakerById(id);
 
-    if (!categoryExists) return { type: "error", message: "Category not found" }
+    if (!categoryExists) return { type: "error", message: "Category sneaker not found" }
 
     try {
-        const category = await db.category.update({
+        const category = await db.categorySneaker.update({
             where: { id },
             data:{
                 ...verified.data,
             }
         })
-        return { type: "success", message: `Category : ${category.name} updated successfully` }
+        return { type: "success", message: `Category sneaker : ${category.name} updated successfully` }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-        return { type: "error", message: `Category schema validation failed error: ${error.message}` };
+        return { type: "error", message: `Category sneaker schema validation failed error: ${error.message}` };
     }
 };
 
-export const updateTag = async (id: string, data: z.infer<typeof TagSchema>) => {
-    const verified = TagSchema.safeParse(data);
+export const updateTagSneaker = async (id: string, data: z.infer<typeof TagSneakerSchema>) => {
+    const verified = TagSneakerSchema.safeParse(data);
 
-    if(!verified.success) return { type: "error", message:"Tag schema validation failed"}
+    if(!verified.success) return { type: "error", message:"Tag sneaker schema validation failed"}
 
-    const tagExists = await getTagById(id);
+    const tagExists = await getTagSneakerById(id);
 
-    if (!tagExists) return { type: "error", message: "Tag not found" }
+    if (!tagExists) return { type: "error", message: "Tag sneaker not found" }
 
     try {
-        const tag = await db.tag.update({
+        const tag = await db.tagSneaker.update({
             where: { id },
             data:{
                 ...verified.data,
             }
         })
-        return { type: "success", message: `Tag : ${tag.name} updated successfully` }
+        return { type: "success", message: `Tag sneaker : ${tag.name} updated successfully` }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
-        return { type: "error", message: `Tag schema validation failed error: ${error.message}` };
+        return { type: "error", message: `Tag sneaker schema validation failed error: ${error.message}` };
     }
 };
+
+// ---- Thème
 
 export const updateTheme = async (id: string, data: z.infer<typeof ThemeSchema>) => {
     const verified = ThemeSchema.safeParse(data);
 
-    if(!verified.success) return { type: "error", message:"Theme schema validation failed"}
+    if(!verified.success) return { type: "error", message:"Thème schema validation failed"}
 
     const themeExists = await getThemeById(id);
 
-    if (!themeExists) return { type: "error", message: "Theme not found" }
+    if (!themeExists) return { type: "error", message: "Thème not found" }
 
     try {
         const theme = await db.theme.update({
             where: { id },
             data:{
-                ...verified.data,
+                name: data.name,
+                description: data.description,
+                categoryId: data.category,
             }
         })
         return { type: "success", message: `Thème : ${theme.name} updated successfully` }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
         return { type: "error", message: `Thème schema validation failed error: ${error.message}` };
+    }
+};
+
+export const updateCategoryTheme = async (id: string, data: z.infer<typeof CategoryThemeSchema>) => {
+    const verified = CategoryThemeSchema.safeParse(data);
+
+    if(!verified.success) return { type: "error", message:"Category thème schema validation failed"}
+
+    const categoryExists = await getCategoryThemeById(id);
+
+    if (!categoryExists) return { type: "error", message: "Category thème not found" }
+
+    try {
+        const category = await db.categoryTheme.update({
+            where: { id },
+            data:{
+                ...verified.data,
+            }
+        })
+        return { type: "success", message: `Category thème : ${category.name} updated successfully` }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+        return { type: "error", message: `Category thème schema validation failed error: ${error.message}` };
     }
 };
