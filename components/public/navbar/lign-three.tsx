@@ -16,11 +16,11 @@ export const LignThree = () => {
     <section className="w-full container bg-gray-200 flex justify-between items-center">
         <div className="flex justify-between items-center gap-x-8">
           <div className="flex items-center gap-x-4">
-            <Button variant={"default"} asChild>
+            <Button variant={linkCurrent === "/" ? "default": 'ghost'} asChild>
               <Link href="/">HOME</Link>
             </Button>
-            <Button variant={"ghost"} asChild>
-              <Link href="#">SHOP</Link>
+            <Button variant={linkCurrent === "/shop" ? "default": 'ghost'} asChild>
+              <Link href="/shop">SHOP</Link>
             </Button>
 
             <LinkTag tagName="NEW" isActive={linkCurrent === ""} tagColor="emerald" >NEW SNEAKER</LinkTag>

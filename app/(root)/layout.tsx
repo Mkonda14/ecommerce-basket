@@ -1,23 +1,24 @@
-"use client"
+"use client";
 
-import React from 'react'
+import React from 'react';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Navbar } from '@/components/public/navbar';
+import { Subscribe } from '@/components/public/subscribe';
+import { Footer } from '@/components/public/footer';
 
-import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
-import { SessionProvider } from 'next-auth/react';
-
-interface Props{
+interface Props {
     children: React.ReactNode;
 }
 
-export default function LayoutAdmin({children}: Props) {
+export default function LayoutClient({ children }: Props) {
+    const queryClient = new QueryClient();
 
-  const queryClient = new QueryClient();
-
-  return (
-    <SessionProvider>
-      <QueryClientProvider client={queryClient}>
-        {children}
-      </QueryClientProvider>
-    </SessionProvider>
-  )
+    return (
+        <QueryClientProvider client={queryClient}>
+            <Navbar />
+                {children}
+            <Subscribe />
+            <Footer />
+        </QueryClientProvider>
+    );
 }

@@ -1,12 +1,13 @@
 "use client"
 
 import { getProductCardDerniers } from "@/actions/product";
-import { CardProduct } from "../card-product"
-import { Typographie } from "../typographie"
-import { Button } from "../ui/button";
+import { CardProduct } from "../../card-product"
+import { Typographie } from "../../typographie"
+import { Button } from "../../ui/button";
 import Link from "next/link";
 
 import { useQuery } from "@tanstack/react-query";
+import { BsChevronRight } from "react-icons/bs";
 
 
 interface ISneaker {
@@ -46,9 +47,9 @@ export const  DernierCreations = () => {
     })
 
     return (
-        <section className="container px-2">
+        <section className="container px-2 mt-8">
             <Typographie component="h3" variant="h3" size="lg">Nos derniers créations</Typographie>
-            <section className="w-full grid grid-cols-4 gap-40 py-6">
+            <section className="w-full grid grid-cols-4 gap-4 py-6">
                 {sneakers.map(({id, model, marque, price, images, sizes, colorSecondaries, isPromo, promoPrice, tags})=>(
                     <CardProduct 
                         key={id} 
@@ -66,8 +67,8 @@ export const  DernierCreations = () => {
                 ))}
             </section>
             <div className="w-full flex justify-end">
-                <Button variant={"link"} asChild>
-                    <Link className="text-xl text-emerald-500" href={"#"}>Load more</Link>
+                <Button variant={"link"} className="font-bold text-xl text-emerald-500 p-0" asChild>
+                    <Link className="flex items-center gap-x-4" href="#"><span>Browse all presentations</span> <BsChevronRight className="w-5 h-4 mt-1" /> </Link>
                 </Button>
             </div>
         </section>

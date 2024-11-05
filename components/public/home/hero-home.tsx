@@ -1,5 +1,5 @@
-import { SectionLeft } from "./heros/home/section-left"
-import { SectionRigth } from "./heros/home/section-rigth"
+import { SectionLeft } from "../heros/home/section-left"
+import { SectionRigth } from "../heros/home/section-rigth"
 
 
 

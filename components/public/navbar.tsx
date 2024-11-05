@@ -4,7 +4,7 @@ import { LignTwo } from "./navbar/lign-two"
 
 export const Navbar = () => {
   return (
-    <nav className="w-full bg-slate-100">
+    <nav className="w-full bg-gray-100">
        <LignOne />
        <LignTwo />
        <LignThree />

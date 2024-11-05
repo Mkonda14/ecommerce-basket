@@ -6,7 +6,7 @@ import { IconSocial } from "@/components/icon-social"
 
 export const LignOne = () => {
   return (
-    <section className="w-full container bg-gray-200 flex justify-between py-4">
+    <section className="w-full container bg-gray-100 flex justify-between py-4">
       <section>
         <TitleLink>CONTACT</TitleLink>
         <div className="space-y-2 mb-5">

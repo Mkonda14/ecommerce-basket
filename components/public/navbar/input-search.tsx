@@ -52,10 +52,10 @@ export const InputSearch = () => {
                             name="category"
                             control={form.control}
                             render={({field})=>(
-                            <FormItem className={"bg-slate-100"}>
+                            <FormItem className={""}>
                                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                                     <FormControl>
-                                        <SelectTrigger className="">
+                                        <SelectTrigger className="rounded-none border-none border-r">
                                             <SelectValue placeholder="All categories" />
                                         </SelectTrigger>
                                     </FormControl>

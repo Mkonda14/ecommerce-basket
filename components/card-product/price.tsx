@@ -9,7 +9,7 @@ interface PriceProps{
 export const Price = ({price, promoPrice, isPromo}: PriceProps) => {
    
     return (
-        <Button className="absolute top-1/2 -translate-y-1/2 -right-8 space-x-2 text-lg p-6">
+        <Button className="absolute top-1/2 -translate-y-1/2 -right-4 space-x-2 text-lg p-6">
             <span className="font-light">$</span>
             {isPromo && promoPrice ? (
                 <>

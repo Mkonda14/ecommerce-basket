@@ -17,7 +17,7 @@ export const ThemeImg = ({className, public_id, alt="Description du produit"}:Ca
     return (
         <div className={`relative h-40 rounded-lg`}>
             {isLoading &&
-                <Skeleton className="absolute top-0 left-0 w-full h-full z-10 rounded-lg" />
+                <Skeleton className="absolute top-0 left-0 w-full h-full z-10 rounded-md" />
             }
             <CldImage
                 alt={alt} 
@@ -26,7 +26,7 @@ export const ThemeImg = ({className, public_id, alt="Description du produit"}:Ca
                 src={public_id}
                 sizes="10vw"
                 onLoad={() => setIsLoading(false)}
-                className={cn("w-full h-full object-cover rounded-lg", className)} 
+                className={cn("w-full h-full object-cover rounded-md", className)} 
             />
         </div>
     )

@@ -26,7 +26,7 @@ export const CardImg = ({className, public_id, alt="Description du produit", isP
                 src={public_id}
                 sizes="10vw"
                 onLoad={() => setIsLoading(false)}
-                className={cn("w-full h-full object-cover", className)} 
+                className={cn("w-full h-full object-cover rounded-md", className)} 
             />
         </div>
     )

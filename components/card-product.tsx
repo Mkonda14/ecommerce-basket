@@ -47,7 +47,7 @@ export const CardProduct = ({
     }
 
     return (     
-        <article className={`${isPreview ? "w-[245px] h-[400px]" : "w-[350px]"} shadow-sm rounded-md relative`}>    
+        <article className={`${isPreview ? "w-[245px] h-[400px]" : "w-full"} shadow-sm rounded-md relative`}>    
             <BtnLike sneakerId={id}  />
             <Link href={"#"}>
                 <figure className="relative">
@@ -69,13 +69,11 @@ export const CardProduct = ({
                         {isPreview ? (
                             <>
                                 <Typographie component="h3" variant="p">{model || "AIR STRUCTURE"}</Typographie>
-                                <Typographie component="h3" variant="p" className="font-semibold">19</Typographie>
                                 <Badge className="rounded-sm py-0 text-xs">new</Badge>
                             </>
                         ) : (
                             <>
                                 <Typographie component="h3" variant="h3" size="lg" className="capitalize">{model || "AIR STRUCTURE"}</Typographie>
-                                <Typographie component="h3" variant="h3" size="lg" className="font-semibold text-emerald-500">19</Typographie>
                                 {tags?.find(tag => tag.name.toLowerCase() === "new") && <Badge className="rounded-sm py-0 text-sm uppercase">new</Badge>}
                             </>
                         )}

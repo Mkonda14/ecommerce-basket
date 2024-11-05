@@ -8,7 +8,7 @@ import { StatistiqueTheme } from "./statisique-theme";
 
 export const SectionLeft = () => {
   return (
-    <section className="w-1/2">
+    <section className="w-1/2 flex flex-col justify-between items-start">
         <Typographie component="blockquote" variant="blockquote" size="md" className="">
             Les sneakers pas comme les autres
         </Typographie>
@@ -21,10 +21,15 @@ export const SectionLeft = () => {
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vitae asperiores non autem facere! Delectus qui eius quasi provident quaerat placeat, molestias accusamus impedit. Libero corporis tempore possimus in, officiis veritatis!
         </Typographie>
 
-        <Button className="flex gap-x-2 capitalize text-xl p-6">
-          <span>thèmes new</span> 
-          <BiRightArrowAlt className="w-8 h-8" /> 
-        </Button>
+        <div className="flex gap-x-4">
+          <Button variant={"outline"} className="flex gap-x-2 capitalize text-xl p-6">
+            <span>Promotion</span> 
+          </Button>
+          <Button className="flex gap-x-2 capitalize text-xl p-6">
+            <span>thèmes new</span> 
+            <BiRightArrowAlt className="w-8 h-8" /> 
+          </Button>
+        </div>
 
         <StatistiqueTheme />
     </section>

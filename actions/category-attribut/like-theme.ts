@@ -5,26 +5,26 @@ import { currentUser } from "../auth";
 import { db } from "@/lib/db";
 
 
-export const getLike = async (sneakerId: string, userId: string)=>{
-    return await db.likeSneaker.findFirst({
+export const getLike = async (themeId: string, userId: string)=>{
+    return await db.likeTheme.findFirst({
         where: {
-            sneakerId: sneakerId,
+            themeId: themeId,
             userId: userId
         }
     })
 }
 
-export const likedSneaker = async (sneakerId?: string)=>{
-    if(!sneakerId) return false;
+export const likedTheme = async (themeId?: string)=>{
+    if(!themeId) return false;
 
     const user = await currentUser();
 
     if(!user || !user?.id) return redirect("/auth/sign-in");
 
-    const like = await getLike(sneakerId, user.id);
+    const like = await getLike(themeId, user.id);
 
     if(like){
-        await db.likeSneaker.delete({
+        await db.likeTheme.delete({
             where: {
                 id: like.id,
             }
@@ -32,9 +32,9 @@ export const likedSneaker = async (sneakerId?: string)=>{
         return false;
     }else{
         try {
-            await db.likeSneaker.create({
+            await db.likeTheme.create({
                 data: {
-                    sneakerId: sneakerId,
+                    themeId: themeId,
                     userId: user.id,
                 }
             })
@@ -46,14 +46,14 @@ export const likedSneaker = async (sneakerId?: string)=>{
     }
 }
 
-export const isLikeSneaker = async (sneakerId?: string): Promise<boolean> =>{
-    if(!sneakerId) return false;
+export const isLikeTheme = async (themeId?: string): Promise<boolean> =>{
+    if(!themeId) return false;
 
     const user = await currentUser();
 
     if(!user || !user?.id) return false;
 
-    const like = await getLike(sneakerId, user.id);
+    const like = await getLike(themeId, user.id);
 
     if(!like) return false;
 

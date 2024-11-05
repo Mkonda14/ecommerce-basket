@@ -68,12 +68,17 @@ export const getThemeCards = async () => {
                     publicId: true,
                 },
             },
+            _count: {
+                select: {
+                    likes: true,
+                },
+            },
             category: {
                 select: {
                     name: true,
                     globalName: true,
                 },
-            }
+            },      
         }
        }) 
     } catch (error) {
