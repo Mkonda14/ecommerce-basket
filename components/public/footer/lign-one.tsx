@@ -1,5 +1,5 @@
 import { CardContact } from "./card-contact"
-import { TitleLink } from "./title-link"
+import { TitleLink } from "../title-link"
 import Link from "next/link"
 import { CardPhotoInsta } from "./card-photo-insta"
 import { IconSocial } from "@/components/icon-social"
