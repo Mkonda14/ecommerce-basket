@@ -8,9 +8,10 @@ interface CheckboxLabelProps{
     value: string;
     onChange: Dispatch<SetStateAction<string[]>>;
     values?: string[];
+    updated: (value: string[]) => void;
 }
 
-export const CheckboxLabel = ({label, value, onChange, values=[]}: CheckboxLabelProps) => {
+export const CheckboxLabel = ({label, value, onChange, values=[], updated}: CheckboxLabelProps) => {
     return (
         <label htmlFor={value} className='flex items-center gap-x-4 text-base cursor-pointer'>
             <Checkbox
@@ -18,12 +19,16 @@ export const CheckboxLabel = ({label, value, onChange, values=[]}: CheckboxLabel
                 id={value}
                 onCheckedChange={(checked) => {
                     return checked
-                    ? onChange([...values, value])  
-                    : onChange(
-                        values.filter(
-                            (val) => val !== value
-                        )
-                    )
+                    ? onChange((state)=> {
+                        const values = [...state, value];
+                        updated(values);
+                        return values;
+                    } )  
+                    : onChange((state)=> {
+                        const values = state.filter((val) => val !== value);
+                        updated(values);
+                        return values;
+                    })
                 }}
             />
             <span>{label}</span>

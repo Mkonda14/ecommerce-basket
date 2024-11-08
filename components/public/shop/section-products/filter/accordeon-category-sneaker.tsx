@@ -3,13 +3,14 @@
 import { ItemAccordeon } from "./item-accordeon"
 import { CheckboxLabel } from "./checkbox-label"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { CategorySneaker } from "@prisma/client"
 import { getCategorySneakers } from "@/actions/category-attribut"
+import { useFilters } from "@/hooks/use-store"
 
 
-export const AccordeonCategory = () => {
+export const AccordeonCategorySneaker = () => {
     const [categories, setCategories] = useState<string[]>([]);
     const queryKey = ["category-sneakers"]
 
@@ -17,10 +18,19 @@ export const AccordeonCategory = () => {
         queryKey: queryKey,
         queryFn: ()=> getCategorySneakers(),
     })
+
+    const updatedCategories =  useFilters((state)=> state.updatedCategorySneakers);
+
+    useEffect(()=>{
+       (async()=>{
+            console.log(categories);
+       })()     
+    }, [categories]);
+
     return (
         <ItemAccordeon
             idx={1}
-            label="Categories"
+            label="Category sneakers"
         >
             {dbCategories?.map(({id, name}) => (
                 <CheckboxLabel
@@ -29,6 +39,7 @@ export const AccordeonCategory = () => {
                     label={name}
                     onChange={setCategories}
                     values={categories}
+                    updated={updatedCategories}
                 />
             ))}
         </ItemAccordeon>

@@ -173,3 +173,23 @@ export const getProductById = async (id: string) => {
         throw new Error("Error get sneaker to database: " + error)
     }
 }
+
+export const getColorPrimaries = async () => {
+    try {
+        const colors = await db.sneaker.findMany({
+            select: {
+                colorPrimary: true,
+                colorPrimaryName: true,
+            },
+        })
+        const exists: string[] = [];
+        return colors.map(({colorPrimary, colorPrimaryName})=> {
+            if(!exists.includes(colorPrimaryName)){
+                exists.push(colorPrimaryName);
+                return {name: colorPrimaryName, code: colorPrimary}
+            }
+        })
+    } catch (error) {
+        throw new Error("Error get sneaker colors primary to database: " + error)
+    }
+}

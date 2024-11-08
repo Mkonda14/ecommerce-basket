@@ -26,3 +26,11 @@ export function sizes(size: number){
   const RU = 3 + debut;
   return {usHomme, usFemme, RU, UE: size};
 }
+
+export function intensiteColor(color = "#000"): boolean {
+  const hexadecimal = color.replace("#", "");
+  const value = parseInt(hexadecimal, 16);
+  const max = parseInt("ffffff", 16);
+
+  return value > (max * 0.6);
+}

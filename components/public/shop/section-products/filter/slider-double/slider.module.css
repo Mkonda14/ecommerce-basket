@@ -1,0 +1,55 @@
+
+.cntRangeText{
+    width: 100%;
+}
+
+.cntRangeText :where(.cntRange, .cntText){
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cntRangeText .cntRange{
+    position: relative;
+}
+
+.cntRangeText .cntRange input[type="range"]{
+    all: unset;
+    position: relative;
+    width: 50%;
+}
+
+.cntRangeText .cntRange input[type="range"]::-webkit-slider-thumb{
+    appearance: none;
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+    background-color: #10b981;
+    border: 2px solid #ffffff;
+    cursor: pointer;
+    box-shadow: 5px 3px 2px 0px rgba(0, 0, 0, 0.25);
+}
+.cntRangeText .cntRange input[type="range"]:last-child::-webkit-slider-thumb{
+    background-color: #10b981;
+}
+
+.cntRangeText .cntRange :where(.barSlider, .slider){
+    position: absolute;
+    z-index: 0;
+    top: 50%;
+    height: .4rem;
+    border-radius: .5rem;
+    transform: translateY(-50%);
+}
+
+.cntRangeText .cntRange .barSlider{
+    left: 0%;
+    right: 0%;
+    background-color: #0f172a28;
+}
+.cntRangeText .cntRange .slider{
+    left: 0%;
+    right: 0%;
+    background-color: #0F172A;
+}
+/* ------------ */

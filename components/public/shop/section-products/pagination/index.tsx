@@ -1,9 +1,15 @@
-import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination"
-
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 export const Paginations = () => {
     return (
-        <Pagination >
+        <Pagination>
             <PaginationContent>
                 <PaginationItem>
                     <PaginationPrevious href="#" />
@@ -18,12 +24,9 @@ export const Paginations = () => {
                     <PaginationLink href="#">3</PaginationLink>
                 </PaginationItem>
                 <PaginationItem>
-                    <PaginationEllipsis />
-                </PaginationItem>
-                <PaginationItem>
                     <PaginationNext href="#" />
                 </PaginationItem>
             </PaginationContent>
-        </Pagination>
-    )
-}
+            </Pagination>
+    );
+};
