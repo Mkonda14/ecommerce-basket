@@ -5,6 +5,7 @@ import { BsTwitter } from "react-icons/bs";
 import { FaFacebook } from "react-icons/fa"; 
 import { IconType } from "react-icons/lib";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 const icons = {
     facebook: FaFacebook,
@@ -29,6 +30,14 @@ const colors = {
     whatsapp: "text-[#25D366]",
 }
 
+const urls = {
+    facebook: "#",
+    twitter: "#",
+    instagram: "#",
+    snapchat: "#",
+    whatsapp: "#",
+}
+
 interface IconSocialProps{
     name: keyof typeof icons;
     size?: keyof typeof sizes;
@@ -40,6 +49,8 @@ export const IconSocial = ({name, size="md", isColor}: IconSocialProps) => {
     const color = isColor ? colors[name] : "text-slate-800";
     
     return (
-        <Icon className={cn(sizes[size], color)} />
+        <Link href={urls[name]}>
+            <Icon className={cn(sizes[size], color)} />
+        </Link>
     )
 }

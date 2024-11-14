@@ -127,7 +127,7 @@ export const columns: ColumnDef<CategorySneaker>[] = [
             <DropdownMenuSeparator />
             <DropdownMenuItem>View customer</DropdownMenuItem>
             <DropdownMenuItem>View category details</DropdownMenuItem>
-            <DropdownMenuItem><Link className="flex items-center gap-x-4" href={`/admin/categories/update/${category.id}`}> <BiMessageSquareEdit className="w-4 h-4" /> <span>Updated</span> </Link> </DropdownMenuItem>
+            <DropdownMenuItem><Link className="flex items-center gap-x-4" href={`/admin/category-sneakers/update/${category.id}`}> <BiMessageSquareEdit className="w-4 h-4" /> <span>Updated</span> </Link> </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

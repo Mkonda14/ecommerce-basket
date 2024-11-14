@@ -3,7 +3,7 @@
 import { ItemAccordeon } from "./item-accordeon"
 import { CheckboxLabel } from "./checkbox-label"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { CategoryTheme } from "@prisma/client"
 import { getCategoryThemes } from "@/actions/category-attribut"
@@ -20,12 +20,6 @@ export const AccordeonCategoryTheme = () => {
     })
 
     const updatedCategories =  useFilters((state)=> state.updatedCategoryThemes);
-
-    useEffect(()=>{
-       (async()=>{
-            console.log(categories);
-       })()     
-    }, [categories]);
 
     return (
         <ItemAccordeon

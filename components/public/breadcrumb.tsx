@@ -12,7 +12,11 @@ import {
 } from "@/components/ui/breadcrumb"
 import { usePathname } from "next/navigation"
 
-export function BreadcrumbWithCustom() {
+interface BreadcrumbWithCustomProps{
+    label?: string
+}
+
+export function BreadcrumbWithCustom({label}: BreadcrumbWithCustomProps) {
     const paths = usePathname().split('/');
     const links = paths.map((path, idx) => {
         return {link: paths.slice(0, idx + 1).join("/") || "/", label: path || "Home"};
@@ -33,7 +37,7 @@ export function BreadcrumbWithCustom() {
                 </>
             ))}
             <BreadcrumbItem>
-                <BreadcrumbPage className="font-bold">{end}</BreadcrumbPage>
+                <BreadcrumbPage className="font-bold">{label || end}</BreadcrumbPage>
             </BreadcrumbItem>
         </BreadcrumbList>
         </Breadcrumb>

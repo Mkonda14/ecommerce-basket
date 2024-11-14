@@ -3,23 +3,45 @@
 import { db } from "@/lib/db"
 
 
-type TFilter = {
-    categorySneakers: string[],
-    categoryThemes: string[],
+export type TFilter = {
+    categorySneakers?: string[],
+    categoryThemes?: string[],
+    tagSneakers?: string[],
+    sizes?: number[],
+    colors?: string[],
+    price?: {min: number, max: number},
+    sorts?: {alphabet: "asc" | "desc", price: "asc" | "desc"},
+    page?: number,
 }
 
-export const filterSneaker = (data: TFilter) => {
+export const filterSneaker = async (data: TFilter) => {
+    const {
+        categorySneakers = [],
+        categoryThemes = [],
+        tagSneakers = [],
+        sizes = [],
+        colors = [],
+        price = undefined,
+        page = 1,
+        sorts = { alphabet: "asc", price: "asc" },
+    } = data;
+
+    const conditions = {AND: [
+        categorySneakers.length > 0 ? { category: { id: { in: categorySneakers } } } : {},
+        categoryThemes.length > 0 ? { themes: { some: { category: { id: { in: categoryThemes } } } } } : {},
+        tagSneakers.length > 0 ? { tags: { some: { id: { in: tagSneakers } } } } : {},
+        sizes.length > 0 ? { sizes: { some: { size: { in: sizes } } } } : {},
+        colors.length > 0 ? { colorPrimaryName: { in: colors } } : {},
+        price ? { price: { gte: price.min, lte: price.max } } : {},
+    ]}
 
     try {
-        return db.sneaker.findMany({
-            where: {
-                category: {
-                    id: {
-                        in: data.categorySneakers
-                    }
-                },
-            },
-
+        const sneakers = await db.sneaker.findMany({
+            where: conditions,
+            
+            skip: (page - 1) * 12,
+            take: 12,
+            
             select:{
                 id: true,
                 marque: true,
@@ -53,7 +75,18 @@ export const filterSneaker = (data: TFilter) => {
                     take: 3
                 },
             },
+
+            orderBy: [
+                {price: sorts?.price || "asc",},
+                {marque: sorts?.alphabet || "asc",}
+            ],
         })
+
+        const total = await db.sneaker.count({
+            where: conditions
+        });
+        
+        return {sneakers, total};
     } catch (error) {
         console.error(error);
     }

@@ -2,7 +2,7 @@
 
 import { ItemAccordeon } from "./item-accordeon"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { TagSneaker } from "@prisma/client"
 import { getTagSneakers } from "@/actions/category-attribut"
@@ -20,12 +20,6 @@ export const AccordeonTag = () => {
     })
 
     const updatedTags =  useFilters((state)=> state.updatedTagSneakers);
-
-    useEffect(()=>{
-       (async()=>{
-            console.log(tags);
-       })()     
-    }, [tags]);
 
     return (
         <ItemAccordeon

@@ -7,7 +7,7 @@ interface CellImgProps{
 
 export const CellImg = ({public_id}:CellImgProps) => {
   return (
-    <div className="w-10 h-8 rounded-full bg-slate-300">
+    <div className="w-10 h-8 bg-slate-300">
         <CldImage
             width={40}
             height={32}

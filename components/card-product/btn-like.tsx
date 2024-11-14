@@ -1,17 +1,20 @@
 "use client";
 
 import { Button } from "../ui/button";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { isLikeSneaker, likedSneaker } from "@/actions/product/like";
 
 import { AiFillHeart } from "react-icons/ai"; 
 import { AiOutlineHeart } from "react-icons/ai";
+import { cn } from "@/lib/utils";
 
 interface BtnLikeProps{
     sneakerId?: string;
+    isFloat?: boolean;
+    onChange?: Dispatch<SetStateAction<number>>;
 }
 
-export const BtnLike = ({sneakerId}: BtnLikeProps) => {
+export const BtnLike = ({sneakerId, isFloat=true, onChange}: BtnLikeProps) => {
 
   const [like, setLike] = useState<boolean>(false);
 
@@ -20,11 +23,12 @@ export const BtnLike = ({sneakerId}: BtnLikeProps) => {
       const res = await isLikeSneaker(sneakerId);
       setLike(res);     
     })()
-  }, [sneakerId])
+  }, [sneakerId, onChange])
 
   const onLike = () => {
     likedSneaker(sneakerId).then((res) => {
       setLike(res);
+      if(onChange) onChange((state)=> res ? state + 1 : state - 1);
     });
   };
   
@@ -32,7 +36,7 @@ export const BtnLike = ({sneakerId}: BtnLikeProps) => {
       <Button
         variant={"outline"}
         size={"icon"}
-        className="border-none shadow-none absolute top-1 right-2 z-20"
+        className={cn("border-none shadow-none", isFloat && "absolute top-1 right-2 z-20" )}
         type="button"
         onClick={onLike}
       >

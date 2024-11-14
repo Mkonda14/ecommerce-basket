@@ -34,7 +34,7 @@ export const Sorts = () => {
                 updatedSorts({price: res, alphabet: sort.alphabet})
             }}>
                 <span>Price</span>
-                {sort.alphabet === "asc" ? 
+                {sort.price === "asc" ? 
                     (<BsSortNumericDownAlt />) : (<BsSortNumericUpAlt />)
                 }
             </Button>

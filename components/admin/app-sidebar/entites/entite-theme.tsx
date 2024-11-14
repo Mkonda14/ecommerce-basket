@@ -27,7 +27,7 @@ export const EntiteTheme = () => {
                         </SidebarMenuSubItem>
                         <SidebarMenuSubItem>
                                 <SidebarMenuSubButton>
-                                    <Link href={"/admin/themes"}>Products</Link>
+                                    <Link href={"/admin/themes"}>Thèmes</Link>
                                 </SidebarMenuSubButton>
                         </SidebarMenuSubItem>
                         <SidebarMenuSubItem>

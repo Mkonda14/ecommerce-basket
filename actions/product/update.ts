@@ -28,7 +28,6 @@ export const updateProduct = async (id: string, data: z.infer<typeof ProductSche
     stock,
     colors,
     sizes,
-    images,
   } = verified.data;
 
   const { primary, secondary } = colors;
@@ -74,13 +73,6 @@ export const updateProduct = async (id: string, data: z.infer<typeof ProductSche
         tags: {
           connect: tags.map((tag) => ({
             id: tag.value,
-          })),
-        },
-        images: {
-          deleteMany: {},
-          create: images.map((image) => ({
-            secureUrl: image.secure_url,
-            publicId: image.public_id,
           })),
         },
         updatedAt: new Date(),

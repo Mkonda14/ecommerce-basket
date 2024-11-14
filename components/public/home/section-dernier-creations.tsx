@@ -10,7 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { BsChevronRight } from "react-icons/bs";
 
 
-interface ISneaker {
+export interface ISneaker {
     id: string;
     marque: string;
     model: string;

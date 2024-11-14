@@ -174,6 +174,81 @@ export const getProductById = async (id: string) => {
     }
 }
 
+export const getSneakerById = async (sneakerId: string)=>{
+    try {
+        return db.sneaker.findUnique({
+            where: {id: sneakerId},
+            select:{
+                id: true,
+                marque: true,
+                model: true,
+                description: true,
+                price: true,
+                isPromo: true,
+                promoPrice: true,
+                stock: true,
+                colorPrimary: true,
+                colorPrimaryName: true,
+                categoryId: true,
+                createdAt: true,
+                updatedAt: true,
+                category: {
+                    select:{
+                        name: true,
+                        description: true,
+                        designer: true,
+                    }
+                },
+                tags:{
+                    select:{
+                        name: true,
+                        description: true,
+                    },
+                },
+                themes:{
+                    select:{
+                        id: true,
+                        name: true,
+                        description: true,
+                        category: {
+                            select:{
+                                name: true,
+                                description: true,
+                                globalName: true,
+                            }
+                        }
+                    },
+                },
+                colorSecondaries:{
+                    select:{
+                        color: true,
+                        name: true,
+                    },
+                },
+                images :{
+                    select: {
+                        id: true,
+                        publicId: true,  
+                    }
+                },
+                sizes:{
+                    select:{
+                        size: true,
+                        quantity: true,
+                    },
+                },
+                _count: {
+                    select:{
+                        likes: true,
+                    }
+                }
+            },
+        })
+    } catch (error) {
+        throw new Error("Error get sneaker to database: " + error)
+    }
+}
+
 export const getColorPrimaries = async () => {
     try {
         const colors = await db.sneaker.findMany({

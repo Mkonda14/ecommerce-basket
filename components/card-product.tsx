@@ -49,7 +49,7 @@ export const CardProduct = ({
     return (     
         <article className={`${isPreview ? "w-[245px] h-[400px]" : "w-full"} shadow-sm rounded-md relative`}>    
             <BtnLike sneakerId={id}  />
-            <Link href={"#"}>
+            <Link href={`/shop/${id}`}>
                 <figure className="relative">
                     <div className="w-full absolute z-10">
                         <div className="w-full flex justify-between items-center p-2 py-2">
@@ -65,16 +65,16 @@ export const CardProduct = ({
                     </div>
                 </figure>
                 <div className="p-2 bg-white">
-                    <div className="flex gap-x-2">
+                    <div className="flex items-center gap-x-2">
                         {isPreview ? (
                             <>
                                 <Typographie component="h3" variant="p">{model || "AIR STRUCTURE"}</Typographie>
-                                <Badge className="rounded-sm py-0 text-xs">new</Badge>
+                                <Badge className="rounded-sm py-0 px-1 text-xs">new</Badge>
                             </>
                         ) : (
                             <>
                                 <Typographie component="h3" variant="h3" size="lg" className="capitalize">{model || "AIR STRUCTURE"}</Typographie>
-                                {tags?.find(tag => tag.name.toLowerCase() === "new") && <Badge className="rounded-sm py-0 text-sm uppercase">new</Badge>}
+                                {tags?.find(tag => tag.name.toLowerCase() === "new") && <Badge className="rounded-sm py-0 px-1 text-sm uppercase">new</Badge>}
                             </>
                         )}
                         
@@ -135,10 +135,8 @@ export const CardProduct = ({
                         {/* Price */}
                         {isPreview ? (
                             <Button className="absolute top-1/2 -translate-y-1/2 -right-4">
-                                <Link href={"#"} className="space-x-2">
-                                    <span className="font-light">USD</span>
-                                    <span className="font-bold">{price || "23,433"}</span>
-                                </Link>
+                                <span className="font-light">USD</span>
+                                <span className="font-bold">{price || "23,433"}</span>
                             </Button>
                         ) : (
                             <Price price={price} isPromo={isPromo} promoPrice={promoPrice} />

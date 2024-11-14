@@ -40,7 +40,9 @@ export const FormTheme = ({themeId, theme}: FormThemeProps) => {
     resolver: zodResolver(ThemeSchema),
     defaultValues: {
       name: theme?.name || "",
+      category: theme?.categoryId || "",
       description: theme?.description || "",
+      image: {public_id: "", secure_url: ""}
     },
   });
 

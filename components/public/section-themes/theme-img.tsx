@@ -15,7 +15,7 @@ export const ThemeImg = ({className, public_id, alt="Description du produit"}:Ca
     const [isLoading, setIsLoading] = useState(true);
 
     return (
-        <div className={`relative h-40 rounded-lg`}>
+        <div className={`relative h-40`}>
             {isLoading &&
                 <Skeleton className="absolute top-0 left-0 w-full h-full z-10 rounded-md" />
             }

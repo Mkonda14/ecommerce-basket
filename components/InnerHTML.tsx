@@ -2,10 +2,11 @@ import DOMPurify from "dompurify";
 
 interface InnerHTMLProps{
     text: string;
+    className?: string;
 }
 
-export const InnerHTML = ({text}:InnerHTMLProps) => {
+export const InnerHTML = ({text, className}:InnerHTMLProps) => {
   return (
-    <div dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(text)}} />
+    <div className={className} dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(text)}} />
   )
 }

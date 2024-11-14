@@ -2,7 +2,7 @@
 
 import { ItemAccordeon } from "./item-accordeon"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useFilters } from "@/hooks/use-store"
 import { CheckboxColor } from "./checkbox-color"
 import { getColorPrimaries } from "@/actions/product"
@@ -19,12 +19,6 @@ export const AccordeonColor = () => {
     })
 
     const updatedColors =  useFilters((state)=> state.updatedCategoryColors);
-
-    useEffect(()=>{
-       (async()=>{
-            console.log(colors);
-       })()     
-    }, [colors]);
 
     return (
         <ItemAccordeon

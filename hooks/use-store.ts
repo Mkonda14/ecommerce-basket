@@ -20,7 +20,8 @@ interface IFilter{
         sizes: number[],
         colors: string[],
         price: {min: number, max: number},
-        sorts?: {alphabet: "asc" | "desc", price: "asc" | "desc"}
+        sorts?: {alphabet: "asc" | "desc", price: "asc" | "desc"},
+        page?: number
     };
     updatedCategorySneakers: (categories: string[])=> void;
     updatedCategoryThemes: (categories: string[])=> void;
@@ -29,6 +30,7 @@ interface IFilter{
     updatedCategoryColors: (colors: string[])=> void;
     updatedCategoryPrice: (price: {min: number, max: number})=> void;
     updatedSorts: (sorts: {alphabet: "asc" | "desc", price: "asc" | "desc"})=> void;
+    updatedPage: (page: number)=> void;  // Add page update hook here if needed. For now, it's not needed in this example.  // Add page update hook here if needed. For now, it's not needed in this example.  // Add page update hook here if needed. For now, it's not needed in this example.  // Add page update hook here if needed. For now, it's not needed in this example.  // Add page
 }
 
 export const useFilters = create<IFilter>()((set) => ({
@@ -37,9 +39,10 @@ export const useFilters = create<IFilter>()((set) => ({
         categoryThemes: [], 
         sizes: [], 
         colors: [], 
-        price: {min: 0, max: 0}, 
+        price: {min: 0, max: 200}, 
         sorts: {alphabet: "asc", price: "asc"}, 
-        tagSneakers: []
+        tagSneakers: [],
+        page: 1,
     },
     
       
@@ -63,5 +66,18 @@ export const useFilters = create<IFilter>()((set) => ({
     }),
     updatedSorts: (sorts: {alphabet: "asc" | "desc", price: "asc" | "desc"})=>{
         set((state)=> ({data: {...state.data, sorts: {...sorts}}}))
+    },
+    updatedPage: (page: number)=>{
+        set((state)=> ({data: {...state.data, page: page}}))
     }
 }));
+
+interface IBasket{
+    length: number;
+    onUpdatedBasket: (length: number)=> void;
+}
+
+export const useUpdatedBasket = create<IBasket>()((set)=>({
+    length: 0,
+    onUpdatedBasket: (length: number)=> set({length: length})
+}))
