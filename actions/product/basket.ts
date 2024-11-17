@@ -1,14 +1,19 @@
 "use server"
 
 import {db} from "@/lib/db"
+import { z } from "zod"
 
-export const basketModal = async (baskets: string[])=> {
+const basketModalSchema = z.string().min(5);
+type TbasketModal = z.infer<typeof basketModalSchema>;
+
+export const basketModal = async (basketId: TbasketModal)=> {
     try{
-        return await db.sneaker.findMany({
+        const verified = basketModalSchema.safeParse(basketId);
+        if(!verified.success) throw new Error('Invalid parameter: ' + verified.error);
+        
+        return await db.sneaker.findUnique({
             where: {
-                id: {
-                    in: baskets
-                }
+                id: basketId
             },
             select: {
                 id: true,

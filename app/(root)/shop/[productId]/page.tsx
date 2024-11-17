@@ -36,7 +36,7 @@ export default function PageShow({params}: PageShowProps) {
     const [chooseSize, setChooseSize] = useState<number | undefined>();
     const [quantity, setQuantity] = useState<number>(1);
     const [likes, setLikes] = useState<number>(0);
-    const {addBasket} = useLocalStorage("customers_sneaker_basket")
+    const {addBasket} = useLocalStorage("customers_sneaker_baskets")
 
     const updatedBasket = useUpdatedBasket((state)=> state.onUpdatedBasket)
 
@@ -52,7 +52,7 @@ export default function PageShow({params}: PageShowProps) {
 
     const addSneakerToBasket = ()=>{
         if(!chooseSize || !sneaker) return;
-        const length = addBasket({id: sneaker?.id, quantity: quantity});
+        const length = addBasket({id: sneaker?.id, quantity: quantity, size: chooseSize});
         updatedBasket(length);
     }
 

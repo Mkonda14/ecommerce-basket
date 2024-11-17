@@ -20,7 +20,7 @@ export const CarouselItemImg = ({id, publicId, isActive, size, className}: Carou
     const [isLoading, setIsLoading] = useState(true);
 
     return (
-        <div className={cn(``, sizes[size], isActive ? "opacity-50" : "")}>
+        <div className={cn(`relative`, sizes[size], isActive ? "opacity-50" : "")}>
             {isLoading &&
                 <Skeleton className="absolute top-0 left-0 w-full h-full z-10" />
             }

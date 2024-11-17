@@ -70,7 +70,7 @@ export const getProductCardDerniers = async () => {
                     take: 3
                 },
             },
-            take: 8,
+            take: 4,
             orderBy: {
                 createdAt: 'desc',
             },

@@ -2,7 +2,7 @@
 
 import { Carousel, CarouselApi, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { useEffect, useState } from "react";
-import { CarouselItemImg } from "./carousel-item-img";
+import { CldImgDynamic } from "@/components/cld-img-dynamic";
 
 interface CarouselImgsProps {
   imgs: { id: string; publicId: string }[];
@@ -33,7 +33,7 @@ export const CarouselImgs = ({imgs}: CarouselImgsProps) => {
                     key={index}
                     onClick={() => api?.scrollTo(index)}
                 >
-                    <CarouselItemImg {...img} size="sm" isActive={!(current === index + 1)} />
+                    <CldImgDynamic {...img} size="crsl-min" isActive={!(current === index + 1)} />
                 </button>
             ))}
         </div>
@@ -48,7 +48,7 @@ export const CarouselImgs = ({imgs}: CarouselImgsProps) => {
             <CarouselContent className="">
                 {imgs.map((img) => (
                     <CarouselItem key={img.id}>
-                        <CarouselItemImg {...img} size="lg" />
+                        <CldImgDynamic size="crsl-max" {...img}  />
                     </CarouselItem>
                 ))}
             </CarouselContent>

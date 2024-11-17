@@ -2,7 +2,8 @@
 
 type BasketType = {
     id: string,
-    quantity: number
+    quantity: number,
+    size: number,
 }
 
 // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -20,21 +21,20 @@ export const useLocalStorage = (key: string) =>{
 
     const addBasket = (value: BasketType): number => {
         const baskets = getBasket();
-        const basketExist = baskets.find(basket => basket.id === value.id);
+        const basketExist = baskets.find(basket => basket.id === value.id && basket.size === value.size);
         if (basketExist !== undefined) {
-            basketExist.quantity++
+            basketExist.quantity++;
         }
         else{
-            value.quantity = 1;
             baskets.push(value);
         }
         saveBasket(baskets);
         return baskets.length;
     }
 
-    const removeBasket = (id: string): number => {
+    const removeBasket = (identifier:{id: string, size?: number}): number => {
         const baskets = getBasket();
-        const removeBasket = baskets.filter(basket => basket.id !== id);
+        const removeBasket = baskets.filter(basket => basket.id !== identifier.id && basket.size !== identifier.size);
         saveBasket(removeBasket);
         return removeBasket.length;
     };

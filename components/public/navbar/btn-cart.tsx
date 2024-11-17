@@ -10,31 +10,39 @@ import { useLocalStorage } from "@/hooks/use-localstorage";
 import { basketModal } from "@/actions/product/basket";
 import { BasketItem } from "./basket-item";
 
-type sneakers = {
+type TSneaker = {
     model: string;
     id: string;
     marque: string;
     price: number;
     promoPrice: number;
     isPromo: boolean;
+    size: number;
+    quantity: number;
     images: {
         publicId: string;
     }[];
-}[]
+}
 
 export const BtnCart = () => {
     const length = useUpdatedBasket((state)=> state.length);
-    const {getBasket} = useLocalStorage("customers_sneaker_basket")
-    const [sneakers, setSneakers] = useState<sneakers>([]);
+    const {getBasket} = useLocalStorage("customers_sneaker_baskets")
+    const [sneaker, setSneaker] = useState<TSneaker | undefined>();
     const [lengthBasket, setLengthBasket] = useState<number>();
     useEffect(()=>{
         const baskets = getBasket();
         setLengthBasket(baskets.length);
-        const ids = baskets.map(basket=>basket.id);
-        basketModal(ids)
-            .then((res)=> setSneakers(res));
         
-    }, [getBasket])
+        const lastBasket = baskets.pop();
+        if(lastBasket){
+            basketModal(lastBasket?.id)
+                .then((res)=> {
+                    if(!res) return;
+                    setSneaker({...res, ...lastBasket})
+                });
+        }
+        
+    }, [length])
 
     return (
         <HoverCard>
@@ -53,15 +61,19 @@ export const BtnCart = () => {
                         <AiFillCheckCircle className="size-6 text-emerald-500" />
                         <Typographie component="h4" variant="h4" size="md">Ajouté au panier</Typographie>
                     </div>
-                    <div className="flex flex-col gap-y-2">
-                        {sneakers.map((sneaker)=>(
+                    <div className="my-2">
+                        {sneaker && (
                             <BasketItem 
-                                key={sneaker.id}
-                                publicId={sneaker.images[0].publicId}
                                 {...sneaker}
-                                size={45}
+                                size={sneaker?.size}
+                                publicId={sneaker?.images[0].publicId}
+                                quantity={sneaker?.quantity}
                             />
-                        ))}
+                        )}
+                    </div>
+                    <div className="flex flex-col gap-y-2">
+                        <Button variant={"outline"}>Afficher le panier ({lengthBasket})</Button>
+                        <Button>Paiement</Button>
                     </div>
                 </div>
             </HoverCardContent>

@@ -18,7 +18,7 @@ export const RadioSize = ({size, value, onChange}: CheckboxSizeProps) => {
                 <TooltipTrigger asChild>
                     <Button variant={isChecked ? "default" : "outline"} asChild>
                         <label 
-                            className={cn("relative w-20 h-10")} 
+                            className={cn("relative w-20 h-10 cursor-pointer")} 
                             htmlFor={`${size}`}
                         >
                             <input 

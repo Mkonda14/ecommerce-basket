@@ -11,17 +11,18 @@ interface IBasketItem{
     marque: string;
     model: string;
     price: number;
-    size: number;
+    size?: number;
+    quantity?: number;
     isPromo?: boolean;
     promoPrice?: number;
 }
 
-export const BasketItem = ({id, publicId, marque, model, size, price, isPromo, promoPrice}: IBasketItem) => {
+export const BasketItem = ({id, publicId, marque, model, size, price, isPromo, promoPrice, quantity=1}: IBasketItem) => {
     const {removeBasket} = useLocalStorage("customers_sneaker_basket");
     const updatedBasket = useUpdatedBasket((state)=> state.onUpdatedBasket)
 
     const onDelete = ()=>{
-        const length = removeBasket(id);
+        const length = removeBasket({id, size});
         updatedBasket(length);
     }
     return (
@@ -35,12 +36,12 @@ export const BasketItem = ({id, publicId, marque, model, size, price, isPromo, p
             </figure>
 
             <div className="">
-                <Typographie component="h3" variant="h3" size="md">{marque}</Typographie>
-                <Typographie component="p" variant="p" size="md">{model}</Typographie>
-                <Typographie component="p" variant="p" size="md">Taille EU {size}</Typographie>
-                <Typographie component="h4" variant="h4" size="md">
-                    {isPromo && <span>{promoPrice}</span>}
-                    <span className={isPromo ? "line-through text-slate-500" : ""}>{price}</span>
+                <Typographie component="p" variant="p" size="md" className="font-bold">{marque}</Typographie>
+                <Typographie component="p" variant="p" size="sm" className="text-slate-600">{model}</Typographie>
+                <Typographie component="p" variant="p" size="sm" className="text-slate-600">Taille EU {size}</Typographie>
+                <Typographie component="h4" variant="h4" size="sm"  className="space-x-3">
+                    {(isPromo && promoPrice) && <span>{promoPrice * quantity}</span>}
+                    <span className={isPromo ? "line-through text-slate-400" : ""}>{price * quantity}</span>
                 </Typographie>
             </div>
 
