@@ -23,6 +23,7 @@ import { Dropzone } from "@/components/dropzone";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { getCategoryThemes } from "@/actions/category-attribut";
 import { useQuery } from "@tanstack/react-query";
+import { redirect } from "next/navigation";
 
 
 interface FormThemeProps{
@@ -55,7 +56,10 @@ export const FormTheme = ({themeId, theme}: FormThemeProps) => {
   const onSubmit =  (data: z.infer<typeof ThemeSchema>) => {
     startTransition(async () => {
       const res = themeId ? await updateTheme(themeId, data) : await saveTheme(data);
-      if (res.type === "success") form.reset();
+      if(themeId && res.type === "success") return redirect("/admin/themes")
+      else if(res.type === "success"){
+        form.reset();
+      }
       ToastSave(res);
     });
   };

@@ -26,7 +26,7 @@ export const AccordeonTag = () => {
             idx={6}
             label="Tag sneakers"
         >
-            <div className="grid grid-cols-4 gap-2">
+            <div className="flex flex-wrap gap-2">
                 {dbTags?.map(({id, name}) => (
                     <CheckboxTag
                         key={id}

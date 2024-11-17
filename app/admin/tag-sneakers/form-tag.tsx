@@ -19,6 +19,7 @@ import { updateTagSneaker } from '@/actions/category-attribut/update';
 import { TagSneaker } from "@prisma/client";
 import { saveTagSneaker } from "@/actions/category-attribut/save";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { redirect } from "next/navigation";
 
 
 interface FormTagProps{
@@ -42,7 +43,10 @@ export const FormTag = ({tagId, tag}: FormTagProps) => {
   const onSubmit = (data: z.infer<typeof TagSneakerSchema>) => {
     startTransition(async () => {
       const res = tagId ? await updateTagSneaker(tagId, data) : await saveTagSneaker(data);
-      if(res.type === "success") form.reset();
+      if(tagId && res.type === "success") return redirect("/admin/tag-sneakers")
+      else if(res.type === "success"){
+        form.reset();
+      }
       ToastSave(res);
     });
   };

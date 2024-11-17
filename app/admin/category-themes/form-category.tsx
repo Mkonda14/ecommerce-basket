@@ -21,6 +21,7 @@ import { ToastSave } from '@/hooks/use-toast-save';
 import { updateCategoryTheme } from '@/actions/category-attribut/update';
 import { CategoryTheme } from "@prisma/client";
 import { saveCategoryTheme } from "@/actions/category-attribut/save";
+import { redirect } from "next/navigation";
 
 
 interface FormCategoryProps{
@@ -44,9 +45,12 @@ export const FormCategory = ({category, categoryId}: FormCategoryProps) => {
 
   const onSubmit = (data: z.infer<typeof CategoryThemeSchema>) => {
       startTransition(async () => {
-      const res = categoryId ? await updateCategoryTheme(categoryId, data) : await saveCategoryTheme(data);
-      if (res.type === "success") form.reset();
-      ToastSave(res)
+        const res = categoryId ? await updateCategoryTheme(categoryId, data) : await saveCategoryTheme(data);
+        if(categoryId && res.type === "success") return redirect("/admin/category-themes")
+        else if(res.type === "success"){
+          form.reset();
+        }
+        ToastSave(res)
       });
   };
 

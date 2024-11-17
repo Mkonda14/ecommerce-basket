@@ -34,7 +34,7 @@ export const BtnCart = () => {
         basketModal(ids)
             .then((res)=> setSneakers(res));
         
-    }, [getBasket])
+    }, [length])
 
     return (
         <HoverCard>

@@ -20,6 +20,9 @@ import { InputIncrement } from "@/components/public/shop/show-product/input-incr
 import { TabDescriptif } from "@/components/public/shop/show-product/tab-descriptif";
 import { useLocalStorage } from "@/hooks/use-localstorage";
 import { useUpdatedBasket } from "@/hooks/use-store";
+import { SectionSuggestion } from "@/components/public/shop/show-product/section-suggestion";
+import { ISneaker } from "@/components/public/home/section-dernier-creations";
+import { getCardSuggestions } from "@/actions/product/suggestion";
 
 
 interface PageShowProps{
@@ -31,7 +34,11 @@ interface PageShowProps{
 export default function PageShow({params}: PageShowProps) {
 
     const { productId } = params;
+
     const queryKey = [`show_product_${productId}`];
+    const queryKey2 = [`sneakers_suggestion_${productId}`];
+
+    const iSneakers: ISneaker[] = [];
 
     const [chooseSize, setChooseSize] = useState<number | undefined>();
     const [quantity, setQuantity] = useState<number>(1);
@@ -46,6 +53,12 @@ export default function PageShow({params}: PageShowProps) {
         queryFn: ()=> getSneakerById(productId),
     })
 
+    const {data: sneakers} = useQuery<ISneaker[]>({
+        queryKey: queryKey2,
+        queryFn: ()=> getCardSuggestions({themeIds: sneaker?.themes.map(theme=>theme.id), sneakerId: sneaker?.id}),
+        initialData: iSneakers,
+    })
+
     useEffect(()=>{
         if(sneaker) setLikes(sneaker?._count.likes);
     }, [sneaker])
@@ -56,11 +69,14 @@ export default function PageShow({params}: PageShowProps) {
         updatedBasket(length);
     }
 
-    if((!sneaker || error) && !isLoading) {return redirect("/page-not-found");}  
+    if((!sneaker || error) && !isLoading) {return redirect("/page-not-found");} 
+    
+    
 
     return (
         <main>
             <HeroShop title={"Show detail sneaker"} label={sneaker?.model} />
+            {/* section description */}
             <section className="mt-8">
                 <section className="container flex flex-col lg:flex-row gap-x-4">
                     <CarouselImgs imgs={sneaker?.images || []} />
@@ -146,7 +162,8 @@ export default function PageShow({params}: PageShowProps) {
                 </section>
 
             </section>
-      
+            {/* section suggestion */}
+            <SectionSuggestion sneakers={sneakers} />
         </main>
     )
 }

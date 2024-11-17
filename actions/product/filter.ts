@@ -1,30 +1,42 @@
 "use server"
 
 import { db } from "@/lib/db"
+import { z } from "zod"
 
 
-export type TFilter = {
-    categorySneakers?: string[],
-    categoryThemes?: string[],
-    tagSneakers?: string[],
-    sizes?: number[],
-    colors?: string[],
-    price?: {min: number, max: number},
-    sorts?: {alphabet: "asc" | "desc", price: "asc" | "desc"},
-    page?: number,
-}
+const IFilterSneakerSchema = z.object({
+    categoryThemes: z.array(z.string()).optional(),
+    categorySneakers: z.array(z.string()).optional(),
+    tagSneakers: z.array(z.string()).optional(),
+    colors: z.array(z.string()).optional(),
+    sizes: z.array(z.number()).optional(),
+    page: z.number().optional(),
+    price: z.object({
+        min: z.number(),
+        max: z.number(),
+    }).optional(),
+    sorts: z.object({
+        alphabet: z.enum(["asc", "desc"]),
+        price: z.enum(["asc", "desc"])
+    }).optional(),
+})
 
-export const filterSneaker = async (data: TFilter) => {
+
+export const filterSneaker = async (data: z.infer<typeof IFilterSneakerSchema>) => {
+    
+    const verified = IFilterSneakerSchema.safeParse(data);
+    if (!verified.success) return;
+    
     const {
-        categorySneakers = [],
         categoryThemes = [],
+        categorySneakers = [],
         tagSneakers = [],
         sizes = [],
         colors = [],
         price = undefined,
         page = 1,
-        sorts = { alphabet: "asc", price: "asc" },
-    } = data;
+        sorts = undefined,
+    } = verified.data;
 
     const conditions = {AND: [
         categorySneakers.length > 0 ? { category: { id: { in: categorySneakers } } } : {},
@@ -36,7 +48,7 @@ export const filterSneaker = async (data: TFilter) => {
     ]}
 
     try {
-        const sneakers = await db.sneaker.findMany({
+        const sneakerQuery =  db.sneaker.findMany({
             where: conditions,
             
             skip: (page - 1) * 12,
@@ -77,16 +89,19 @@ export const filterSneaker = async (data: TFilter) => {
             },
 
             orderBy: [
-                {price: sorts?.price || "asc",},
-                {marque: sorts?.alphabet || "asc",}
+                {price: sorts?.price,},
+                {marque: sorts?.alphabet,}
             ],
         })
 
-        const total = await db.sneaker.count({
+        const totalQuery =  db.sneaker.count({
             where: conditions
         });
+
+        const [sneakers, total] = await db.$transaction([sneakerQuery, totalQuery]);
         
         return {sneakers, total};
+
     } catch (error) {
         console.error(error);
     }

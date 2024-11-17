@@ -23,7 +23,7 @@ export const CheckboxColor = ({code, values=[], onChange, updated, name=""}: Che
                         style={{
                             backgroundColor: code
                         }}
-                        className={cn("rounded-full shadow-lg")} 
+                        className={cn("hover:ring-[1px] ring-offset-2 rounded-full shadow-lg")} 
                         htmlFor={`${code}`}
                     >
                         <input 
