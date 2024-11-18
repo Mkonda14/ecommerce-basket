@@ -1,9 +1,9 @@
 "use client"
 
-import { BsSortNumericUpAlt } from "react-icons/bs"; 
 import { AiOutlineSortDescending } from "react-icons/ai"; 
+import { BsSortNumericUp } from "react-icons/bs"; 
+import { BsSortNumericDown } from "react-icons/bs"; 
 
-import { BsSortNumericDownAlt } from "react-icons/bs"; 
 import { AiOutlineSortAscending } from "react-icons/ai"; 
 import { Button } from "@/components/ui/button"
 import { useState } from "react";
@@ -35,7 +35,7 @@ export const Sorts = () => {
             }}>
                 <span>Price</span>
                 {sort.price === "asc" ? 
-                    (<BsSortNumericDownAlt />) : (<BsSortNumericUpAlt />)
+                    (<BsSortNumericDown />) : (<BsSortNumericUp />)
                 }
             </Button>
         </section>

@@ -26,20 +26,21 @@ export const BasketItem = ({id, publicId, marque, model, size, price, isPromo, p
         updatedBasket(length);
     }
     return (
-        <article className="flex gap-x-4 relative border-b">
+        <article className="flex gap-x-4 relative">
             <figure>
                 <CldImgDynamic
                     publicId={publicId}
-                    size="crsl-min"
+                    size="card-basket"
+                    rounded="sm"
                     alt={`image ${marque} / ${model}`}
                 />
             </figure>
 
             <div className="">
                 <Typographie component="p" variant="p" size="md" className="font-bold">{marque}</Typographie>
-                <Typographie component="p" variant="p" size="sm" className="text-slate-600">{model}</Typographie>
-                <Typographie component="p" variant="p" size="sm" className="text-slate-600">Taille EU {size}</Typographie>
-                <Typographie component="h4" variant="h4" size="sm"  className="space-x-3">
+                <Typographie component="p" variant="p" size="md" className="text-muted-foreground">{model}</Typographie>
+                <Typographie component="p" variant="p" size="md" className="text-muted-foreground">Taille EU {size}</Typographie>
+                <Typographie component="h4" variant="h4" size="md"  className="space-x-3">
                     {(isPromo && promoPrice) && <span>{promoPrice * quantity}</span>}
                     <span className={isPromo ? "line-through text-slate-400" : ""}>{price * quantity}</span>
                 </Typographie>
@@ -48,7 +49,7 @@ export const BasketItem = ({id, publicId, marque, model, size, price, isPromo, p
             <Button 
                 variant={"ghost"} 
                 size={"icon"} 
-                className="rounded-full absolute top-2 right-2"
+                className="rounded-full absolute -top-2 right-2"
                 onClick={onDelete}
             >
                 <AiOutlineClose />

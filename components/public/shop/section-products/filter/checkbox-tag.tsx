@@ -14,7 +14,7 @@ export const CheckboxTag = ({value, values=[], onChange, updated, label}: Checkb
     const isChecked = values.includes(value);
     return (
         <label 
-            className={cn("relative p-3 border rounded-md text-center cursor-pointer", isChecked ? "bg-slate-900 text-white" : "")} 
+            className={cn("px-2 py-1 border rounded-md text-center cursor-pointer", isChecked ? "bg-slate-900 text-white" : "")} 
             htmlFor={`${value}`}
         >
             <input 
@@ -36,7 +36,7 @@ export const CheckboxTag = ({value, values=[], onChange, updated, label}: Checkb
                     })
                 }}
             />
-            <span className="capitalize text-base absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">{label}</span>
+            <span className="capitalize">{label}</span>
         </label>
         
     )

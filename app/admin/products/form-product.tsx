@@ -23,6 +23,9 @@ import { ToastSave } from "@/hooks/use-toast-save";
 import { Sneaker } from "@prisma/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+
 type Product = {
   themes: {id: string}[],
   colorSecondaries: {color: string, name: string}[],
@@ -75,7 +78,12 @@ export const FormProduct = ({productId, product}: FormProductProps) => {
     startTransition(async ()=> {
       console.log(data);  
       const res = productId ? await updateProduct(productId, data) : await saveProduct(data);
-      if (res.type === "success") form.reset();
+
+      if(productId && res.type === "success") return redirect("/admin/products")
+      else if(res.type === "success"){
+        form.reset();
+        revalidatePath("/admin/products/add")
+      }
       ToastSave(res);
     })
   };
@@ -110,7 +118,7 @@ export const FormProduct = ({productId, product}: FormProductProps) => {
                   model={form.getValues().model}
                   description={form.getValues().description}
                   price={parseInt(form.getValues().price) || 0}
-                  public_id={form.getValues().images[0]?.public_id || ""}
+                  public_id={"product/mhpcchmackb8wjphvth2"}
                 />
             </section>
           </main>

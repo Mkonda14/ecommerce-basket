@@ -49,7 +49,7 @@ export const CardProduct = ({
     return (     
         <article className={`${isPreview ? "w-[245px] h-[400px]" : "w-full"} shadow-sm rounded-md relative`}>    
             <BtnLike sneakerId={id}  />
-            <Link href={`/shop/${id}`}>
+            <Link href={`/show/${id}`}>
                 <figure className="relative">
                     <div className="w-full absolute z-10">
                         <div className="w-full flex justify-between items-center p-2 py-2">

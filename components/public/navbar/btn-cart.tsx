@@ -72,8 +72,12 @@ export const BtnCart = () => {
                         )}
                     </div>
                     <div className="flex flex-col gap-y-2">
-                        <Button variant={"outline"}>Afficher le panier ({lengthBasket})</Button>
-                        <Button>Paiement</Button>
+                        <Button variant={"outline"} size={"lg"} asChild>
+                            <Link href="/cart">Afficher le panier ({lengthBasket})</Link>
+                        </Button>
+                        <Button size={"lg"} asChild>
+                            <Link href="#">Paiement</Link>
+                        </Button>
                     </div>
                 </div>
             </HoverCardContent>

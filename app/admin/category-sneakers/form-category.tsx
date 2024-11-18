@@ -21,6 +21,7 @@ import { ToastSave } from '@/hooks/use-toast-save';
 import { updateCategorySneaker } from '@/actions/category-attribut/update';
 import { CategorySneaker } from "@prisma/client";
 import { saveCategorySneaker } from "@/actions/category-attribut/save";
+import { redirect } from "next/navigation";
 
 
 interface FormCategoryProps{
@@ -44,9 +45,13 @@ export const FormCategory = ({category, categoryId}: FormCategoryProps) => {
 
   const onSubmit = (data: z.infer<typeof CategorySneakerSchema>) => {
       startTransition(async () => {
-      const res = categoryId ? await updateCategorySneaker(categoryId, data) : await saveCategorySneaker(data);
-      if (res.type === "success") form.reset();
-      ToastSave(res)
+        const res = categoryId ? await updateCategorySneaker(categoryId, data) : await saveCategorySneaker(data);
+        if(categoryId && res.type === "success") return redirect("/admin/category-sneakers")
+        else if(res.type === "success"){
+          form.reset();
+        }
+        
+        ToastSave(res)
       });
   };
 
