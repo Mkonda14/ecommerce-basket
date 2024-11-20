@@ -5,7 +5,7 @@ import { Dispatch, SetStateAction } from "react";
 
 interface CheckboxSizeProps{
     size: number;
-    onChange: Dispatch<SetStateAction<number | undefined>>;
+    onChange: Dispatch<SetStateAction<number>>;
     value?: number;
 }
 
@@ -18,7 +18,7 @@ export const RadioSize = ({size, value, onChange}: CheckboxSizeProps) => {
                 <TooltipTrigger asChild>
                     <Button variant={isChecked ? "default" : "outline"} asChild>
                         <label 
-                            className={cn("relative w-20 h-10 cursor-pointer")} 
+                            className={cn("relative !w-20 h-10 cursor-pointer")} 
                             htmlFor={`${size}`}
                         >
                             <input 

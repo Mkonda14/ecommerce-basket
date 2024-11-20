@@ -7,7 +7,7 @@ const sizes = {
     "cell-table": "w-10 h-8 rounded-full",
     "crsl-min": "h-16 w-16",
     "card-basket": "h-20 w-20",
-    "card-basket-max": "h-40 w-36",
+    "card-basket-max": "h-32 w-32",
     "card-theme": "h-40 w-full",
     "card-sneaker-form": "h-[220px] w-full",
     "card-sneaker": "h-[300px] w-full",

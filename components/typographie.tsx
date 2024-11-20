@@ -1,10 +1,10 @@
 import { cn } from "@/lib/utils";
 
 const variants = {
-    h1: "font-extrabold tracking-wide",
-    h2: "font-semibold tracking-wide",
-    h3: "font-semibold tracking-normal",
-    h4: "font-medium tracking-normal",
+    h1: "font-extrabold tracking-wide font-bold",
+    h2: "font-semibold tracking-wide font-bold",
+    h3: "font-semibold tracking-normal font-bold",
+    h4: "font-medium tracking-normal font-bold",
     p:  "tracking-tight",
     blockquote: "relative mb-2 before:absolute before:left-0 before:top-1/2 before:w-4 before:h-[2px] before:rounded-full before:bg-emerald-500 pl-6 italic",
 }
@@ -33,7 +33,7 @@ interface TypoProps{
 
 export const Typographie = ({variant = "h3", component: Component, size = "md", color="black", className, children}: TypoProps) => {
   return (
-    <Component className={cn(variants[variant], sizes[size], colors[color], className)}>
+    <Component className={cn(sizes[size], variants[variant], colors[color], className)}>
         {children}
     </Component>
   )

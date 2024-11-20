@@ -47,7 +47,7 @@ export const BtnCart = () => {
     return (
         <HoverCard>
             <HoverCardTrigger asChild>
-                <Link href={"#"} className="flex items-center gap-x-2">
+                <Link href={"/cart"} className="flex items-center gap-x-2">
                     <Button size={"icon"}> <BsCart4 /> </Button>
                     <div className="">
                         <Typographie component="h4" variant="h4" size="md">SHOPPING CART</Typographie>
@@ -72,10 +72,10 @@ export const BtnCart = () => {
                         )}
                     </div>
                     <div className="flex flex-col gap-y-2">
-                        <Button variant={"outline"} size={"lg"} asChild>
+                        <Button variant={"outline"} size={"lg"} className="text-lg p-5" asChild>
                             <Link href="/cart">Afficher le panier ({lengthBasket})</Link>
                         </Button>
-                        <Button size={"lg"} asChild>
+                        <Button size={"lg"} className="text-lg p-5" asChild>
                             <Link href="#">Paiement</Link>
                         </Button>
                     </div>

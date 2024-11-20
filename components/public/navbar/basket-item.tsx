@@ -17,7 +17,7 @@ interface IBasketItem{
     promoPrice?: number;
 }
 
-export const BasketItem = ({id, publicId, marque, model, size, price, isPromo, promoPrice, quantity=1}: IBasketItem) => {
+export const BasketItem = ({id, publicId, marque, model, size, price, isPromo, promoPrice}: IBasketItem) => {
     const {removeBasket} = useLocalStorage("customers_sneaker_basket");
     const updatedBasket = useUpdatedBasket((state)=> state.onUpdatedBasket)
 
@@ -41,8 +41,8 @@ export const BasketItem = ({id, publicId, marque, model, size, price, isPromo, p
                 <Typographie component="p" variant="p" size="md" className="text-muted-foreground">{model}</Typographie>
                 <Typographie component="p" variant="p" size="md" className="text-muted-foreground">Taille EU {size}</Typographie>
                 <Typographie component="h4" variant="h4" size="md"  className="space-x-3">
-                    {(isPromo && promoPrice) && <span>{promoPrice * quantity}</span>}
-                    <span className={isPromo ? "line-through text-slate-400" : ""}>{price * quantity}</span>
+                    {(isPromo && promoPrice) && <span>{promoPrice}</span>}
+                    <span className={isPromo ? "line-through text-slate-400" : ""}>{price}</span>
                 </Typographie>
             </div>
 
