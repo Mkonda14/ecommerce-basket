@@ -23,7 +23,7 @@ import { ToastSave } from "@/hooks/use-toast-save";
 import { Sneaker } from "@prisma/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useAction } from "next-safe-action/hooks";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -86,12 +86,12 @@ export const FormProduct = ({productId, product}: FormProductProps) => {
         })
         form.reset();
         router.refresh();
-        queryClient.invalidateQueries({queryKey:["sneakers"]});
+        queryClient.invalidateQueries({queryKey:["products"]});
       },
       onError: ({error}) =>{
         ToastSave({
           type: 'error',
-          message: `${error.serverError}`
+          message: `${error.serverError?.serverError}`
         })
       }
     }
@@ -102,13 +102,13 @@ export const FormProduct = ({productId, product}: FormProductProps) => {
           type: 'success',
           message: `${data?.message}`
         })
-        queryClient.invalidateQueries({queryKey:["sneakers"]});
-        redirect("/admin/products")
+        queryClient.invalidateQueries({queryKey:["products"]});
+        router.push("/admin/products")
       },
       onError: ({error}) =>{
         ToastSave({
           type: 'error',
-          message: `${error.serverError}`
+          message: `${error.serverError?.serverError}`
         })
       }
     }

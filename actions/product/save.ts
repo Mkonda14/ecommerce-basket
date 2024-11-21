@@ -66,7 +66,7 @@ export const saveProduct = authAdminAction
             })),
           },
           images: {
-            create: images.map((image) => ({
+            create: images?.map((image) => ({
               secureUrl: image.secure_url,
               publicId: image.public_id,
             })),

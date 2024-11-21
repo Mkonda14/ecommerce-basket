@@ -5,7 +5,6 @@ import {
 
 import { currentUser } from "@/actions/auth";
 import { db } from "./db";
-import { z } from "zod";
 
 export class ActionError extends Error {}
 
@@ -13,21 +12,16 @@ export const actionClient = createSafeActionClient({
   handleServerError(e) {
     console.error("Action error:", e.message);
 
-    if (e instanceof ActionError) {
+    if (e instanceof ActionError) {      
       return {
         serverError: e.message
       };
     }
 
     return {
-      serverError: DEFAULT_SERVER_ERROR_MESSAGE
+      serverError: `Error : ${DEFAULT_SERVER_ERROR_MESSAGE}`
     };
-  },
-  defineMetadataSchema() {
-    return z.object({
-      actionName: z.string(),
-    });
-  },
+  }
 });
 
 export const authAdminAction = actionClient.use(async ({ next }) => {
