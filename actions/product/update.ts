@@ -3,17 +3,21 @@
 import * as z from "zod";
 import { ProductSchema } from "@/models/product";
 import { db } from "@/lib/db";
+import { ActionError, authAdminAction } from "@/lib/safe-actions";
 
-export const updateProduct = async (id: string, data: z.infer<typeof ProductSchema>) => {
-  const verified = ProductSchema.safeParse(data);
+const updateProductSchema = z.object({
+  productId: z.string(),
+  data : ProductSchema
+})
 
-  if (!verified.success) {
-    console.log(data, "verified", verified.error);
-    return { type: "error", message: "Product schema validation failed" };
-  }
+export const updateProduct = authAdminAction
+.schema(updateProductSchema)
+.action(async ({parsedInput: data})  => {
+
+  const {data: product, productId: id} = data;
 
   const productExists = await db.sneaker.findUnique({ where: { id } });
-  if (!productExists) return { type: "error", message: "Product not found" };
+  if (!productExists) throw new ActionError("Product not found");
 
   const {
     marque,
@@ -28,10 +32,9 @@ export const updateProduct = async (id: string, data: z.infer<typeof ProductSche
     stock,
     colors,
     sizes,
-  } = verified.data;
+  } = product;
 
   const { primary, secondary } = colors;
-  console.log(tags, "les tags uniquement");
 
   try {
     const sneaker = await db.sneaker.update({
@@ -80,16 +83,12 @@ export const updateProduct = async (id: string, data: z.infer<typeof ProductSche
     });
 
     return {
-      type: "success",
       message: `Product: ${sneaker.marque} update successfully`,
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    console.log(error.message);
-    return {
-      type: "error",
-      message: `Sneaker update failed error: ${error.message}`,
-    };
+    console.error(error.message);
+    throw new ActionError(`Sneaker update failed error: ${error.message}`)
   }
-};
+})

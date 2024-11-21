@@ -23,8 +23,9 @@ import { ToastSave } from "@/hooks/use-toast-save";
 import { Sneaker } from "@prisma/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import { redirect, useRouter } from "next/navigation";
+import { useAction } from "next-safe-action/hooks";
+import { useQueryClient } from "@tanstack/react-query";
 
 type Product = {
   themes: {id: string}[],
@@ -42,6 +43,8 @@ interface FormProductProps{
 export const FormProduct = ({productId, product}: FormProductProps) => {
 
   const [isLoading, startTransition] = useTransition();
+  const router = useRouter();
+  const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof ProductSchema>>({
     resolver: zodResolver(ProductSchema),
@@ -74,17 +77,46 @@ export const FormProduct = ({productId, product}: FormProductProps) => {
     },
   });
 
+
+  const { executeAsync: executeSave } = useAction(saveProduct,{
+      onSuccess: ({data}) =>{
+        ToastSave({
+          type: 'success',
+          message: `${data?.message}`
+        })
+        form.reset();
+        router.refresh();
+        queryClient.invalidateQueries({queryKey:["sneakers"]});
+      },
+      onError: ({error}) =>{
+        ToastSave({
+          type: 'error',
+          message: `${error.serverError}`
+        })
+      }
+    }
+  )
+  const { executeAsync: executeUpdated } = useAction(updateProduct,{
+      onSuccess: ({data}) =>{
+        ToastSave({
+          type: 'success',
+          message: `${data?.message}`
+        })
+        queryClient.invalidateQueries({queryKey:["sneakers"]});
+        redirect("/admin/products")
+      },
+      onError: ({error}) =>{
+        ToastSave({
+          type: 'error',
+          message: `${error.serverError}`
+        })
+      }
+    }
+  )
+
   const onSubmit = (data: z.infer<typeof ProductSchema>) => {
     startTransition(async ()=> {
-      console.log(data);  
-      const res = productId ? await updateProduct(productId, data) : await saveProduct(data);
-
-      if(productId && res.type === "success") return redirect("/admin/products")
-      else if(res.type === "success"){
-        form.reset();
-        revalidatePath("/admin/products/add")
-      }
-      ToastSave(res);
+      productId ? await executeUpdated({productId, data}) : await executeSave(data);
     })
   };
 

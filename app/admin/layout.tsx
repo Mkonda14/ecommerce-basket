@@ -7,6 +7,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/admin/app-sidebar"
 
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {ReactQueryDevtools}
 
 interface Props{
     children: React.ReactNode;
@@ -25,6 +26,7 @@ export default function LayoutAdmin({children}: Props) {
             <main className='flex-grow w-full'>
               <QueryClientProvider client={queryClient}>
                 {children}
+
               </QueryClientProvider>
             </main>
         </main>
