@@ -22,8 +22,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Dropzone } from "@/components/dropzone";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { getCategoryThemes } from "@/actions/category-attribut";
-import { useQuery } from "@tanstack/react-query";
-import { redirect } from "next/navigation";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
+import { useAction } from "next-safe-action/hooks";
 
 
 interface FormThemeProps{
@@ -35,6 +36,9 @@ interface FormThemeProps{
 export const FormTheme = ({themeId, theme}: FormThemeProps) => {
 
   const [isLoading, startTransition] = useTransition();
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
   const iCategories: CategoryTheme[] = [];
 
   const form = useForm<z.infer<typeof ThemeSchema>>({
@@ -53,17 +57,47 @@ export const FormTheme = ({themeId, theme}: FormThemeProps) => {
       initialData: iCategories,
   })
 
-  const onSubmit =  (data: z.infer<typeof ThemeSchema>) => {
-    startTransition(async () => {
-      const res = themeId ? await updateTheme(themeId, data) : await saveTheme(data);
-      if(themeId && res.type === "success") return redirect("/admin/themes")
-      else if(res.type === "success"){
+  const { executeAsync: executeSave } = useAction(saveTheme,{
+      onSuccess: ({data}) =>{
+        ToastSave({
+          type: 'success',
+          message: `${data?.message}`
+        })
         form.reset();
+        router.refresh();
+        queryClient.invalidateQueries({queryKey:["themes"]});
+      },
+      onError: ({error}) =>{
+        ToastSave({
+          type: 'error',
+          message: `${error.serverError?.serverError}`
+        })
       }
-      ToastSave(res);
-    });
-  };
+    }
+  )
+  const { executeAsync: executeUpdated } = useAction(updateTheme,{
+      onSuccess: ({data}) =>{
+        ToastSave({
+          type: 'success',
+          message: `${data?.message}`
+        })
+        queryClient.invalidateQueries({queryKey:["themes"]});
+        router.push("themes")
+      },
+      onError: ({error}) =>{
+        ToastSave({
+          type: 'error',
+          message: `${error.serverError?.serverError}`
+        })
+      }
+    }
+  )
 
+  const onSubmit = (data: z.infer<typeof ThemeSchema>) => {
+    startTransition(async ()=> {
+      themeId ? await executeUpdated({themeId, data}) : await executeSave(data);
+    })
+  };
 
   return (
     <main>

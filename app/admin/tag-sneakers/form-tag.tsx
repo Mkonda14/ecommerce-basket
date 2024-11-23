@@ -19,7 +19,9 @@ import { updateTagSneaker } from '@/actions/category-attribut/update';
 import { TagSneaker } from "@prisma/client";
 import { saveTagSneaker } from "@/actions/category-attribut/save";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useAction } from "next-safe-action/hooks";
+import { useQueryClient } from "@tanstack/react-query";
 
 
 interface FormTagProps{
@@ -31,6 +33,8 @@ interface FormTagProps{
 export const FormTag = ({tagId, tag}: FormTagProps) => {
 
   const [isLoading, startTransition] = useTransition();
+  const router = useRouter();
+  const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof TagSneakerSchema>>({
       resolver: zodResolver(TagSneakerSchema),
@@ -40,17 +44,47 @@ export const FormTag = ({tagId, tag}: FormTagProps) => {
       },
   });
 
-  const onSubmit = (data: z.infer<typeof TagSneakerSchema>) => {
-    startTransition(async () => {
-      const res = tagId ? await updateTagSneaker(tagId, data) : await saveTagSneaker(data);
-      if(tagId && res.type === "success") return redirect("/admin/tag-sneakers")
-      else if(res.type === "success"){
+  const { executeAsync: executeSave } = useAction(saveTagSneaker,{
+      onSuccess: ({data}) =>{
+        ToastSave({
+          type: 'success',
+          message: `${data?.message}`
+        })
         form.reset();
+        router.refresh();
+        queryClient.invalidateQueries({queryKey:["tag-sneakers"]});
+      },
+      onError: ({error}) =>{
+        ToastSave({
+          type: 'error',
+          message: `${error.serverError?.serverError}`
+        })
       }
-      ToastSave(res);
-    });
-  };
+    }
+  )
+  const { executeAsync: executeUpdated } = useAction(updateTagSneaker,{
+      onSuccess: ({data}) =>{
+        ToastSave({
+          type: 'success',
+          message: `${data?.message}`
+        })
+        queryClient.invalidateQueries({queryKey:["tag-sneakers"]});
+        router.push("/admin/tag-sneakers")
+      },
+      onError: ({error}) =>{
+        ToastSave({
+          type: 'error',
+          message: `${error.serverError?.serverError}`
+        })
+      }
+    }
+  )
 
+  const onSubmit = (data: z.infer<typeof TagSneakerSchema>) => {
+    startTransition(async ()=> {
+      tagId ? await executeUpdated({tagId, data}) : await executeSave(data);
+    })
+  };
 
   return (
     <main>

@@ -21,7 +21,9 @@ import { ToastSave } from '@/hooks/use-toast-save';
 import { updateCategorySneaker } from '@/actions/category-attribut/update';
 import { CategorySneaker } from "@prisma/client";
 import { saveCategorySneaker } from "@/actions/category-attribut/save";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useAction } from "next-safe-action/hooks";
+import { useQueryClient } from "@tanstack/react-query";
 
 
 interface FormCategoryProps{
@@ -33,6 +35,8 @@ interface FormCategoryProps{
 export const FormCategory = ({category, categoryId}: FormCategoryProps) => {
 
   const [isLoading, startTransition] = useTransition();
+  const router = useRouter();
+  const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof CategorySneakerSchema>>({
       resolver: zodResolver(CategorySneakerSchema),
@@ -43,16 +47,46 @@ export const FormCategory = ({category, categoryId}: FormCategoryProps) => {
       },
   });
 
+  const { executeAsync: executeSave } = useAction(saveCategorySneaker,{
+      onSuccess: ({data}) =>{
+        ToastSave({
+          type: 'success',
+          message: `${data?.message}`
+        })
+        form.reset();
+        router.refresh();
+        queryClient.invalidateQueries({queryKey:["category-sneakers"]});
+      },
+      onError: ({error}) =>{
+        ToastSave({
+          type: 'error',
+          message: `${error.serverError?.serverError}`
+        })
+      }
+    }
+  )
+  const { executeAsync: executeUpdated } = useAction(updateCategorySneaker,{
+      onSuccess: ({data}) =>{
+        ToastSave({
+          type: 'success',
+          message: `${data?.message}`
+        })
+        queryClient.invalidateQueries({queryKey:["category-sneakers"]});
+        router.push("/admin/category-sneakers")
+      },
+      onError: ({error}) =>{
+        ToastSave({
+          type: 'error',
+          message: `${error.serverError?.serverError}`
+        })
+      }
+    }
+  )
+
   const onSubmit = (data: z.infer<typeof CategorySneakerSchema>) => {
-      startTransition(async () => {
-        const res = categoryId ? await updateCategorySneaker(categoryId, data) : await saveCategorySneaker(data);
-        if(categoryId && res.type === "success") return redirect("/admin/category-sneakers")
-        else if(res.type === "success"){
-          form.reset();
-        }
-        
-        ToastSave(res)
-      });
+    startTransition(async ()=> {
+      categoryId ? await executeUpdated({categoryId, data}) : await executeSave(data);
+    })
   };
 
   return (

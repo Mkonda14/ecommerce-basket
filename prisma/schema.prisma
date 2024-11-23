@@ -105,7 +105,7 @@ model Sneaker{
   sizes Size[]
 
   categoryId  String
-  category CategorySneaker @relation(fields: [categoryId], references: [id])
+  category CategorySneaker @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   themes Theme[]
   tags TagSneaker[]
 

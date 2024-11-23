@@ -21,7 +21,9 @@ import { ToastSave } from '@/hooks/use-toast-save';
 import { updateCategoryTheme } from '@/actions/category-attribut/update';
 import { CategoryTheme } from "@prisma/client";
 import { saveCategoryTheme } from "@/actions/category-attribut/save";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useAction } from "next-safe-action/hooks";
+import { useQueryClient } from "@tanstack/react-query";
 
 
 interface FormCategoryProps{
@@ -33,6 +35,8 @@ interface FormCategoryProps{
 export const FormCategory = ({category, categoryId}: FormCategoryProps) => {
 
   const [isLoading, startTransition] = useTransition();
+  const router = useRouter();
+  const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof CategoryThemeSchema>>({
       resolver: zodResolver(CategoryThemeSchema),
@@ -43,15 +47,46 @@ export const FormCategory = ({category, categoryId}: FormCategoryProps) => {
       },
   });
 
+  const { executeAsync: executeSave } = useAction(saveCategoryTheme,{
+      onSuccess: ({data}) =>{
+        ToastSave({
+          type: 'success',
+          message: `${data?.message}`
+        })
+        form.reset();
+        router.refresh();
+        queryClient.invalidateQueries({queryKey:["category-themes"]});
+      },
+      onError: ({error}) =>{
+        ToastSave({
+          type: 'error',
+          message: `${error.serverError?.serverError}`
+        })
+      }
+    }
+  )
+  const { executeAsync: executeUpdated } = useAction(updateCategoryTheme,{
+      onSuccess: ({data}) =>{
+        ToastSave({
+          type: 'success',
+          message: `${data?.message}`
+        })
+        queryClient.invalidateQueries({queryKey:["category-themes"]});
+        router.push("/admin/category-themes")
+      },
+      onError: ({error}) =>{
+        ToastSave({
+          type: 'error',
+          message: `${error.serverError?.serverError}`
+        })
+      }
+    }
+  )
+
   const onSubmit = (data: z.infer<typeof CategoryThemeSchema>) => {
-      startTransition(async () => {
-        const res = categoryId ? await updateCategoryTheme(categoryId, data) : await saveCategoryTheme(data);
-        if(categoryId && res.type === "success") return redirect("/admin/category-themes")
-        else if(res.type === "success"){
-          form.reset();
-        }
-        ToastSave(res)
-      });
+    startTransition(async ()=> {
+      categoryId ? await executeUpdated({categoryId, data}) : await executeSave(data);
+    })
   };
 
   return (

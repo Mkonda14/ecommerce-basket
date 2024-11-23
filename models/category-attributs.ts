@@ -20,7 +20,7 @@ export const ThemeSchema = z.object({
     image: z.object({
         secure_url: z.string().default(""),
         public_id: z.string().default("")
-    })
+    }).optional(),
 });
 
 export const CategoryThemeSchema = z.object({
