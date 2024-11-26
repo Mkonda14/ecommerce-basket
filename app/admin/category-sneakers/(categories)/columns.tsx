@@ -25,7 +25,6 @@ import { InnerHTML } from "@/components/InnerHTML"
 import Link from "next/link"
 import { dateFormat } from "@/lib/utils"
 import { DropdownMenuItemDelete } from "@/components/admin/dropdown-menu-item-delete"
-import { deleteCategorySneaker } from "@/actions/category-attribut/delete"
 
 export const columns: ColumnDef<CategorySneaker>[] = [
   {
@@ -111,17 +110,7 @@ export const columns: ColumnDef<CategorySneaker>[] = [
     cell: ({ row }) => {
 
       const category = row.original
-      const onDelete = async ()=> {
-
-          const values = await deleteCategorySneaker({id: category.id})
-          return {
-            data: values?.data,
-            serverError: values?.serverError?.serverError,
-            validationErrors: values?.validationErrors, 
-            queryKey:["category-sneakers"] 
-          };
-      };
-      
+     
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -139,9 +128,9 @@ export const columns: ColumnDef<CategorySneaker>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem><Link className="flex items-center gap-x-4" href={`/admin/category-sneakers/update/${category.id}`}> <BiMessageSquareEdit className="w-4 h-4" /> <span>Updated</span> </Link> </DropdownMenuItem>
+            <DropdownMenuItem><Link className="flex items-center gap-x-3" href={`/admin/category-sneakers/update/${category.id}`}> <BiMessageSquareEdit className="size-4 mb-1" /> <span>Updated</span> </Link> </DropdownMenuItem>
             
-            <DropdownMenuItem><DropdownMenuItemDelete onDelete={onDelete} /></DropdownMenuItem>
+            <DropdownMenuItemDelete queryKey="category-sneakers" id={category.id} />
           </DropdownMenuContent>
         </DropdownMenu>
       )

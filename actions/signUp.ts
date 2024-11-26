@@ -29,8 +29,6 @@ export const signUp = async (data: z.infer<typeof signUpSchema>) => {
         }
     })
 
-    console.log(user);
-
     const token = await generateVerificationToken(user.email as string);
     await resendVerificationToken(token, email);
 

@@ -73,7 +73,7 @@ export const DTable = ({table, columns}:DataTableProps) => {
                   colSpan={columns.length}
                   className="h-32 text-center"
                 >
-                  {isLoading ? <LoaderSpin className="mx-auto" /> : 
+                  {isLoading ? <LoaderSpin size="xl" className="mx-auto" /> : 
                     <Button className="space-x-2" asChild>
                       <Link href={"/admin/products/add"}>
                         <MdAdd className="h-5 w-5" /> <span>Create product</span>

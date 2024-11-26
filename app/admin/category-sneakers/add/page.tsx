@@ -2,12 +2,23 @@
 
 import { Typographie } from '@/components/typographie'
 import { FormCategory } from '@/app/admin/category-sneakers/form-category'
+import { Button } from '@/components/ui/button'
+import Link from 'next/link'
+import { AiOutlineUnorderedList } from "react-icons/ai"; 
 
 export default async function CategoryAdd() {
 
   return (
     <main className=''>
-      <Typographie component={"h1"} variant='h1' size="lg" className='p-4'>New category sneaker</Typographie>
+      <header className="flex justify-between items-center p-4">
+          <Typographie component={"h1"} variant='h1' size="lg">New category sneaker</Typographie>
+          <Button asChild>
+              <Link href="/admin/category-sneakers">
+                  <AiOutlineUnorderedList />
+                  <span>Catégories</span>
+              </Link>
+          </Button>
+      </header>
       <main className='w-full'>
             <FormCategory />
       </main>

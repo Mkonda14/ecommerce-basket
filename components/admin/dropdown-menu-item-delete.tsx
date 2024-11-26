@@ -1,53 +1,85 @@
 "use client"
 
 import { ToastSave } from "@/hooks/use-toast-save";
-import { DropdownMenuItem } from "../ui/dropdown-menu";
-import { BtnModalSubmit } from "./dropdown-menu-item-delete/btn-modal-submit";
-import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
-import { Form } from "../ui/form";
-import { useForm } from "react-hook-form";
 
-type TValues = Promise<{
-    data: {message: string | undefined} | undefined;
-    serverError: string | undefined;
-    validationErrors: {
-        _errors?: string[] | undefined;
-        id?: {
-            _errors?: string[] | undefined;
-        } | undefined;
-    } | undefined;
-    queryKey: string[];
-}>
+
+import { FiAlertTriangle } from "react-icons/fi"; 
+import { RiDeleteBin5Line } from "react-icons/ri"; 
+
+import { Button } from "@/components/ui/button"
+import {
+    AlertDialog,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger
+} from "@/components/ui/alert-dialog"
+import { useState } from "react";
+
+import { 
+    deleteCategorySneaker,
+    deleteCategoryTheme,
+    deleteTagSneaker,
+    deleteTheme 
+} from "@/actions/category-attribut/delete"
+
+import { deleteSneaker } from "@/actions/product/delete";
+import { DropdownMenuItem } from "../ui/dropdown-menu";
+import { useRouter } from "next/navigation";
 
 interface IBtnDelete{
-    onDelete: ()=>TValues;
+    id: string,
+    queryKey: string,
 }
 
-export const DropdownMenuItemDelete = ({onDelete}: IBtnDelete) => {
+export const DropdownMenuItemDelete = ({id, queryKey}: IBtnDelete) => {
+
+    const queryClient = useQueryClient();
+    const [open, setOpen] = useState<boolean>(false);
+    const [isLoading, setLoading] = useState<boolean>(false);
 
     const router = useRouter();
-    const queryClient = useQueryClient();
-
-    const form = useForm();
 
     const handleSubmit = async ()=>{
-        console.log("(((((((((((((((((((deleting");
 
-        const values = await onDelete();
-        if(values?.validationErrors) {
+        let values = null;
+        setLoading(true);
+
+        switch (queryKey) {
+            case "category-sneakers":
+                values = await deleteCategorySneaker({id});
+                break;
+            case "tag-sneakers":
+                values = await deleteTagSneaker({id});
+                break;
+            case "category-themes":
+                values = await deleteCategoryTheme({id});
+                break;
+            case "themes":
+                values = await deleteTheme({id});
+                break;
+            case "sneakers":
+                values = await deleteSneaker({id});
+                break;
+        }
+        
+        if(values?.validationErrors){
             ToastSave({
-              type: 'error',
-              message: `There was an error deleting the object`
-            })
+                type: 'error',
+                message: `${values.validationErrors}`
+            })            
             return;
         }
 
-        if(values?.serverError) {
+        if(values?.serverError){
             ToastSave({
-              type: 'error',
-              message: `${values?.serverError}`
-            })
+                type: 'error',
+                message: `${values.serverError?.serverError}`
+            })            
             return;
         }
 
@@ -55,21 +87,49 @@ export const DropdownMenuItemDelete = ({onDelete}: IBtnDelete) => {
             type: 'success',
             message: `${values?.data?.message}`
         })
+        setLoading(false)
+        queryClient.invalidateQueries({queryKey: [queryKey]})
+        router.refresh()
+        setOpen(false)
 
-        console.log("(((((((((((((((((((deleting");
-        
-
-        router.refresh();
-        queryClient.invalidateQueries({queryKey: values.queryKey});
     }
 
     return (
-        <DropdownMenuItem asChild>
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(handleSubmit)}>
-                    <BtnModalSubmit/>
-                </form>
-            </Form>
-        </DropdownMenuItem>
+            <AlertDialog open={open} onOpenChange={setOpen}>
+                <AlertDialogTrigger>
+                    <DropdownMenuItem 
+                        className="w-[130px] flex items-center gap-x-3 text-red-500"
+                        onClick={(e)=> {
+                            e.preventDefault();
+                            setOpen(true)
+                        }} 
+                        >
+                        <RiDeleteBin5Line className="size-4 mb-1" />
+                        <span>Supprimer</span>
+                    </DropdownMenuItem>
+                </AlertDialogTrigger>
+                <AlertDialogContent className="bg-white">
+                    <AlertDialogHeader>
+                        <AlertDialogTitle className="flex items-center gap-x-2 mb-2">
+                            <FiAlertTriangle className="size-6 text-orange-300" />
+                            <span>Suppression</span>
+                        </AlertDialogTitle>
+                    <AlertDialogDescription>
+                        This action cannot be undone. This will permanently delete your
+                        account and remove your data from our servers.
+                    </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                    <AlertDialogCancel onClick={()=> setOpen(false)}>Cancel</AlertDialogCancel>
+                    <Button 
+                        variant={"destructive"}
+                        disabled={isLoading}
+                        onClick={()=> {
+                            handleSubmit()
+                        }}
+                    >Confirmation</Button>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
     )
 }

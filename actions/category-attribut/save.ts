@@ -56,12 +56,12 @@ export const saveTheme = authAdminAction
                 description: data.description,
                 categoryId: data.category,
                 createdAt: new Date(),
-                image: {
+                image: (data.image?.public_id ) ? {
                     create : {
                         publicId: data.image?.public_id,
                         secureUrl: data.image?.secure_url,
                     }
-                }
+                } : {}
             }
         })
         return { message: `Theme : ${theme.name} saved successfully`}

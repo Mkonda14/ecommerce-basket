@@ -3,6 +3,7 @@
 import { ProductSchema } from "@/models/product";
 import { db } from "@/lib/db";
 import { ActionError, authAdminAction } from "@/lib/safe-actions";
+import { generateSlug } from "../help";
 
 export const saveProduct = authAdminAction
   .schema(ProductSchema)
@@ -29,6 +30,7 @@ export const saveProduct = authAdminAction
 
       const sneaker = await db.sneaker.create({
         data: {
+          slug: generateSlug(marque, model),
           marque,
           model,
           description,
@@ -36,14 +38,21 @@ export const saveProduct = authAdminAction
           promoPrice: parseFloat(promoPrice.toString()),
           isPromo,
           stock: parseInt(stock, 10),
-          colorPrimary: primary.code,
-          colorPrimaryName: primary.name,
-          colorSecondaries: {
+
+          colorPrimary: {
+            create: {
+              color: primary.code,
+              name: primary.name,
+            },
+          },
+
+          colorSecondaries: secondary ? {
             create: secondary.map((color) => ({
               color: color.code,
               name: color.name,
             })),
-          },
+          } : {},
+
           sizes: {
             create: sizes.map((size) => ({
               size: parseInt(size.size, 10),
@@ -74,6 +83,7 @@ export const saveProduct = authAdminAction
           createdAt: new Date(),
         },
       });
+
 
       return {
         message: `Product: ${sneaker.marque} saved successfully`,

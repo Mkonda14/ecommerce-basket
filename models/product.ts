@@ -29,7 +29,7 @@ export const ProductSchema = z.object({
         secondary: z.array(z.object({
             code: z.string(),
             name: z.string()
-        })),
+        })).optional(),
     }),
 
     sizes: z.array(z.object({

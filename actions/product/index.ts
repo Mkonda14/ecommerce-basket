@@ -130,6 +130,7 @@ export const getProductById = async (id: string) => {
             },
             select:{
                 id: true,
+                slug: true,
                 marque: true,
                 model: true,
                 description: true,
@@ -137,11 +138,15 @@ export const getProductById = async (id: string) => {
                 isPromo: true,
                 promoPrice: true,
                 stock: true,
-                colorPrimary: true,
-                colorPrimaryName: true,
                 categoryId: true,
                 createdAt: true,
                 updatedAt: true,
+                colorPrimary: {
+                    select:{
+                        color: true,
+                        name: true,
+                    },
+                },
                 tags:{
                     select:{
                         id: true,
@@ -187,11 +192,15 @@ export const getSneakerById = async (sneakerId: string)=>{
                 isPromo: true,
                 promoPrice: true,
                 stock: true,
-                colorPrimary: true,
-                colorPrimaryName: true,
                 categoryId: true,
                 createdAt: true,
                 updatedAt: true,
+                colorPrimary: {
+                    select:{
+                        color: true,
+                        name: true,
+                    },
+                },
                 category: {
                     select:{
                         name: true,
@@ -251,19 +260,14 @@ export const getSneakerById = async (sneakerId: string)=>{
 
 export const getColorPrimaries = async () => {
     try {
-        const colors = await db.sneaker.findMany({
+        const colors = await db.colorPrimary.findMany({
+            distinct: ["name"],
             select: {
-                colorPrimary: true,
-                colorPrimaryName: true,
+                color: true,
+                name: true,
             },
         })
-        const exists: string[] = [];
-        return colors.map(({colorPrimary, colorPrimaryName})=> {
-            if(!exists.includes(colorPrimaryName)){
-                exists.push(colorPrimaryName);
-                return {name: colorPrimaryName, code: colorPrimary}
-            }
-        })
+        return colors
     } catch (error) {
         throw new Error("Error get sneaker colors primary to database: " + error)
     }

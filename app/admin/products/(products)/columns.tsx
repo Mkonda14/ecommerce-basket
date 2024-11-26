@@ -23,6 +23,7 @@ import { CellImg } from "@/components/admin/table/cell-img"
 import { CellBool } from "@/components/admin/table/cell-bool"
 import { BiMessageSquareEdit } from "react-icons/bi"
 import Link from "next/link"
+import { DropdownMenuItemDelete } from "@/components/admin/dropdown-menu-item-delete"
 
 export const columns: ColumnDef<Sneaker>[] = [
   {
@@ -151,7 +152,8 @@ export const columns: ColumnDef<Sneaker>[] = [
             <DropdownMenuSeparator />
             <DropdownMenuItem>View customer</DropdownMenuItem>
             <DropdownMenuItem>View sneaker details</DropdownMenuItem>
-            <DropdownMenuItem><Link className="flex items-center gap-x-4" href={`/admin/products/update/${product.id}`}> <BiMessageSquareEdit className="w-4 h-4" /> <span>Updated</span> </Link> </DropdownMenuItem>
+            <DropdownMenuItem><Link className="flex items-center gap-x-4" href={`/admin/products/update/${product.id}`}> <BiMessageSquareEdit className="size-4 mb-1" /> <span>Updated</span> </Link> </DropdownMenuItem>
+            <DropdownMenuItemDelete queryKey="sneakers" id={product.id} />
           </DropdownMenuContent>
         </DropdownMenu>
       )

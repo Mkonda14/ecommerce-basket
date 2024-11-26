@@ -24,6 +24,7 @@ import { dateFormat } from "@/lib/utils"
 import { BiMessageSquareEdit } from "react-icons/bi"
 import Link from "next/link"
 import { CellImg } from "@/components/admin/table/cell-img"
+import { DropdownMenuItemDelete } from "@/components/admin/dropdown-menu-item-delete"
 
 export const columns: ColumnDef<Theme>[] = [
   {
@@ -140,7 +141,11 @@ export const columns: ColumnDef<Theme>[] = [
             <DropdownMenuSeparator />
             <DropdownMenuItem>View customer</DropdownMenuItem>
             <DropdownMenuItem>View thème details</DropdownMenuItem>
-            <DropdownMenuItem><Link className="flex items-center gap-x-4" href={`/admin/themes/update/${theme.id}`}> <BiMessageSquareEdit className="w-4 h-4" /> <span>Updated</span> </Link> </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link className="flex items-center gap-x-4" href={`/admin/themes/update/${theme.id}`}> 
+              <BiMessageSquareEdit className="size-4 mb-1" /> <span>Updated</span> </Link> 
+            </DropdownMenuItem>
+            <DropdownMenuItemDelete queryKey="themes" id={theme.id} />
           </DropdownMenuContent>
         </DropdownMenu>
       )

@@ -23,6 +23,7 @@ import { InnerHTML } from "@/components/InnerHTML"
 import { dateFormat } from "@/lib/utils"
 import { BiMessageSquareEdit } from "react-icons/bi"
 import Link from "next/link"
+import { DropdownMenuItemDelete } from "@/components/admin/dropdown-menu-item-delete"
 
 export const columns: ColumnDef<TagSneaker>[] = [
   {
@@ -119,7 +120,11 @@ export const columns: ColumnDef<TagSneaker>[] = [
             <DropdownMenuSeparator />
             <DropdownMenuItem>View customer</DropdownMenuItem>
             <DropdownMenuItem>View tag details</DropdownMenuItem>
-            <DropdownMenuItem><Link className="flex items-center gap-x-4" href={`/admin/tag-sneakers/update/${tag.id}`}> <BiMessageSquareEdit className="w-4 h-4" /> <span>Updated</span> </Link> </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link className="flex items-center gap-x-4" href={`/admin/tag-sneakers/update/${tag.id}`}> 
+              <BiMessageSquareEdit className="size-4 mb-1" /> <span>Updated</span> </Link> 
+            </DropdownMenuItem>
+            <DropdownMenuItemDelete queryKey="tag-sneakers" id={tag.id} />
           </DropdownMenuContent>
         </DropdownMenu>
       )

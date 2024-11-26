@@ -32,6 +32,7 @@ type Product = {
   colorSecondaries: {color: string, name: string}[],
   sizes: {size: number, quantity: number}[],
   tags: {id: string, name: string}[],
+  colorPrimary: {color: string, name: string} | null,
 }
 
 interface FormProductProps{
@@ -60,8 +61,8 @@ export const FormProduct = ({productId, product}: FormProductProps) => {
       category: product?.categoryId || "",
       colors: {
         primary: {
-          name: product?.colorPrimaryName || "primary",
-          code: product?.colorPrimary || "#000"
+          name: product?.colorPrimary?.name || "primary",
+          code: product?.colorPrimary?.color || "#000"
         },
         secondary: product?.colorSecondaries.map(clr => ({code: clr.color, name: clr.name})) || [{
           name: "secondary",

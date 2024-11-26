@@ -24,6 +24,7 @@ import { CategoryTheme } from "@prisma/client"
 import { InnerHTML } from "@/components/InnerHTML"
 import Link from "next/link"
 import { dateFormat } from "@/lib/utils"
+import { DropdownMenuItemDelete } from "@/components/admin/dropdown-menu-item-delete"
 
 export const columns: ColumnDef<CategoryTheme>[] = [
   {
@@ -126,8 +127,8 @@ export const columns: ColumnDef<CategoryTheme>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View category details</DropdownMenuItem>
-            <DropdownMenuItem><Link className="flex items-center gap-x-4" href={`/admin/category-themes/update/${category.id}`}> <BiMessageSquareEdit className="w-4 h-4" /> <span>Updated</span> </Link> </DropdownMenuItem>
+            <DropdownMenuItem><Link className="flex items-center gap-x-4" href={`/admin/category-themes/update/${category.id}`}> <BiMessageSquareEdit className="size-4 mb-1" /> <span>Updated</span> </Link> </DropdownMenuItem>
+            <DropdownMenuItemDelete queryKey="category-themes" id={category.id} />
           </DropdownMenuContent>
         </DropdownMenu>
       )

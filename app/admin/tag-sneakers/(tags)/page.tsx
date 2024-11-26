@@ -11,6 +11,9 @@ import axios from "axios";
 import { TagSneaker } from "@prisma/client";
 import { useDataTable } from "@/hooks/use-store";
 import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { IoMdAdd } from "react-icons/io";
 
 interface TypeData {
     data: TagSneaker[];
@@ -35,7 +38,15 @@ export default function Tags() {
 
     return (
         <main className='min-h-[calc(100vh-68px)] flex flex-col justify-between gap-y-4'>
-            <Typographie component={"h1"} variant='h1' size="lg" className='p-4 pb-0'>Tag</Typographie>
+            <header className="flex justify-between items-center p-4 pb-0">
+                <Typographie component={"h1"} variant='h1' size="lg">Tags sneakers</Typographie>
+                <Button asChild>
+                    <Link href="/admin/tag-sneakers/add">
+                        <IoMdAdd />
+                        <span>Tag</span>
+                    </Link>
+                </Button>
+            </header>
             <main className='w-full flex-grow px-4'>
                     <DataTable data={data.data} columns={columns} />
             </main>

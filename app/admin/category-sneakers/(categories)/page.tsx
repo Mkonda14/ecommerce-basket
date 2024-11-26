@@ -11,6 +11,9 @@ import axios from "axios";
 import { CategorySneaker } from "@prisma/client";
 import { useDataTable } from "@/hooks/use-store";
 import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { IoMdAdd } from "react-icons/io";
 
 interface TypeData {
     data: CategorySneaker[];
@@ -30,7 +33,6 @@ export default function Categories() {
         initialData: categories
     })
 
-
     useEffect(()=>{
         onChangeLoading(isLoading)
     },[isLoading, onChangeLoading])
@@ -38,7 +40,15 @@ export default function Categories() {
     
     return (
         <main className='min-h-[calc(100vh-68px)] flex flex-col justify-between gap-y-4'>
-            <Typographie component={"h1"} variant='h1' size="lg" className='p-4 pb-0'>Catégorie</Typographie>
+            <header className="flex justify-between items-center p-4 pb-0">
+                <Typographie component={"h1"} variant='h1' size="lg">Catégories</Typographie>
+                <Button asChild>
+                    <Link href="/admin/category-sneakers/add">
+                        <IoMdAdd />
+                        <span>Category</span>
+                    </Link>
+                </Button>
+            </header>
             <main className='w-full flex-grow px-4'>
                     <DataTable data={data.data} columns={columns} />
             </main>
