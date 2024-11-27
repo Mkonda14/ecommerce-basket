@@ -21,43 +21,46 @@ export const SectionOne = ({form}: SectionOneProps) => {
             isFirst
             backHref="#"
         >
-            <FormField
-            name="marque"
-            control={form.control}
-            render={({field})=>(
-                <FormItem>
-                    <Label type="question"> Product title</Label>
-                    <FormControl>
-                    <Input
-                        placeholder="Name"
-                        type="text"
-                        {...field}
-                        className="py-5"
-                    />
-                    </FormControl>
-                    <FormMessage />
-                </FormItem>
-            )}
-            />
 
-            <FormField
-            name="model"
-            control={form.control}
-            render={({field})=>(
-                <FormItem>
-                <Label type="question"> Product model</Label>
-                <FormControl>
-                    <Input
-                    placeholder="model"
-                    type="text"
-                    {...field}
-                    className="py-5"
-                    />
-                </FormControl>
-                <FormMessage />
-                </FormItem>
-            )}
-            />
+            <div className="flex gap-x-4">
+                <FormField
+                name="marque"
+                control={form.control}
+                render={({field})=>(
+                    <FormItem className="w-1/2">
+                        <Label type="question"> Product title</Label>
+                        <FormControl>
+                        <Input
+                            placeholder="Name"
+                            type="text"
+                            {...field}
+                            className="py-5"
+                        />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}
+                />
+
+                <FormField
+                name="model"
+                control={form.control}
+                render={({field})=>(
+                    <FormItem className="w-1/2">
+                        <Label type="question"> Product model</Label>
+                        <FormControl>
+                            <Input
+                            placeholder="model"
+                            type="text"
+                            {...field}
+                            className="py-5"
+                            />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                )}
+                />
+            </div>
 
             <FormField
             name="description"
@@ -67,8 +70,8 @@ export const SectionOne = ({form}: SectionOneProps) => {
                 <Label type="question"> Description</Label>
                 <FormControl>
                     <RichText 
-                    value={field.value}
-                    onChange={field.onChange}
+                        value={field.value}
+                        onChange={field.onChange}
                     />
                 </FormControl>
                 <FormDescription>Description du produit</FormDescription>

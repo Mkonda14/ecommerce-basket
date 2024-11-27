@@ -47,15 +47,24 @@ export const updateProduct = authAdminAction
         promoPrice: parseFloat(promoPrice.toString()),
         isPromo,
         stock: parseInt(stock, 10),
-        colorPrimary: primary.code,
-        colorPrimaryName: primary.name,
+
+
+        colorPrimary: {
+          delete: true,
+          create: {
+            color: primary.code,
+            name: primary.name,
+          },
+        },
+
         colorSecondaries: {
           deleteMany: {},
-          create: secondary.map((color) => ({
+          create: secondary?.map((color) => ({
             color: color.code,
             name: color.name,
           })),
         },
+        
         sizes: {
           deleteMany: {},
           create: sizes.map((size) => ({

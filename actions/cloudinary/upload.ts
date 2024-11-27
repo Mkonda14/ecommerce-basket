@@ -38,3 +38,16 @@ export async function getSignature(folder?: string){
 
     return {timestamp, signature}
 }
+
+export async function deleteImage(publicIds?: string[]){
+    try {
+        if(publicIds)
+            await cloudinary.api.delete_resources(publicIds, {
+                resource_type: "image",
+            });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+        console.error("Erreur lors de la suppression des images sur Cloudinary:", error.message);
+        throw new Error(error.message);
+    }
+}

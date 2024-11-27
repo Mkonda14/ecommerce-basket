@@ -13,7 +13,6 @@ import { SectionFour } from "@/components/admin/form/section-form-product/sectio
 import { SectionFive } from "@/components/admin/form/section-form-product/section-five";
 
 import { Footer } from "@/components/admin/form/footer";
-import { CardPreviewProduct } from "@/components/admin/card-preview-product";
 
 import { saveProduct } from "@/actions/product/save";
 import { updateProduct } from "@/actions/product/update";
@@ -26,6 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useAction } from "next-safe-action/hooks";
 import { useQueryClient } from "@tanstack/react-query";
+import { useResetForm } from "@/hooks/stores/use-form-store";
 
 type Product = {
   themes: {id: string}[],
@@ -46,6 +46,7 @@ export const FormProduct = ({productId, product}: FormProductProps) => {
   const [isLoading, startTransition] = useTransition();
   const router = useRouter();
   const queryClient = useQueryClient();
+  const onChangeReset = useResetForm.use.onChange();
 
   const form = useForm<z.infer<typeof ProductSchema>>({
     resolver: zodResolver(ProductSchema),
@@ -86,7 +87,7 @@ export const FormProduct = ({productId, product}: FormProductProps) => {
           message: `${data?.message}`
         })
         form.reset();
-        router.refresh();
+        onChangeReset(true);
         queryClient.invalidateQueries({queryKey:["products"]});
       },
       onError: ({error}) =>{
@@ -127,7 +128,7 @@ export const FormProduct = ({productId, product}: FormProductProps) => {
       <Form {...form} >
         <form onSubmit={form.handleSubmit(onSubmit)} id="myForm" className="min-h-[calc(100vh-139px)] flex flex-col justify-between w-full">
           <main className="w-full flex gap-x-4 p-4 pt-0">
-            <section className="w-2/3 space-y-4">
+            <section className="w-full space-y-4">
               {/* section name, mode, description */}
               <SectionOne form={form} />
 
@@ -143,16 +144,6 @@ export const FormProduct = ({productId, product}: FormProductProps) => {
               {/* Section image */}
               <SectionFive form={form} />
 
-            </section>
-            {/* --------------------------- */}
-            <section className="w-1/3">
-                <CardPreviewProduct
-                  marque={form.getValues().marque}
-                  model={form.getValues().model}
-                  description={form.getValues().description}
-                  price={parseInt(form.getValues().price) || 0}
-                  public_id={"product/mhpcchmackb8wjphvth2"}
-                />
             </section>
           </main>
           <Footer onReset={form.reset} loading={isLoading} />

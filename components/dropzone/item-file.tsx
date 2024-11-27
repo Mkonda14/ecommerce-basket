@@ -35,7 +35,7 @@ export const ItemFile = ({name, size, time, progression, onDelete}: ItemFileProp
                         <Typographie component="p" variant="p" className="text-slate-400">
                             <span>{covertSize(size)} Kg</span> - <span>{time} seconds left</span>
                         </Typographie>
-                        <span className="px-2 text-slate-400">{progression}</span>
+                        <span className="px-2 text-slate-400">{Math.ceil(progression)}</span>
                     </div>
                 </div>
             </div>

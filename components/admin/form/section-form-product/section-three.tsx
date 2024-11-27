@@ -21,8 +21,8 @@ interface SectionThreeProps{
 
 export const SectionThree = ({form}: SectionThreeProps) => {
 
-    const initialColor = form.getValues().colors.secondary.map(() => uuidv4());
-    const initialSize = form.getValues().sizes.map(() => uuidv4());
+    const initialColor = form.getValues().colors?.secondary?.map(() => uuidv4()) || [uuidv4()];
+    const initialSize = form.getValues().sizes?.map(() => uuidv4()) || [uuidv4()];
 
     const [nbColor, setNbColor] = useState<string[]>(initialColor);
     const [nbSize, setNbSize] = useState<string[]>(initialSize);
@@ -98,12 +98,19 @@ export const SectionThree = ({form}: SectionThreeProps) => {
                                 <div className="grid grid-cols-3 mt-2 gap-4">
                                 {nbColor.map((id, idx) => (
                                     <div key={id} className="relative transition-all duration-300 full ease-out">
-                                        <ColorPicker value={form.getValues().colors.secondary[idx]?.code || "#333"} key={id} form={form} nameCode={`colors.secondary.${idx}.code`} nameColor={`colors.secondary.${idx}.name`} />
+                                        <ColorPicker 
+                                            value={form.getValues().colors.secondary?.[idx].code || "#333"}
+                                            key={id} 
+                                            form={form} 
+                                            nameCode={`colors.secondary.${idx}.code`} 
+                                            nameColor={`colors.secondary.${idx}.name`} 
+                                        />
                                         <Button type="button" className="w-5 h-5 absolute rounded-full -top-2 -right-2" size="icon" variant="destructive" onClick={()=>{
                                             field.onChange({
-                                            primary: field.value.primary, 
-                                            secondary: [...field.value.secondary.filter(val=> field.value.secondary.indexOf(val) !== idx)]
+                                                primary: field.value.primary, 
+                                                secondary: field.value.secondary?.filter((_, i) => i !== idx) || []
                                             })
+
                                             deleteColor(id)
                                         }}> <AiOutlineClose /> </Button>
                                     </div>
