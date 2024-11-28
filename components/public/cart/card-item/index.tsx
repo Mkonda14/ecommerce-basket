@@ -5,7 +5,7 @@ import { DialogChangeSize } from "./dialog-change-size";
 import { InputIncrement } from "./input-item";
 import { Button } from "@/components/ui/button";
 import { useLocalStorage } from "@/hooks/use-localstorage";
-import { useUpdatedBasket } from "@/hooks/use-store";
+import { useUpdatedBasket } from "@/hooks/stores/use-basket-store";
 import { useState } from "react";
 
 
@@ -25,7 +25,7 @@ interface ICartItem{
 export const CartItem = ({model, id, marque, promoPrice, isPromo, size, quantity, images, price, sizes}: ICartItem) => {
 
     const {removeBasket} = useLocalStorage("customers_sneaker_baskets")
-    const onUpdatedBasket = useUpdatedBasket(state=> state.onUpdatedBasket)
+    const onUpdatedBasket = useUpdatedBasket.use.onUpdatedBasket();
 
     const [qt, setQt] = useState<number>(quantity)
 

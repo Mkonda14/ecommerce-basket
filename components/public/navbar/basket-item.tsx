@@ -2,7 +2,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { Typographie } from "@/components/typographie";
 import { Button } from "@/components/ui/button";
 import { useLocalStorage } from "@/hooks/use-localstorage";
-import { useUpdatedBasket } from "@/hooks/use-store";
+import { useUpdatedBasket } from "@/hooks/stores/use-basket-store";
 import { CldImgDynamic } from "@/components/cld-img-dynamic";
 
 interface IBasketItem{
@@ -19,7 +19,7 @@ interface IBasketItem{
 
 export const BasketItem = ({id, publicId, marque, model, size, price, isPromo, promoPrice}: IBasketItem) => {
     const {removeBasket} = useLocalStorage("customers_sneaker_basket");
-    const updatedBasket = useUpdatedBasket((state)=> state.onUpdatedBasket)
+    const updatedBasket = useUpdatedBasket.use.onUpdatedBasket()
 
     const onDelete = ()=>{
         const length = removeBasket({id, size});

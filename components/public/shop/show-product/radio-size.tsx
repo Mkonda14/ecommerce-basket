@@ -5,7 +5,7 @@ import { Dispatch, SetStateAction } from "react";
 
 interface CheckboxSizeProps{
     size: number;
-    onChange: Dispatch<SetStateAction<number>>;
+    onChange: Dispatch<SetStateAction<number | undefined>>;
     value?: number;
 }
 

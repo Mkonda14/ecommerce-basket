@@ -137,7 +137,11 @@ export const FormTag = ({tagId, tag}: FormTagProps) => {
             
             </SectionForm>
           </main>
-          <Footer onReset={form.reset} loading={isLoading} />
+          <Footer 
+            onReset={form.reset} 
+            name={tagId ? "Updated tag" : "Save tag"} 
+            loading={isLoading} 
+          />
         </form>
       </Form>
     </main>

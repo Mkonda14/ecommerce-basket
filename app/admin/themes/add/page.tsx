@@ -10,7 +10,6 @@ export default async function ThemeAdd() {
 
   return (
     <main className=''>
-      <Typographie component={"h1"} variant='h1' size="lg" className='p-4'>New theme</Typographie>
       <header className="flex justify-between items-center p-4">
           <Typographie component={"h1"} variant='h1' size="lg">New thème</Typographie>
           <Button asChild>

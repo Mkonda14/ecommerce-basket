@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useLocalStorage } from "@/hooks/use-localstorage";
 import { useQuery } from "@tanstack/react-query";
-import { useUpdatedBasket } from "@/hooks/use-store";
+import { useUpdatedBasket } from "@/hooks/stores/use-basket-store";
 import { getBasketByKeys } from "@/actions/product/basket";
 import { useEffect, useState } from "react";
 import { CartItem } from "@/components/public/cart/card-item";
@@ -36,7 +36,7 @@ type TBaskets = TSneakers & {
 };
 
 export default function PageCard () {
-    const length = useUpdatedBasket((state)=> state.length);
+    const length = useUpdatedBasket.use.length;
     const {getBasket} = useLocalStorage("customers_sneaker_baskets")
 
     const [baskets, setBaskets] = useState<TBaskets[]>();

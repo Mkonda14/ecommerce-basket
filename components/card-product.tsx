@@ -1,16 +1,14 @@
 "use client"
 
-
 import { Typographie } from "./typographie";
 import { Badge } from "./ui/badge";
 import { BtnLike } from "./card-product/btn-like";
 import { LogoSneaker } from "./logo-sneaker";
-import { CardImg } from "./card-product/card-img";
 import { Price } from "./card-product/price";
 import { Size } from "./card-product/size";
 import { Color } from "./card-product/color";
 import Link from "next/link";
-import { Button } from "./ui/button";
+import { CldImgDynamic } from "./cld-img-dynamic";
 
 
 export interface CardProductProps{
@@ -40,14 +38,9 @@ export const CardProduct = ({
         tags = []
     }: CardProductProps) => {
     
-    let isPreview: boolean = false;
-
-    if(tags.length == 0 && colorSecondaries.length == 0) {
-        isPreview = true;
-    }
 
     return (     
-        <article className={`${isPreview ? "w-[245px] h-[400px]" : "w-full"} shadow-sm rounded-md relative`}>    
+        <article className={`${"w-full"} shadow-sm rounded-md relative`}>    
             <BtnLike sneakerId={id}  />
             <Link href={`/show/${id}`}>
                 <figure className="relative">
@@ -57,90 +50,40 @@ export const CardProduct = ({
                         </div>
                     </div>
                     <div className="">
-                        <CardImg 
-                            public_id={public_id}
+                        <CldImgDynamic 
+                            publicId={public_id}
+                            size={"card-sneaker"}
                             alt={model}
-                            isPreview={isPreview}
                         />
                     </div>
                 </figure>
                 <div className="p-2 bg-white">
                     <div className="flex items-center gap-x-2">
-                        {isPreview ? (
-                            <>
-                                <Typographie component="h3" variant="p">{model || "AIR STRUCTURE"}</Typographie>
-                                <Badge className="rounded-sm py-0 px-1 text-xs">new</Badge>
-                            </>
-                        ) : (
-                            <>
-                                <Typographie component="h3" variant="h3" size="lg" className="capitalize">{model || "AIR STRUCTURE"}</Typographie>
-                                {tags?.find(tag => tag.name.toLowerCase() === "new") && <Badge className="rounded-sm py-0 px-1 text-sm uppercase">new</Badge>}
-                            </>
-                        )}
-                        
+                        <Typographie component="h3" variant="h3" size="lg" className="capitalize">{model || "AIR STRUCTURE"}</Typographie>
+                        {tags?.find(tag => tag.name.toLowerCase() === "new") && <Badge className="rounded-sm py-0 px-1 text-sm uppercase">new</Badge>}                        
                     </div>
                     <div className="space-x-2 mb-4">
-                        {isPreview ? (
-                                <>
-                                    {Array.from({length: 2}, (_, idx)=>(
-                                        <span key={idx} className="uppercase text-xs">running</span>
-                                    ))}
-                                </>
-                            ) : (
-                                <>
-                                    {tags.map((tag, idx)=>(
-                                        <span key={idx} className="uppercase text-sm">{tag.name}</span>
-                                    ))}
-                                </>
-                            )}
-                        
+                        {tags.map((tag, idx)=>(
+                            <span key={idx} className="uppercase text-sm">{tag.name}</span>
+                        ))}                        
                     </div>
                     
-                    <Typographie component="h4" variant="h4" size={`${isPreview ? "sm": "md"}`} className="mb-2">SIZES</Typographie>
+                    <Typographie component="h4" variant="h4" size={"md"} className="mb-2">SIZES</Typographie>
                     <div className="flex gap-x-4 mb-4">
-                            {isPreview ? (
-                                <>
-                                     {Array.from({length: 5}, (_, idx)=>(
-                                        <span key={idx} className="text-sm font-light">{idx + 7}</span>
-                                    ))}
-                                </>
-                            ) : (
-                                <>
-                                    {sizes.map((size, idx)=>(
-                                        <Size key={idx} size={size.size} />
-                                    ))}
-                                </>
-                            )}
-                        
+                        {sizes.map((size, idx)=>(
+                            <Size key={idx} size={size.size} />
+                        ))}                        
                     </div>
 
-                    <Typographie component="h4" variant="h4" size={`${isPreview ? "sm": "md"}`} className="mb-5">COLOR SECONDARY</Typographie>
+                    <Typographie component="h4" variant="h4" size={"md"} className="mb-5">COLOR SECONDARY</Typographie>
                     <div className="w-full flex items-center justify-between gap-x-4 relative mb-4">
-                        <div className="flex flex-1 items-center gap-x-4">
-                            {isPreview ? (
-                                <>
-                                    {Array.from({length: 3}, (_, idx)=>(
-                                        <span key={idx} className="h-5 w-5 text-emerald-700 bg-emerald-700 hover:ring-[1px] ring-current  ring-offset-2 rounded-full"></span>
-                                    ))}
-                                </>
-                            ) : (
-                                <>
-                                    {colorSecondaries.map((color, idx)=>(
-                                        <Color key={idx} {...color} />
-                                    ))}
-                                </>
-                            )}
-                            
+                        <div className="flex flex-1 items-center gap-x-4">                            
+                            {colorSecondaries.map((color, idx)=>(
+                                <Color key={idx} {...color} />
+                            ))}               
                         </div>
                         {/* Price */}
-                        {isPreview ? (
-                            <Button className="absolute top-1/2 -translate-y-1/2 -right-4">
-                                <span className="font-light">USD</span>
-                                <span className="font-bold">{price || "23,433"}</span>
-                            </Button>
-                        ) : (
-                            <Price price={price} isPromo={isPromo} promoPrice={promoPrice} />
-                        )}
+                        <Price price={price} isPromo={isPromo} promoPrice={promoPrice} />
                     </div>
                 </div>
             </Link>           

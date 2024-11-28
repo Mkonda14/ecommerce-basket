@@ -3,7 +3,7 @@
 import { ItemAccordeon } from "./item-accordeon"
 
 import { useState } from "react"
-import { useFilters } from "@/hooks/use-store"
+import { useFilters } from "@/hooks/stores/use-filter-store"
 import { CheckboxColor } from "./checkbox-color"
 import { getColorPrimaries } from "@/actions/product"
 import { useQuery } from "@tanstack/react-query"
@@ -13,12 +13,12 @@ export const AccordeonColor = () => {
     const [colors, setColors] = useState<string[]>([]);
     const queryKey = ["sneaker-colors"]
 
-    const {data: dbColors} = useQuery<({name: string, code: string} | undefined)[]>({
+    const {data: dbColors} = useQuery<({name: string, color: string})[]>({
         queryKey: queryKey,
         queryFn: ()=> getColorPrimaries(),
     })
 
-    const updatedColors =  useFilters((state)=> state.updatedCategoryColors);
+    const updatedColors =  useFilters.use.updatedCategoryColors();
 
     return (
         <ItemAccordeon
@@ -29,8 +29,8 @@ export const AccordeonColor = () => {
                 {dbColors?.map((item, idx)=>(
                     <CheckboxColor
                         key={idx}
-                        code={item?.code}
-                        name={item?.name}
+                        code={item.color}
+                        name={item.name}
                         values={colors}
                         onChange={setColors}
                         updated={updatedColors}

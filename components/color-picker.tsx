@@ -13,7 +13,7 @@ import { UseFormReturn } from "react-hook-form";
 import { AiOutlineBgColors } from "react-icons/ai"; 
 
 interface ColorPickerProps{
-    nameCode: "colors" | `colors.primary.code` | `colors.secondary.${number}.code` 
+    nameCode: "colors" | `colors.primary.code` | `colors.secondary.${number}.code`; 
     nameColor?: "colors" | "colors.primary.name" | `colors.secondary.${number}.name`;
     form: UseFormReturn<z.infer<typeof ProductSchema>>;
     key?: string;

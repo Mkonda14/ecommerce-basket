@@ -158,7 +158,11 @@ export const FormCategory = ({category, categoryId}: FormCategoryProps) => {
             
             </SectionForm>
           </main>
-          <Footer onReset={form.reset} loading={isLoading} />
+          <Footer 
+            onReset={form.reset} 
+            name={categoryId ? "Updated category" : "Save category"} 
+            loading={isLoading} 
+          />
         </form>
       </Form>
     </main>

@@ -25,9 +25,9 @@ export default async function CategoryUpdate({params}: CategoryUpdateProps) {
     return (
         <main className=''>
         <Typographie component={"h1"} variant='h1' size="lg" className='p-4'>Updated category thème</Typographie>
-        <main className='w-full'>
-                <FormCategory categoryId={params.categoryId} category={category} />
-        </main>
+            <main className='w-full'>
+                    <FormCategory categoryId={params.categoryId} category={category} />
+            </main>
         </main>
     )
 }

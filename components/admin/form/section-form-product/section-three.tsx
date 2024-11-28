@@ -12,8 +12,9 @@ import { Label } from "../label";
 import { ColorPicker } from "@/components/color-picker";
 import { AiOutlineClose } from "react-icons/ai";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
+import { useResetForm } from "@/hooks/stores/use-form-store";
 
 interface SectionThreeProps{
     form: UseFormReturn<z.infer<typeof ProductSchema>>;
@@ -23,6 +24,14 @@ export const SectionThree = ({form}: SectionThreeProps) => {
 
     const initialColor = form.getValues().colors?.secondary?.map(() => uuidv4()) || [uuidv4()];
     const initialSize = form.getValues().sizes?.map(() => uuidv4()) || [uuidv4()];
+    const isReset = useResetForm.use.isReset();
+
+    useEffect(()=>{
+        if(isReset){
+            setNbColor([]);
+            setNbSize([]);
+        }
+    }, [isReset]);
 
     const [nbColor, setNbColor] = useState<string[]>(initialColor);
     const [nbSize, setNbSize] = useState<string[]>(initialSize);
@@ -61,14 +70,14 @@ export const SectionThree = ({form}: SectionThreeProps) => {
                     <FormItem>
                         <Label type="question">Product stock </Label>
                         <FormControl>
-                        <Input
-                        placeholder="0.0"
-                        type="text"
-                        {...field}
-                        className="py-5"
-                        />
-                    </FormControl>
-                    <FormMessage />
+                            <Input
+                            placeholder="0.0"
+                            type="text"
+                            {...field}
+                            className="py-5"
+                            />
+                        </FormControl>
+                        <FormMessage />
                     </FormItem>
                 )}
                 />
@@ -95,7 +104,7 @@ export const SectionThree = ({form}: SectionThreeProps) => {
                             {/* Color secondary */}
                             <div className="">
                                 <Label className="block mb-3">Colors secondary</Label>
-                                <div className="grid grid-cols-3 mt-2 gap-4">
+                                <div className="grid grid-cols-4 mt-2 gap-4">
                                 {nbColor.map((id, idx) => (
                                     <div key={id} className="relative transition-all duration-300 full ease-out">
                                         <ColorPicker 
@@ -141,7 +150,7 @@ export const SectionThree = ({form}: SectionThreeProps) => {
                                     <FormDescription>Veuillez insérer chaque size ainsi que la quantité</FormDescription>
                                 </div>
 
-                                <div className="w-full grid grid-cols-3 gap-4">
+                                <div className="w-full grid grid-cols-4 gap-4">
                                     {nbSize.map((item, idx)=>(
                                     <div key={item} className="relative flex gap-x-1 w-full">
                                         <FormField 
@@ -160,7 +169,7 @@ export const SectionThree = ({form}: SectionThreeProps) => {
                                         name={`sizes.${idx}.quantity`}
                                         control={form.control}
                                         render={({ field})=>(
-                                            <FormItem>
+                                            <FormItem className="flex-1">
                                             <FormControl>
                                                 <Input type="text" className="py-5" placeholder="quantity" {...field} />
                                             </FormControl>

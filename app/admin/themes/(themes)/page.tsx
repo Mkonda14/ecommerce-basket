@@ -9,7 +9,7 @@ import { Footer } from "@/components/admin/table/footer";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Theme } from "@prisma/client";
-import { useDataTable } from "@/hooks/use-store";
+import { useDataTable } from "@/hooks/stores/use-table-store";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -21,7 +21,7 @@ interface TypeData {
 
 export default function Themes() {
 
-    const {onChangeLoading} = useDataTable();
+    const onChangeLoading = useDataTable.use.onChangeLoading();
     const themes: TypeData = {data: []};
     const queryKey = ["themes"]
 

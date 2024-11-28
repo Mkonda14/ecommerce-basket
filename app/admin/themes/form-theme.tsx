@@ -25,6 +25,7 @@ import { getCategoryThemes } from "@/actions/category-attribut";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useAction } from "next-safe-action/hooks";
+import { useResetForm } from "@/hooks/stores/use-form-store";
 
 
 interface FormThemeProps{
@@ -38,6 +39,7 @@ export const FormTheme = ({themeId, theme}: FormThemeProps) => {
   const [isLoading, startTransition] = useTransition();
   const router = useRouter();
   const queryClient = useQueryClient();
+  const onChangeReset = useResetForm.use.onChange();
 
   const iCategories: CategoryTheme[] = [];
 
@@ -64,7 +66,7 @@ export const FormTheme = ({themeId, theme}: FormThemeProps) => {
           message: `${data?.message}`
         })
         form.reset();
-        router.refresh();
+        onChangeReset(true);
         queryClient.invalidateQueries({queryKey:["themes"]});
       },
       onError: ({error}) =>{
@@ -82,7 +84,7 @@ export const FormTheme = ({themeId, theme}: FormThemeProps) => {
           message: `${data?.message}`
         })
         queryClient.invalidateQueries({queryKey:["themes"]});
-        router.push("themes")
+        router.push("/admin/themes")
       },
       onError: ({error}) =>{
         ToastSave({
@@ -198,7 +200,11 @@ export const FormTheme = ({themeId, theme}: FormThemeProps) => {
             </SectionForm>
 
           </main>
-          <Footer onReset={form.reset} loading={isLoading} />
+          <Footer 
+            onReset={form.reset} 
+            name={themeId ? "Updated thème" : "Save thème"} 
+            loading={isLoading} 
+          />
         </form>
       </Form>
     </main>

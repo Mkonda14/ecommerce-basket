@@ -9,7 +9,7 @@ import {
     getPaginationRowModel,
     getSortedRowModel,
     useReactTable,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 
 
 import { DTable } from "@/components/admin/table/themes/table";

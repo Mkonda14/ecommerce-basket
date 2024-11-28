@@ -7,7 +7,7 @@ import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { CategorySneaker } from "@prisma/client"
 import { getCategorySneakers } from "@/actions/category-attribut"
-import { useFilters } from "@/hooks/use-store"
+import { useFilters } from "@/hooks/stores/use-filter-store"
 
 
 export const AccordeonCategorySneaker = () => {
@@ -19,7 +19,7 @@ export const AccordeonCategorySneaker = () => {
         queryFn: ()=> getCategorySneakers(),
     })
 
-    const updatedCategories =  useFilters((state)=> state.updatedCategorySneakers);
+    const updatedCategories =  useFilters.use.updatedCategorySneakers();
 
     return (
         <ItemAccordeon

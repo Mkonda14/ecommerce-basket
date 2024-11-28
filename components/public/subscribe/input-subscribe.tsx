@@ -9,6 +9,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 import { BsSend } from "react-icons/bs"; 
+import { useAction } from "next-safe-action/hooks";
+import { subscribe } from "@/actions/public-actions/subscribe";
+import { ToastSave } from "@/hooks/use-toast-save";
 
 export const InputSubscribe = () => {
 
@@ -23,8 +26,25 @@ export const InputSubscribe = () => {
         }
     })
 
+    const { executeAsync: executeSave } = useAction(subscribe,{
+        onSuccess: ({data}) =>{
+          ToastSave({
+            type: 'success',
+            message: `${data?.message}`
+          })
+          form.reset();
+        },
+        onError: ({error}) =>{
+          ToastSave({
+            type: 'error',
+            message: `${error.serverError?.serverError}`
+          })
+        }
+      }
+    )
+
     const onSubmit = (data: z.infer<typeof EmailSchama>) => {
-        console.log(data);
+        executeSave(data)
     };
 
     return (
@@ -56,7 +76,7 @@ export const InputSubscribe = () => {
                     />
                 </div>
                 
-                <Button size={"lg"} variant={"default"} className="">
+                <Button type="submit" size={"lg"} variant={"default"} className="">
                     Subscribe
                 </Button>
             </form>

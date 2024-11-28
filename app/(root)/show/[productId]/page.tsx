@@ -19,7 +19,7 @@ import { milleToK } from "@/lib/utils";
 import { InputIncrement } from "@/components/public/shop/show-product/input-increment";
 import { TabDescriptif } from "@/components/public/shop/show-product/tab-descriptif";
 import { useLocalStorage } from "@/hooks/use-localstorage";
-import { useUpdatedBasket } from "@/hooks/use-store";
+import { useUpdatedBasket } from "@/hooks/stores/use-basket-store";
 import { SectionSuggestion } from "@/components/public/shop/show-product/section-suggestion";
 import { ISneaker } from "@/components/public/home/section-dernier-creations";
 import { getCardSuggestions } from "@/actions/product/suggestion";
@@ -45,7 +45,7 @@ export default function PageShow({params}: PageShowProps) {
     const [likes, setLikes] = useState<number>(0);
     const {addBasket} = useLocalStorage("customers_sneaker_baskets")
 
-    const updatedBasket = useUpdatedBasket((state)=> state.onUpdatedBasket)
+    const updatedBasket = useUpdatedBasket.use.onUpdatedBasket();
 
 
     const {data: sneaker, error, isLoading} = useQuery({

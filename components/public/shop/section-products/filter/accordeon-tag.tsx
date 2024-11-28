@@ -6,7 +6,7 @@ import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { TagSneaker } from "@prisma/client"
 import { getTagSneakers } from "@/actions/category-attribut"
-import { useFilters } from "@/hooks/use-store"
+import { useFilters } from "@/hooks/stores/use-filter-store"
 import { CheckboxTag } from "./checkbox-tag"
 
 
@@ -19,7 +19,7 @@ export const AccordeonTag = () => {
         queryFn: ()=> getTagSneakers(),
     })
 
-    const updatedTags =  useFilters((state)=> state.updatedTagSneakers);
+    const updatedTags =  useFilters.use.updatedTagSneakers();
 
     return (
         <ItemAccordeon

@@ -49,6 +49,8 @@ model User {
 
   likeThemes    LikeTheme[]
   likeSneakers  LikeSneaker[]
+
+  customizations Customization[]
   
   @@map("users")
 }
@@ -93,7 +95,7 @@ model Sneaker{
   slug        String @unique
   marque      String 
   model       String
-  description String
+  description String @db.Text
   
   price       Float
   promoPrice  Float
@@ -107,12 +109,15 @@ model Sneaker{
 
   categoryId  String?
   category CategorySneaker? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  
   themes Theme[]
   tags TagSneaker[]
 
   likes LikeSneaker[]
-
   images ImageSneaker[]
+
+  customizations Customization[]
+
   createdAt DateTime
   updatedAt DateTime @updatedAt
 }
@@ -152,7 +157,7 @@ model ImageSneaker{
 model CategorySneaker{
   id String @id @default(cuid())
   name String
-  description String
+  description String @db.Text
 
   designer String
   popularity Int @default(0)
@@ -164,7 +169,7 @@ model CategorySneaker{
 model TagSneaker{
   id String @id @default(cuid())
   name String
-  description String
+  description String @db.Text
 
   popularity Int @default(0)
   sneakers Sneaker[]
@@ -188,7 +193,7 @@ model LikeSneaker{
 model Theme{
   id String @id @default(cuid())
   name String
-  description String
+  description String @db.Text
 
   image ImageTheme?
 
@@ -217,7 +222,7 @@ model CategoryTheme{
   id String @id @default(cuid())
   name String
   globalName String
-  description String
+  description String @db.Text
 
   popularity Int @default(0)
   theme Theme[]
@@ -237,12 +242,99 @@ model LikeTheme{
 
 }
 
+// -----------Graffiti--------
+
+model Graffiti {
+  id String @id @default(cuid())
+  name String
+  description String @db.Text
+  image ImageGraffiti?
+
+  categoryId String?
+  category CategoryGraffiti? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+
+  defaultColors DefaultColorGraffiti[]
+
+  textMinLength Int?
+  textMaxLength Int?
+  textMaxWords Int?
+
+  popularity Int @default(0)
+
+  createdAt DateTime
+  updatedAt DateTime @updatedAt
+  customizations Customization[]
+}
+
+model ImageGraffiti{
+  id String @id @default(cuid())
+
+  publicId String
+  secureUrl String
+
+  graffitiId String @unique
+  graffiti Graffiti @relation(fields: [graffitiId], references: [id], onDelete: Cascade)
+}
+
+model CategoryGraffiti{
+  id String @id @default(cuid())
+  name String
+  secondName String?
+  description String @db.Text
+
+  popularity Int @default(0)
+  graffitis Graffiti[]
+
+  createdAt DateTime
+  updatedAt DateTime @updatedAt
+}
+
+model DefaultColorGraffiti{
+  id String @id @default(cuid())
+  name String
+  color String
+
+  graffitiId String
+  graffiti Graffiti @relation(fields:[graffitiId], references: [id], onDelete: Cascade)
+}
+
+model Customization{
+  id String @id @default(cuid())
+  text String
+  instruction String @db.Text
+  description String @db.Text
+
+  colors ColorCustomization[]
+
+  sneakerId String?
+  sneaker Sneaker? @relation(fields: [sneakerId], references: [id], onDelete: SetNull)
+
+  graffitiId String
+  graffiti Graffiti @relation(fields: [graffitiId], references: [id], onDelete: Cascade)
+
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+
+  createdAt DateTime
+  updatedAt DateTime @updatedAt
+}
+
+model ColorCustomization{
+  id String @id @default(cuid())
+  name String?
+  color String?
+  
+  customizationId String
+  customization Customization @relation(fields:[customizationId], references: [id], onDelete: Cascade)
+}
+
+
 // ---------------------------
 
 model NewLetter{
   id String @id @default(cuid())
-  email String
+  email String @unique
 
   createdAt DateTime
-  updatedAt DateTime @updatedAt
 }

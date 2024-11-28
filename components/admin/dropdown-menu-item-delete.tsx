@@ -30,6 +30,8 @@ import {
 import { deleteSneaker } from "@/actions/product/delete";
 import { DropdownMenuItem } from "../ui/dropdown-menu";
 import { useRouter } from "next/navigation";
+import { deleteCategoryGraffiti } from "@/actions/graffiti/category/delete";
+import { deleteGraffiti } from "@/actions/graffiti/delete";
 
 interface IBtnDelete{
     id: string,
@@ -64,6 +66,12 @@ export const DropdownMenuItemDelete = ({id, queryKey}: IBtnDelete) => {
                 break;
             case "sneakers":
                 values = await deleteSneaker({id});
+                break;
+            case "category-graffitis":
+                values = await deleteCategoryGraffiti({id});
+                break;
+            case "graffitis":
+                values = await deleteGraffiti({id});
                 break;
         }
         

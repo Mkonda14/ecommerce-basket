@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { MdAdd } from "react-icons/md";
 import { LoaderSpin } from "@/components/loader-spin";
-import { useDataTable } from "@/hooks/use-store";
+import { useDataTable } from "@/hooks/stores/use-table-store";
 
 interface DataTableProps{
     table: TableType<TagSneaker>;
@@ -27,7 +27,7 @@ interface DataTableProps{
 
 export const DTable = ({table, columns}:DataTableProps) => {
 
-    const {isLoading} = useDataTable();
+    const isLoading = useDataTable.use.isLoading();
 
     return (
         <div className="rounded-md border">

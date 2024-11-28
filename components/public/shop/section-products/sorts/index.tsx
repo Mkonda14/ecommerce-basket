@@ -7,14 +7,14 @@ import { BsSortNumericDown } from "react-icons/bs";
 import { AiOutlineSortAscending } from "react-icons/ai"; 
 import { Button } from "@/components/ui/button"
 import { useState } from "react";
-import { useFilters } from "@/hooks/use-store";
+import { useFilters } from "@/hooks/stores/use-filter-store";
 
 export const Sorts = () => {
     const [sort, setSort] = useState<{alphabet: "asc" | "desc", price:  "asc" | "desc"}>({
         price: "asc",
         alphabet: "asc"
     })
-    const updatedSorts =  useFilters((state)=> state.updatedSorts);
+    const updatedSorts =  useFilters.use.updatedSorts();
 
     return (
         <section className="w-full flex justify-end items-center gap-x-4">

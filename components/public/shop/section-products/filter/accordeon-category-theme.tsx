@@ -7,7 +7,7 @@ import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { CategoryTheme } from "@prisma/client"
 import { getCategoryThemes } from "@/actions/category-attribut"
-import { useFilters } from "@/hooks/use-store"
+import { useFilters } from "@/hooks/stores/use-filter-store"
 
 
 export const AccordeonCategoryTheme = () => {
@@ -19,7 +19,7 @@ export const AccordeonCategoryTheme = () => {
         queryFn: ()=> getCategoryThemes(),
     })
 
-    const updatedCategories =  useFilters((state)=> state.updatedCategoryThemes);
+    const updatedCategories =  useFilters.use.updatedCategoryThemes();
 
     return (
         <ItemAccordeon

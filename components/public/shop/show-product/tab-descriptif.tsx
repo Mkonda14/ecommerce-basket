@@ -7,8 +7,8 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 interface TabDescriptifProps{
-    categorySneaker?: {name: string; description: string, designer: string};
-    themes?: {name: string; description: string, category: {name: string; description: string, globalName: string}}[];
+    categorySneaker?: {name: string; description: string, designer: string} | null;
+    themes?: {name: string; description: string, category: {name: string; description: string, globalName: string} | null}[];
     tags?: {name: string; description: string}[]
 }
 
@@ -43,12 +43,14 @@ export const TabDescriptif = ({categorySneaker, themes = [], tags = []}: TabDesc
                     <>
                       <li key={theme.name}><span className="text-base font-bold text-emerald-500 capitalize underline">{theme.name}</span></li>
                       <li key={theme.name} className="flex gap-x-2"><InnerHTML className="text-slate-500" text={theme.description} /></li>
-                      <li key={theme.name} className="flex gap-x-2"><span className="font-bold">Catégorie</span>
-                        <ul className="space-y-2">
-                          <li><span className="capitalize">{theme.category.globalName} / {theme.category.name}</span></li>
-                          <li className="flex gap-x-2"><InnerHTML className="text-slate-500" text={theme.category.description} /></li>
-                        </ul>
-                      </li>
+                      {!!theme.category && (
+                        <li key={theme.name} className="flex gap-x-2"><span className="font-bold">Catégorie</span>
+                          <ul className="space-y-2">
+                            <li><span className="capitalize">{theme.category.globalName} / {theme.category.name}</span></li>
+                            <li className="flex gap-x-2"><InnerHTML className="text-slate-500" text={theme.category.description} /></li>
+                          </ul>
+                        </li>
+                      )}
                       {idx + 1 !== themes.length && <Separator className="!my-4" />}
                     </>
                   ))}

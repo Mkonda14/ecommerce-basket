@@ -3,7 +3,7 @@
 import { ItemAccordeon } from "./item-accordeon"
 
 import { useState } from "react"
-import { useFilters } from "@/hooks/use-store"
+import { useFilters } from "@/hooks/stores/use-filter-store"
 import { SliderDouble } from "./slider-double/slider-double"
 
 
@@ -13,7 +13,7 @@ export const AccordeonPrice = () => {
         max: 200
     });
 
-    const updatedPrice =  useFilters((state)=> state.updatedCategoryPrice);
+    const updatedPrice =  useFilters.use.updatedCategoryPrice();
 
     return (
         <ItemAccordeon

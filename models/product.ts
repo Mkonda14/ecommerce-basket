@@ -19,7 +19,7 @@ export const ProductSchema = z.object({
         value: z.string()
     })),
 
-    stock: z.string(),
+    stock: z.string().default('1'),
 
     colors: z.object({
         primary: z.object({
@@ -41,4 +41,7 @@ export const ProductSchema = z.object({
         secure_url: z.string().default(""),
         public_id: z.string().default("")
     })).optional(),
+}).refine((values)=> parseInt(values.stock) === values.sizes.map(val => parseInt(val.quantity)).reduce((sum, q)=> sum + q, 0) ,{
+    message: "La somme des quantités sizes doit être égal au stock",
+    path: ["sizes"]
 })

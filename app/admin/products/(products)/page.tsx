@@ -10,7 +10,7 @@ import { Footer } from "@/components/admin/table/footer";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { Sneaker } from "@prisma/client";
-import { useDataTable } from "@/hooks/use-store";
+import { useDataTable } from "@/hooks/stores/use-table-store";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -21,7 +21,7 @@ interface TypeData {
 
 export default function Products() {
 
-    const {onChangeLoading} = useDataTable();
+    const onChangeLoading = useDataTable.use.onChangeLoading();
     const sneakers: TypeData = {data: []};
 
     const queryKey = ["sneakers"]

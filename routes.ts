@@ -4,7 +4,10 @@ export const PUBLIC_ROUTES = [
     "/",
     "/about",
     "/contact",
-    "/faq"
+    "/faq",
+    "/shop",
+    "/cart",
+    "/show"
 ];
 
 export const DEFAULT_REDIRECT_ROUTE = "/check-in";

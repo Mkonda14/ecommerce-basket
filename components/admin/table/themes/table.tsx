@@ -16,7 +16,7 @@ import type { ColumnDef, Table as TableType } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { MdAdd } from "react-icons/md";
-import { useDataTable } from "@/hooks/use-store";
+import { useDataTable } from "@/hooks/stores/use-table-store";
 import { LoaderSpin } from "@/components/loader-spin";
 
 interface DataTableProps{
@@ -27,7 +27,7 @@ interface DataTableProps{
 
 export const DTable = ({table, columns}:DataTableProps) => {
 
-    const {isLoading} = useDataTable();
+    const isLoading = useDataTable.use.isLoading();
 
     return (
         <div className="rounded-md border">

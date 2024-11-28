@@ -8,9 +8,10 @@ import { useResetForm } from "@/hooks/stores/use-form-store";
 interface FooterProps{
     onReset?: ()=>void;
     loading: boolean;
+    name?: string;
 }
 
-export const Footer = ({onReset, loading}:FooterProps) => {
+export const Footer = ({onReset, name, loading}:FooterProps) => {
 
     const onChange = useResetForm.use.onChange();
 
@@ -30,7 +31,7 @@ export const Footer = ({onReset, loading}:FooterProps) => {
            <div className="flex gap-x-2">
                 <Button variant={"outline"} type="button" onClick={handleReset}>Reset form</Button>
                 <Button disabled={loading}>
-                    {loading ? <LoaderSpin /> : <span>Save object</span> }
+                    {loading ? <LoaderSpin /> : <span>{name || "Save object"}</span> }
                 </Button>
                 <Button variant={"outline"} size={"icon"}><FiMoreVertical /></Button>
            </div>

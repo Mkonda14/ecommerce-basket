@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { Typographie } from "@/components/typographie";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
-import { useUpdatedBasket } from "@/hooks/use-store";
+import { useUpdatedBasket } from "@/hooks/stores/use-basket-store";
 import { useEffect, useState } from "react";
 import { useLocalStorage } from "@/hooks/use-localstorage";
 import { basketModal } from "@/actions/product/basket";
@@ -25,7 +25,7 @@ type TSneaker = {
 }
 
 export const BtnCart = () => {
-    const length = useUpdatedBasket((state)=> state.length);
+    const length = useUpdatedBasket.use.length();
     const {getBasket} = useLocalStorage("customers_sneaker_baskets")
     const [sneaker, setSneaker] = useState<TSneaker | undefined>();
     const [lengthBasket, setLengthBasket] = useState<number>();

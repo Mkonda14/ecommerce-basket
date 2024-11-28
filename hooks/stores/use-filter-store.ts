@@ -1,16 +1,6 @@
-"use client";
 
 import { create } from "zustand";
-
-interface IDataTable {
-    isLoading: boolean;
-    onChangeLoading: (loading: boolean) => void;
-}
-
-export const useDataTable = create<IDataTable>()((set) => ({
-    isLoading: true,
-    onChangeLoading: (loading: boolean) => set({ isLoading: loading }),
-}));
+import { createSelectors } from "./selector";
 
 interface IFilter{
     data: {
@@ -33,7 +23,7 @@ interface IFilter{
     updatedPage: (page: number)=> void;  // Add page update hook here if needed. For now, it's not needed in this example.  // Add page update hook here if needed. For now, it's not needed in this example.  // Add page update hook here if needed. For now, it's not needed in this example.  // Add page update hook here if needed. For now, it's not needed in this example.  // Add page
 }
 
-export const useFilters = create<IFilter>()((set) => ({
+export const useFilters = createSelectors(create<IFilter>()((set) => ({
     data: {
         categorySneakers: [], 
         categoryThemes: [], 
@@ -70,14 +60,4 @@ export const useFilters = create<IFilter>()((set) => ({
     updatedPage: (page: number)=>{
         set((state)=> ({data: {...state.data, page: page}}))
     }
-}));
-
-interface IBasket{
-    length: number;
-    onUpdatedBasket: (length: number)=> void;
-}
-
-export const useUpdatedBasket = create<IBasket>()((set)=>({
-    length: 0,
-    onUpdatedBasket: (length: number)=> set({length: length})
-}))
+})));

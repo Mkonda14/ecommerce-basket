@@ -6,15 +6,15 @@ import {
     PaginationNext,
     PaginationPrevious,
   } from "@/components/ui/pagination";
-  import { useFilters } from "@/hooks/use-store";
+  import { useFilters } from "@/hooks/stores/use-filter-store";
   
   interface PaginationsProps {
     length?: number;
   }
   
   export const Paginations = ({ length = 1 }: PaginationsProps) => {
-    const currentPage = useFilters((state) => state.data.page) || 1;
-    const updatedPage = useFilters((state) => state.updatedPage);
+    const currentPage = useFilters.use.data().page || 1;
+    const updatedPage = useFilters.use.updatedPage();
   
     const totalPages = Math.ceil(length / 12);
   

@@ -57,7 +57,7 @@ export const FormProduct = ({productId, product}: FormProductProps) => {
       isPromo: product?.isPromo || false,
       promoPrice: `${product?.promoPrice || "0.0"}`,
       price: `${product?.price || "0.0"}`,
-      stock: `${product?.stock || "0"}`,
+      stock: `${product?.stock || "1"}`,
       themes: product?.themes.map(theme => theme.id) || [],
       category: product?.categoryId || "",
       colors: {
@@ -70,7 +70,10 @@ export const FormProduct = ({productId, product}: FormProductProps) => {
           code: "#000"
         }]
       },
-      sizes: product?.sizes.map(size => ({size: `${size.size}`, quantity: `${size.quantity}`})) || [],
+      sizes: product?.sizes.map(size => ({size: `${size.size}`, quantity: `${size.quantity}`})) || [{
+        size: "42",
+        quantity: "1"
+      }],
       tags: product?.tags.map(tag => ({value: tag.id, label: tag.name})) || [],
       images:[{
         public_id: "product/mhpcchmackb8wjphvth2",
@@ -146,7 +149,11 @@ export const FormProduct = ({productId, product}: FormProductProps) => {
 
             </section>
           </main>
-          <Footer onReset={form.reset} loading={isLoading} />
+          <Footer 
+            onReset={form.reset} 
+            name={productId ? "Updated sneaker" : "Save sneaker"} 
+            loading={isLoading} 
+          />
         </form>
       </Form>
     </main>

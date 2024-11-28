@@ -3,14 +3,14 @@
 import { ItemAccordeon } from "./item-accordeon"
 
 import { useState } from "react"
-import { useFilters } from "@/hooks/use-store"
+import { useFilters } from "@/hooks/stores/use-filter-store"
 import { CheckboxSize } from "./checkbox-size"
 
 
 export const AccordeonSize = () => {
     const [sizes, setSizes] = useState<number[]>([]);
 
-    const updatedSizes =  useFilters((state)=> state.updatedCategorySizes);
+    const updatedSizes =  useFilters.use.updatedCategorySizes();
 
     return (
         <ItemAccordeon

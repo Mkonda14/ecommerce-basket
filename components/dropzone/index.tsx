@@ -33,7 +33,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({
 }) => {
   const [style, setStyle] = useState<string | undefined>(className);
   const [files, setFiles] = useState<File[]>([]);
-  const [progressions, setProgressions] = useState<number[]>([]);
+  const [progressions, setProgressions] = useState<{progress: number, timer: number}[]>([]);
   const [isLoading, startTransition] = useTransition();
 
   const isReset = useResetForm.use.isReset();
@@ -42,6 +42,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({
   const onClear = () => {
     setFiles([]);
     onChange([]);
+    setProgressions([]);
   };
 
   useEffect(()=>{
@@ -61,7 +62,6 @@ export const Dropzone: React.FC<DropzoneProps> = ({
 
       if (file) {
             const { timestamp, signature } = await getSignature(folder);
-
             const formData = new FormData();
 
             formData.append("file", file);
@@ -76,7 +76,8 @@ export const Dropzone: React.FC<DropzoneProps> = ({
                 const response = await axios.post(endpoint, formData, {
                     onUploadProgress(progressEvent) {
                         const progress = (progressEvent.loaded / (progressEvent.total || 1)) * 100;
-                        setProgressions((state)=> [...state, progress])
+                        const timer = progressEvent.estimated as number;
+                        setProgressions((state)=> [...state, {progress, timer}])
                     },
                 });
             
@@ -147,9 +148,9 @@ export const Dropzone: React.FC<DropzoneProps> = ({
             "border-2 border-dashed border-gray-300 p-6 rounded-lg cursor-pointer hover:border-blue-500 transition-colors",
         })}
       >
-        <input {...getInputProps()} />{" "}
+        <input {...getInputProps()} />
         <div className="min-h-[10rem] w-full flex flex-col gap-y-6 justify-center items-center">
-          <BsUpload className="text-4xl text-gray-500" />{" "}
+          <BsUpload className="text-4xl text-gray-500" />
           <Typographie component="p" variant="p">
             Drag & Drop or <span className="text-blue-600">Choose file</span> to
             upload
@@ -170,8 +171,8 @@ export const Dropzone: React.FC<DropzoneProps> = ({
             key={file.name}
             name={file.name}
             size={file.size}
-            time={"2"}
-            progression={progressions[idx] || 0}
+            time={progressions[idx]?.timer || 0}
+            progression={progressions[idx]?.progress || 0}
             onDelete={onDelete}
           />
         ))}
@@ -201,8 +202,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({
 
               });
             }}
-          >
-            
+          >  
             {isLoading ? <LoaderSpin /> : <span>Import</span>}
           </Button>
         </div>

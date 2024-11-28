@@ -17,6 +17,7 @@ import {
 import Link from "next/link";
 import { EntiteSneaker } from "./entites/entite-sneaker";
 import { EntiteTheme } from "./entites/entite-theme";
+import { EntiteGraffiti } from "./entites/entite-graffiti";
 
 // Menu items.
 const items = [
@@ -68,6 +69,7 @@ export function AppSidebarContent() {
                 <SidebarMenu>
                     <EntiteSneaker />                    
                     <EntiteTheme />                    
+                    <EntiteGraffiti />                    
                 </SidebarMenu>
             </SidebarGroupContent>
             </SidebarGroup>

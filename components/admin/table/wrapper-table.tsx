@@ -10,9 +10,9 @@ import { FiSearch } from "react-icons/fi";
 
 
 const colors = {
-    emerald: "bg-emerald-200",
-    cyan: "bg-cyan-200",
-    violet: "bg-violet-200",
+    emerald: "bg-emerald-500",
+    cyan: "bg-cyan-500",
+    violet: "bg-violet-500",
 }
 
 interface SectionTableProps{
