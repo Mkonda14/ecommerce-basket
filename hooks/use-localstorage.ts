@@ -8,10 +8,12 @@ type BasketType = {
 
 export const useLocalStorage = (key: string) =>{
     const saveBasket = (value: BasketType[])=>{
+        if(typeof window !== "undefined")
         window.localStorage.setItem(key, JSON.stringify(value));
     }
 
     const getBasket = (): BasketType[] => {
+        if(typeof window === "undefined") return [];
         const basket = window.localStorage.getItem(key);
         if(basket) return JSON.parse(basket);
         return [];
