@@ -1,10 +1,10 @@
 "use client"
 
-/* eslint-disable react-hooks/exhaustive-deps */
+import { AiOutlineShop } from "react-icons/ai"; 
 import { SlPaypal } from "react-icons/sl"; 
 import { HeroShop } from "@/components/public/shop/hero-shop";
 import { Typographie } from "@/components/typographie";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
 import { useLocalStorage } from "@/hooks/use-localstorage";
 import { useQuery } from "@tanstack/react-query";
@@ -13,6 +13,7 @@ import { getBasketByKeys } from "@/actions/product/basket";
 import { useEffect, useState } from "react";
 import { CartItem } from "@/components/public/cart/card-item";
 import { Separator } from "@/components/ui/separator";
+import { LoaderSpin } from "@/components/loader-spin";
 
 type TSneakers = {
     model: string;
@@ -43,7 +44,7 @@ export default function PageCard () {
 
     const queryKey = ["baskets", ...getBasket().map((basket)=> basket.id)]
 
-    const {data: sneakers} = useQuery<TSneakers[]>({
+    const {data: sneakers, isLoading} = useQuery<TSneakers[]>({
         queryKey,
         queryFn: ()=> getBasketByKeys(getBasket().map((basket)=> basket.id)),
     })
@@ -71,18 +72,28 @@ export default function PageCard () {
                     </Typographie>
                 </section>
                 <section className="flex gap-x-12">
-                    <section className="w-3/4">
+                    <section className="w-3/4 flex flex-col gap-y-4">
                         <Typographie component="h3" variant="h3" size="xl">Panier</Typographie>
-                        <div className="w-full flex flex-col gap-y-4">
-                            {baskets?.map((bkt, idx)=>(
-                                <>
-                                    <CartItem 
-                                        key={bkt?.id + '-' + bkt.size}
-                                        {...bkt}
-                                    />
-                                    {(baskets.length > idx + 1) && (<Separator />)}
-                                </>
-                            ))}
+                        <div className="w-full h-full flex flex-col gap-y-4">
+                            {(baskets?.length !== 0) ? (baskets?.map((bkt, idx)=>(
+                                    <>
+                                        <CartItem 
+                                            key={bkt?.id + '-' + bkt.size}
+                                            {...bkt}
+                                        />
+                                        {(baskets.length > idx + 1) && (<Separator />)}
+                                    </>
+                                ))) :
+                                <div className="w-full flex flex-1 flex-grow-1 flex-col gap-y-4 items-center justify-center text-center">
+                                    {isLoading ? <LoaderSpin /> : 
+                                        <>
+                                            <Typographie component="h4" variant="h4" size="lg">Le panier est vide</Typographie>
+                                            <Typographie component="p" variant="p" size="md">Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores odio doloremque maiores.</Typographie>
+                                            <Link href={"/shop"} className={buttonVariants()}> <AiOutlineShop /> <span>Return shopping</span> </Link>
+                                        </> 
+                                    }
+                                </div>
+                            }
                         </div>
                     </section>
                     {/* Recaptulatif */}

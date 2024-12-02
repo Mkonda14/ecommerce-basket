@@ -266,7 +266,7 @@ export const FormGraffiti = ({graffitiId, graffiti}: FormThemeProps) => {
                         <Dropzone 
                             onChange={field.onChange}
                             maxFiles={1}
-                            folder="theme"
+                            folder="graffiti"
                             className=""
                         />
                         </FormControl>

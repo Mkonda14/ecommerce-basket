@@ -17,7 +17,7 @@ export const TabDescriptif = ({categorySneaker, themes = [], tags = []}: TabDesc
     return (
       <section className="w-full">
         <Tabs defaultValue="categorySneaker" className="w-full">
-          <TabsList className="flex gap-x-4 justify-start bg-transparent !pb-6 border-b rounded-none">
+          <TabsList className="flex gap-x-4 justify-start bg-transparent rounded-none">
               <Button asChild><TabsTrigger value={"categorySneaker"}>Catégorie sneaker</TabsTrigger></Button>
               <Button asChild><TabsTrigger value={"themes"}>Thèmes</TabsTrigger></Button>
               <Button asChild><TabsTrigger value={"tags"}>Tags</TabsTrigger></Button>         

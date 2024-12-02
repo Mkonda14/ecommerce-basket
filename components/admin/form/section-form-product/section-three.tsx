@@ -108,7 +108,7 @@ export const SectionThree = ({form}: SectionThreeProps) => {
                                 {nbColor.map((id, idx) => (
                                     <div key={id} className="relative transition-all duration-300 full ease-out">
                                         <ColorPicker 
-                                            value={form.getValues().colors.secondary?.[idx].code || "#333"}
+                                            value={form.getValues().colors.secondary?.[idx]?.code || "#333"}
                                             key={id} 
                                             form={form} 
                                             nameCode={`colors.secondary.${idx}.code`} 

@@ -13,6 +13,7 @@ import { CldImgDynamic } from "./cld-img-dynamic";
 
 export interface CardProductProps{
     id?: string;
+    slug: string;
     marque: string;
     model: string;
     description?: string;
@@ -27,6 +28,7 @@ export interface CardProductProps{
 
 export const CardProduct = ({
         id,
+        slug,
         marque, 
         model, 
         price, 
@@ -35,14 +37,14 @@ export const CardProduct = ({
         colorSecondaries = [], 
         isPromo, 
         promoPrice,
-        tags = []
+        tags = [],
     }: CardProductProps) => {
     
 
     return (     
         <article className={`${"w-full"} shadow-sm rounded-md relative`}>    
             <BtnLike sneakerId={id}  />
-            <Link href={`/show/${id}`}>
+            <Link href={`/shop/${slug}`}>
                 <figure className="relative">
                     <div className="w-full absolute z-10">
                         <div className="w-full flex justify-between items-center p-2 py-2">
@@ -69,10 +71,15 @@ export const CardProduct = ({
                     </div>
                     
                     <Typographie component="h4" variant="h4" size={"md"} className="mb-2">SIZES</Typographie>
-                    <div className="flex gap-x-4 mb-4">
-                        {sizes.map((size, idx)=>(
+                    <div className="flex gap-x-4 mb-4 relative">
+                        {sizes.slice(0, 7).map((size, idx)=>(
                             <Size key={idx} size={size.size} />
-                        ))}                        
+                        ))} 
+                        {sizes.length >= 7 && (
+                            <span className="absolute top-1/2 right-2 w-7 h-7 flex justify-center items-center p-2 border rounded-sm">
+                                <span>+ {sizes.length - 7}</span>
+                            </span>
+                        )}                       
                     </div>
 
                     <Typographie component="h4" variant="h4" size={"md"} className="mb-5">COLOR SECONDARY</Typographie>

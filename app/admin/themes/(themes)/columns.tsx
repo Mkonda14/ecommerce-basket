@@ -23,8 +23,8 @@ import { InnerHTML } from "@/components/InnerHTML"
 import { dateFormat } from "@/lib/utils"
 import { BiMessageSquareEdit } from "react-icons/bi"
 import Link from "next/link"
-import { CellImg } from "@/components/admin/table/cell-img"
 import { DropdownMenuItemDelete } from "@/components/admin/dropdown-menu-item-delete"
+import { CldImgDynamic } from "@/components/cld-img-dynamic"
 
 export const columns: ColumnDef<Theme>[] = [
   {
@@ -56,7 +56,7 @@ export const columns: ColumnDef<Theme>[] = [
       const image: {publicId: string} = row.getValue("image");
       
       return (
-        <CellImg public_id={image.publicId} />
+        <CldImgDynamic size="cell-table" publicId={image.publicId} />
       )
     },
   },

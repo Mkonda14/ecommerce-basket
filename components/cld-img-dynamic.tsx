@@ -10,7 +10,7 @@ const sizes = {
     "card-basket-max": "h-32 w-32",
     "card-theme": "h-40 w-full",
     "card-sneaker": "h-[300px] w-full",
-    "crsl-max": "h-[400px] w-full",
+    "crsl-max": "h-[500px] w-full",
 };
 
 const roundeds = {

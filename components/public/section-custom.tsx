@@ -1,3 +1,4 @@
+import { AiOutlineWarning } from "react-icons/ai"; 
 import { FcIdea } from "react-icons/fc"; 
 
 import Image from "next/image"
@@ -22,8 +23,13 @@ export const SectionCustom = () => {
                         sit eaque obcaecati magnam quas itaque! Doloremque, tempore dolorum praesentium neque sed fuga? Magni.
                     </Typographie>
 
+                    <Typographie component="p" variant="p" size="md" className="flex items-center gap-x-2 text-muted-foreground mt-4">
+                        <AiOutlineWarning className="size-5 text-orange-400" />
+                        <span>Veuillez crée un compte pour pouvoir utiliser cette service</span>
+                    </Typographie>
+
                     <Button variant={"default"} className="my-4" asChild>
-                        <Link href="#">
+                        <Link href="/shop/custom">
                             <FcIdea /> <span>savoir plus</span>
                         </Link>
                     </Button>

@@ -54,14 +54,7 @@ export const filterSneaker = async (data: z.infer<typeof IFilterSneakerSchema>) 
             skip: (page - 1) * 12,
             take: 12,
             
-            select:{
-                id: true,
-                marque: true,
-                model: true,
-                price: true,
-                isPromo: true,
-                stock: true,
-                promoPrice: true,
+            include:{
                 images:{
                     select:{
                         publicId: true,

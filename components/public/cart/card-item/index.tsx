@@ -1,3 +1,5 @@
+"use client"
+
 import { AiOutlineClose } from "react-icons/ai"; 
 import { CldImgDynamic } from "@/components/cld-img-dynamic"
 import { Typographie } from "@/components/typographie";
@@ -37,7 +39,7 @@ export const CartItem = ({model, id, marque, promoPrice, isPromo, size, quantity
     return (
         <article className="w-full flex gap-x-4">
             <figure className="">
-                <CldImgDynamic size="card-basket-max" publicId={images[0].publicId} />
+                <CldImgDynamic size="card-basket-max" publicId={images[0]?.publicId || ""} />
             </figure>
             <div className="flex-1 flex justify-between items-center relative">
                 <div className="flex flex-col">
@@ -60,7 +62,7 @@ export const CartItem = ({model, id, marque, promoPrice, isPromo, size, quantity
                             model={model}
                             sneakerId={id} 
                             sizes={sizes} 
-                            publicId={images[0].publicId} 
+                            publicId={images[0]?.publicId || ""} 
                         /> 
                     </Typographie>
                 </div>

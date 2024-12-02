@@ -66,7 +66,7 @@ export const BtnCart = () => {
                             <BasketItem 
                                 {...sneaker}
                                 size={sneaker?.size}
-                                publicId={sneaker?.images[0].publicId}
+                                publicId={sneaker?.images[0]?.publicId || ""}
                                 quantity={sneaker?.quantity}
                             />
                         )}

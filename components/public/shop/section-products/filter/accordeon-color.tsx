@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query"
 
 export const AccordeonColor = () => {
     const [colors, setColors] = useState<string[]>([]);
-    const queryKey = ["sneaker-colors"]
+    const queryKey = ["color-sneakers"]
 
     const {data: dbColors} = useQuery<({name: string, color: string})[]>({
         queryKey: queryKey,

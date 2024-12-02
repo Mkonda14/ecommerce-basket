@@ -6,8 +6,6 @@ type BasketType = {
     size: number,
 }
 
-// eslint-disable-next-line react-hooks/rules-of-hooks
-
 export const useLocalStorage = (key: string) =>{
     const saveBasket = (value: BasketType[])=>{
         window.localStorage.setItem(key, JSON.stringify(value));

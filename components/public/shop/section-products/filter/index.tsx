@@ -18,9 +18,9 @@ export const Filter = () => {
                 <Accordion type="single" collapsible className="w-full">
                     <AccordeonCategorySneaker />
                     <AccordeonCategoryTheme />
-                    <AccordeonSize />
                     <AccordeonColor />
                     <AccordeonPrice />
+                    <AccordeonSize />
                     <AccordeonTag />
                 </Accordion>
             </section>

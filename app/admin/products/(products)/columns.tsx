@@ -19,11 +19,11 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { Sneaker } from "@prisma/client";
-import { CellImg } from "@/components/admin/table/cell-img"
 import { CellBool } from "@/components/admin/table/cell-bool"
 import { BiMessageSquareEdit } from "react-icons/bi"
 import Link from "next/link"
 import { DropdownMenuItemDelete } from "@/components/admin/dropdown-menu-item-delete"
+import { CldImgDynamic } from "@/components/cld-img-dynamic"
 
 export const columns: ColumnDef<Sneaker>[] = [
   {
@@ -55,7 +55,7 @@ export const columns: ColumnDef<Sneaker>[] = [
       const image: {publicId: string}[] = row.getValue("images");
       
       return (
-        <CellImg public_id={image[0].publicId} />
+        <CldImgDynamic size="cell-table" publicId={image[0].publicId} />
       )
     },
   },

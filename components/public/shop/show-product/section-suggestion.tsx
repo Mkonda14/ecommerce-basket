@@ -23,10 +23,11 @@ export const SectionSuggestion = ({sneakers}: ISectionSuggestion) => {
                         </Link>
                     </Button>
                 </div>
-                {sneakers.map(({id, model, marque, price, images, sizes, colorSecondaries, isPromo, promoPrice, tags})=>(
+                {sneakers.map(({id, slug, model, marque, price, images, sizes, colorSecondaries, isPromo, promoPrice, tags})=>(
                     <CardProduct 
                         key={id} 
                         id={id}
+                        slug={slug}
                         marque={marque} 
                         model={model} 
                         price={price} 

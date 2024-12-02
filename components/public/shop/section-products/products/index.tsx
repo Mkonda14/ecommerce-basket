@@ -9,7 +9,7 @@ interface ProductsProps{
 }
 
 export const Products = ({products}: ProductsProps) => {
-   
+
     return (
         <section className="min-h-40 flex justify-center items-center">
             {!products?.length ? (
@@ -19,22 +19,23 @@ export const Products = ({products}: ProductsProps) => {
                 </div>
             ) :(
                 <section className="w-full grid grid-cols-3 gap-4 py-4">
-                {products.map(({id, model, marque, price, images, sizes, colorSecondaries, isPromo, promoPrice, tags})=>(
-                    <CardProduct 
-                        key={id} 
-                        id={id}
-                        marque={marque} 
-                        model={model} 
-                        price={price} 
-                        public_id={images[0]?.publicId}
-                        sizes={sizes}
-                        colorSecondaries={colorSecondaries}
-                        isPromo={isPromo}
-                        promoPrice={promoPrice}
-                        tags={tags}
-                    />
-                ))}
-            </section>
+                    {products.map(({id, slug, model, marque, price, images, sizes, colorSecondaries, isPromo, promoPrice, tags})=>(
+                        <CardProduct 
+                            key={id}
+                            id={id}
+                            slug={slug}
+                            marque={marque} 
+                            model={model} 
+                            price={price} 
+                            public_id={images[0]?.publicId}
+                            sizes={sizes}
+                            colorSecondaries={colorSecondaries}
+                            isPromo={isPromo}
+                            promoPrice={promoPrice}
+                            tags={tags}
+                        />
+                    ))}
+                </section>
             )}
         </section>
     )

@@ -23,14 +23,7 @@ export const getCardSuggestions = async (params : z.infer<typeof CardSuggestionS
                     not: sneakerId
                 }
             },
-            select:{
-                id: true,
-                marque: true,
-                model: true,
-                price: true,
-                isPromo: true,
-                stock: true,
-                promoPrice: true,
+            include:{
                 images:{
                     select:{
                         publicId: true,

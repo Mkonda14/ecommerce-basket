@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import Providers from "@/utils/providers";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -25,7 +27,10 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <Providers>
               {children}
+              <ReactQueryDevtools />
+            </Providers>
             <Toaster />
           </ThemeProvider>
       </body>

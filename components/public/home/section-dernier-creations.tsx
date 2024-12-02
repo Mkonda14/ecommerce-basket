@@ -12,6 +12,7 @@ import { BsChevronRight } from "react-icons/bs";
 
 export interface ISneaker {
     id: string;
+    slug: string;
     marque: string;
     model: string;
     price: number;
@@ -50,9 +51,10 @@ export const  DernierCreations = () => {
         <section className="container px-2 mt-8">
             <Typographie component="h3" variant="h3" size="lg">Nos derniers créations</Typographie>
             <section className="w-full grid grid-cols-4 gap-4 py-6">
-                {sneakers.map(({id, model, marque, price, images, sizes, colorSecondaries, isPromo, promoPrice, tags})=>(
+                {sneakers.map(({id, slug, model, marque, price, images, sizes, colorSecondaries, isPromo, promoPrice, tags})=>(
                     <CardProduct 
                         key={id} 
+                        slug={slug}
                         id={id}
                         marque={marque} 
                         model={model} 
