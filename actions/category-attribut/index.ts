@@ -12,7 +12,7 @@ export const getCategorySneakers = async () => {
 
 export const getTagSneakers = async () => {
     try {
-       return await db.tagSneaker.findMany() 
+       return (await db.tagSneaker.findMany()) || []
     } catch (error) {
         throw new Error("Error while fetching tags" + error)
     }

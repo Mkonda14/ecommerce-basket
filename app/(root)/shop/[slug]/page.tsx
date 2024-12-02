@@ -24,6 +24,7 @@ import { ISneaker } from "@/components/public/home/section-dernier-creations";
 import { getCardSuggestions } from "@/actions/product/suggestion";
 import { getSneakerBySlug } from "@/actions/product";
 import { Container } from "@/components/container";
+import { LoaderSpin } from "@/components/loader-spin";
 
 
 interface PageShowProps{
@@ -49,7 +50,7 @@ export default function PageShow({params}: PageShowProps) {
     const updatedBasket = useUpdatedBasket.use.onUpdatedBasket();
 
 
-    const {data: sneaker, error, isLoading} = useQuery({
+    const {data: sneaker, isLoading} = useQuery({
         queryKey: queryKey,
         queryFn: ()=> getSneakerBySlug(slug),
     })
@@ -72,9 +73,16 @@ export default function PageShow({params}: PageShowProps) {
         updatedBasket(length);
     }
 
-    if((!sneaker || error) && !isLoading) {
-        notFound();
+    if((!sneaker) && !isLoading) {
+        return notFound();
     } 
+    if(isLoading){
+        return (
+            <main className="w-full h-[50vh] flex justify-center items-center">
+                <LoaderSpin size="xl" />
+            </main>
+        )
+    };
 
     return (
         <main>

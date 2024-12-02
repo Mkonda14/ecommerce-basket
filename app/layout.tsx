@@ -29,7 +29,7 @@ export default function RootLayout({
           >
             <Providers>
               {children}
-              <ReactQueryDevtools />
+              <ReactQueryDevtools initialIsOpen={false} />
             </Providers>
             <Toaster />
           </ThemeProvider>
