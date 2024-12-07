@@ -65,11 +65,11 @@ export const CardCustom = ({
           <CldImgDynamic publicId={images[0]?.publicId} size="card-sneaker" />
           <div
             className={cn(
-              "w-12 h-12 absolute z-30 bottom-0 right-0 flex justify-center items-center bg-emerald-500",
+              "w-12 h-12 absolute z-[1000] bottom-0 right-0 flex justify-center items-center bg-emerald-500",
               style.shadowBtn
             )}
           >
-            <BtnLike sneakerId={id} isFloat={false} className="rounded-full bg-white" />
+            <BtnLike sneakerId={id} isFloat={true} className="rounded-full bg-white z-[10000]" />
           </div>
         </figure>
 
