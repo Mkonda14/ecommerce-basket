@@ -49,6 +49,7 @@ model User {
 
   likeThemes    LikeTheme[]
   likeSneakers  LikeSneaker[]
+  likeGraffitis LikeGraffiti[]
 
   customizations Customization[]
   
@@ -114,6 +115,7 @@ model Sneaker{
   tags TagSneaker[]
 
   likes LikeSneaker[]
+
   images ImageSneaker[]
 
   customizations Customization[]
@@ -221,7 +223,7 @@ model ImageTheme{
 model CategoryTheme{
   id String @id @default(cuid())
   name String
-  globalName String
+  secondName String
   description String @db.Text
 
   popularity Int @default(0)
@@ -260,6 +262,7 @@ model Graffiti {
   textMaxWords Int?
 
   popularity Int @default(0)
+  likes LikeGraffiti[]
 
   createdAt DateTime
   updatedAt DateTime @updatedAt
@@ -296,6 +299,17 @@ model DefaultColorGraffiti{
 
   graffitiId String
   graffiti Graffiti @relation(fields:[graffitiId], references: [id], onDelete: Cascade)
+}
+
+model LikeGraffiti{
+  id String @id @default(cuid())
+
+  graffitiId String
+  graffiti Graffiti @relation(fields: [graffitiId], references: [id], onDelete: Cascade)
+
+  userId String?
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
 }
 
 model Customization{

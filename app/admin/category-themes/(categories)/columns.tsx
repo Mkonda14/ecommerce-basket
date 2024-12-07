@@ -71,10 +71,10 @@ export const columns: ColumnDef<CategoryTheme>[] = [
     ),
   },
   {
-    accessorKey: "globalName",
-    header: "Global Name",
+    accessorKey: "secondName",
+    header: "Second Name",
     cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("globalName")}</div>
+      <div className="capitalize">{row.getValue("secondName")}</div>
     ),
   },
   {

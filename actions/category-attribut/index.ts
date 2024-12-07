@@ -55,14 +55,7 @@ export const getThemes = async () => {
 export const getThemeCards = async () => {
     try {
        return await db.theme.findMany({
-        select: {
-            id: true,
-            name: true,
-            description: true,
-            popularity: true,
-            createdAt: true,
-            updatedAt: true,
-            categoryId: true,
+        include: {
             image: {
                 select: {
                     publicId: true,
@@ -76,7 +69,7 @@ export const getThemeCards = async () => {
             category: {
                 select: {
                     name: true,
-                    globalName: true,
+                    secondName: true,
                 },
             },      
         }

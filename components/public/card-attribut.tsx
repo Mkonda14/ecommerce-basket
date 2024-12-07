@@ -5,28 +5,36 @@ import { Typographie } from '@/components/typographie';
 import { milleToK } from "@/lib/utils";
 import Link from "next/link";
 
-import { Theme } from "@prisma/client";
-import { ThemeImg } from "./theme-img";
-import { BtnLike } from "./btn-like";
+import { BtnLike } from "./section-themes/btn-like";
 import { useState } from "react";
+import { CldImgDynamic } from "../cld-img-dynamic";
 
-export type CardThemeProps = Theme & {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface CardAttributProps {
+    id: string;
     image: {publicId: string} | null;
-    category: {name: string, globalName: string};
-    like?: number;
+    category: {name: string, secondName: string | null} | null;
+    name: string;
+    popularity: number;
     _count: {likes: number};
 }
 
+type TAttribute = CardAttributProps & {
+  entity: "theme" | "graffiti";
+}
 
-export const CardTheme = ({id, image, category, name, popularity, _count}: CardThemeProps) => {
+
+
+export const CardAttribut = ({id, image, category, name, popularity, _count, entity}: TAttribute) => {
   const [likes, setLikes] = useState<number>(_count.likes);
   return (
     <article className='w-full bg-[#FAFAFA] relative'>
-        <BtnLike themeId={id} onChange={setLikes} />
+        <BtnLike entity={entity} themeId={id} onChange={setLikes} />
         <Link href="#">
           <figure className="">
-              <ThemeImg
-                public_id={image?.publicId || ""}
+              <CldImgDynamic
+                publicId={image?.publicId || ""}
+                size="card-attribut"
                 alt={name}
               />
           </figure>
@@ -35,7 +43,7 @@ export const CardTheme = ({id, image, category, name, popularity, _count}: CardT
             <div className="flex items-center gap-x-2"> <BiUser /> <span>{milleToK(popularity)}</span> </div>
             <div className="flex items-center gap-x-2"> <BiHeart /> <span>{milleToK(likes)}</span> </div>
           </div>
-          <Typographie component='p' variant='p' size='md'>{category.globalName}/{category.name}</Typographie>
+          <Typographie component='p' variant='p' size='md'>{category?.secondName}/{category?.name}</Typographie>
         </Link>
     </article>
   )

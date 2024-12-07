@@ -43,7 +43,7 @@ export const FormCategory = ({category, categoryId}: FormCategoryProps) => {
       defaultValues: {
       name: category?.name || "",
       description: category?.description || "",
-      globalName: category?.globalName || "",
+      secondName: category?.secondName || "",
       },
   });
 
@@ -120,7 +120,7 @@ export const FormCategory = ({category, categoryId}: FormCategoryProps) => {
                 />
 
                 <FormField
-                name="globalName"
+                name="secondName"
                 control={form.control}
                 render={({field})=>(
                     <FormItem>

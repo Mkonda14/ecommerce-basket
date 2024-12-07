@@ -11,7 +11,18 @@ const EmailSchama = z.object({
 export const subscribe = actionClient
     .schema(EmailSchama)
     .action(async ({parsedInput: {email}})=> {
+
+        const emailExist = await db.newLetter.findUnique({
+            where: {email},
+        })
+
+        if (emailExist) {
+            console.error("Error to subscribe email to database existing");
+            throw new ActionError("Error to subscribe email to database existing");
+        }
+        
         try {
+
             await db.newLetter.create({
                 data: {
                     email,

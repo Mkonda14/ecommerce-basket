@@ -19,9 +19,10 @@ export const getCardSuggestions = async (params : z.infer<typeof CardSuggestionS
         const sneakers = await db.sneaker.findMany({
             where: {
                 themes: { every:  { id: { in: themeIds }  } },
-                id: {
-                    not: sneakerId
-                }
+                NOT: [
+                    {id: sneakerId},
+                    {colorSecondaries: {every: { id: ""}}}
+                ],
             },
             include:{
                 images:{

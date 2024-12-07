@@ -24,20 +24,20 @@
     height: 2rem;
     width: 2rem;
     border-radius: 50%;
-    background-color: #10b981;
-    border: 2px solid #ffffff;
+    background-color: #FAFAFA;
+    border: 2px solid #0F172A;
     cursor: pointer;
     box-shadow: 5px 3px 2px 0px rgba(0, 0, 0, 0.25);
 }
 .cntRangeText .cntRange input[type="range"]:last-child::-webkit-slider-thumb{
-    background-color: #10b981;
+    background-color: #FAFAFA;
 }
 
 .cntRangeText .cntRange :where(.barSlider, .slider){
     position: absolute;
     z-index: 0;
     top: 50%;
-    height: .4rem;
+    height: .5rem;
     border-radius: .5rem;
     transform: translateY(-50%);
 }

@@ -4,7 +4,7 @@ import {z} from "zod"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { Form, FormField, FormItem, FormControl, FormMessage } from "@/components/ui/form";
+import { Form, FormField, FormItem, FormControl } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -56,7 +56,6 @@ export const InputSubscribe = () => {
             >
                 <div className="flex justify-between items-center border">
                     <span className="p-2"><BsSend className="w-5 h-5" /></span>
-
                     <FormField
                         name="email"
                         control={form.control}
@@ -70,7 +69,6 @@ export const InputSubscribe = () => {
                                         {...field}
                                     />
                                 </FormControl>
-                                <FormMessage />
                             </FormItem>
                         )}
                     />

@@ -8,7 +8,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 interface TabDescriptifProps{
     categorySneaker?: {name: string; description: string, designer: string} | null;
-    themes?: {name: string; description: string, category: {name: string; description: string, globalName: string} | null}[];
+    themes?: {name: string; description: string, category: {name: string; description: string, secondName: string} | null}[];
     tags?: {name: string; description: string}[]
 }
 
@@ -46,7 +46,7 @@ export const TabDescriptif = ({categorySneaker, themes = [], tags = []}: TabDesc
                       {!!theme.category && (
                         <li key={theme.name} className="flex gap-x-2"><span className="font-bold">Catégorie</span>
                           <ul className="space-y-2">
-                            <li><span className="capitalize">{theme.category.globalName} / {theme.category.name}</span></li>
+                            <li><span className="capitalize">{theme.category.secondName} / {theme.category.name}</span></li>
                             <li className="flex gap-x-2"><InnerHTML className="text-slate-500" text={theme.category.description} /></li>
                           </ul>
                         </li>

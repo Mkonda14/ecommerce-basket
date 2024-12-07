@@ -37,6 +37,11 @@ export const getProducts = async () => {
 export const getProductCardDerniers = async () => {
     try {
         const sneakers = await db.sneaker.findMany({
+            where:{
+                NOT:{
+                    colorSecondaries: {every: { id: ""}}
+                }
+            },
             include:{
                 images:{
                     select:{
@@ -216,7 +221,7 @@ export const getSneakerById = async (sneakerId: string)=>{
                             select:{
                                 name: true,
                                 description: true,
-                                globalName: true,
+                                secondName: true,
                             }
                         }
                     },
@@ -255,7 +260,9 @@ export const getSneakerById = async (sneakerId: string)=>{
 export const getSneakerBySlug = async (slug: string)=>{
     try {
         return db.sneaker.findUnique({
-            where: {slug},
+            where: {
+                slug,
+            },
             include:{
                 colorPrimary: {
                     select:{
@@ -285,7 +292,7 @@ export const getSneakerBySlug = async (slug: string)=>{
                             select:{
                                 name: true,
                                 description: true,
-                                globalName: true,
+                                secondName: true,
                             }
                         }
                     },

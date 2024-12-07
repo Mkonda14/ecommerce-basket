@@ -7,20 +7,21 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
-import { CardTheme, CardThemeProps } from "./card-theme";
+import { CardAttribut, CardAttributProps } from "./card-attribut";
 
-interface CarouselTheme{
-  themes: CardThemeProps[];
+interface CarouselAttribut{
+  attributs: CardAttributProps[];
+  entity: "theme" | "graffiti"
 }
 
-export function CarouselTheme({ themes}: CarouselTheme) {
+export function CarouselAttribut({ attributs, entity}: CarouselAttribut) {
   return (
     <Carousel className="w-full">
       <CarouselContent className="-ml-1">
-        {themes.map((item, index) => (
+        {attributs.map((item, index) => (
           <CarouselItem key={index} className="pl-1 md:basis-1/3 lg:basis-1/4">
             <div className="p-2">
-              <CardTheme {...item} />
+              <CardAttribut {...item} entity={entity} />
             </div>
           </CarouselItem>
         ))}

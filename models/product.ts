@@ -11,9 +11,7 @@ export const ProductSchema = z.object({
     isPromo: z.boolean().default(false),
 
     category: z.string(),
-    themes: z.array(z.string()).refine((value) => value.some((item) => item), {
-        message: "You have to select at least one item.",
-    }),
+    themes: z.array(z.string()).optional(),
     tags: z.array(z.object({
         label: z.string(),
         value: z.string()
@@ -29,7 +27,7 @@ export const ProductSchema = z.object({
         secondary: z.array(z.object({
             code: z.string(),
             name: z.string()
-        })).optional(),
+        }).optional()).optional(),
     }),
 
     sizes: z.array(z.object({

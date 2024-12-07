@@ -6,13 +6,15 @@ import { isLikeTheme, likedTheme } from "@/actions/category-attribut/like-theme"
 
 import { AiFillHeart } from "react-icons/ai"; 
 import { AiOutlineHeart } from "react-icons/ai";
+import { likedGraffiti } from "@/actions/graffiti/like-graffiti";
 
 interface BtnLikeProps{
     themeId?: string;
-    onChange: Dispatch<SetStateAction<number>>
+    onChange: Dispatch<SetStateAction<number>>;
+    entity: "theme" | "graffiti"
 }
 
-export const BtnLike = ({themeId, onChange}: BtnLikeProps) => {
+export const BtnLike = ({themeId, entity, onChange}: BtnLikeProps) => {
 
   const [like, setLike] = useState<boolean>(false);
 
@@ -24,7 +26,17 @@ export const BtnLike = ({themeId, onChange}: BtnLikeProps) => {
   }, [themeId])
 
   const onLike = () => {
-    likedTheme(themeId).then((res) => {
+    let handleLike = null;
+    switch (entity) {
+      case "theme":
+        handleLike = likedTheme;
+        break;   
+      case "graffiti":
+        handleLike = likedGraffiti;
+        break;
+    }
+    
+    handleLike(themeId).then((res) => {
       setLike(res);
       if(res){
         onChange((likes: number)=> likes + 1)

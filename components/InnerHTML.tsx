@@ -1,12 +1,18 @@
+import { cn } from "@/lib/utils";
 import DOMPurify from "dompurify";
 
-interface InnerHTMLProps{
-    text: string;
-    className?: string;
+interface InnerHTMLProps {
+  text: string;
+  length?: number;
+  className?: string;
 }
 
-export const InnerHTML = ({text, className}:InnerHTMLProps) => {
+export const InnerHTML = ({ text, className, length }: InnerHTMLProps) => {
+
   return (
-    <div className={className} dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(text)}} />
-  )
-}
+    <div
+      className={cn("text-muted-foreground", className)}
+      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(length ? text.slice(0, length) + " ..." : text) }}
+    />
+  );
+};

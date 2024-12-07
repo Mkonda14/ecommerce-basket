@@ -29,22 +29,24 @@ interface IDialogChangeSize{
   
   export const DialogChangeSize = ({size, publicId, sizes, marque, model, price, isPromo, promoPrice, sneakerId}: IDialogChangeSize) => {
 
-        const [value, setValue] = useState<number>(size)
+        const [value, setValue] = useState<number | undefined>(size)
         const [vSize, setVSize] = useState<number>(size)
         const {updatedSize} = useLocalStorage("customers_sneaker_baskets");
 
         const onUpdatedSize = ()=> {
-            const res = updatedSize(sneakerId, size, value);
-            if(res) setVSize(value);  
+            if(value){
+                const res = updatedSize(sneakerId, size, value);
+                if(res) setVSize(value);  
+            }
         }
 
         return (
             <Dialog>
                 <DialogTrigger> <Button variant={"link"} className="text-xl underline underline-offset-2">{vSize}</Button> </DialogTrigger>
-                <DialogContent className="!max-w-[800px] bg-white">
+                <DialogContent className="!max-w-[820px] bg-white">
                         <section className="flex gap-x-4">
                             <div className="">
-                                <CldImgDynamic size="crsl-max" publicId={publicId} />
+                                <CldImgDynamic size="modal-update-size" publicId={publicId} />
                             </div>
                             <div className="">
                                 <DialogHeader>
@@ -61,12 +63,12 @@ interface IDialogChangeSize{
                                 </DialogHeader>
                                 <div className="flex flex-col gap-4 mt-8">
                                     <Typographie component="h3" variant="h3" size="md">Sélectionner la taille</Typographie>
-                                    <div className="w-full grid grid-cols-4 gap-24">
+                                    <div className="max-w-full grid grid-cols-4 gap-2">
                                         {sizes.map(({size}) =>(
                                             <RadioSize key={size} value={value} size={size} onChange={setValue} />
                                         ))}
                                     </div>
-                                    <Button size={"lg"} className="mt-4" onClick={onUpdatedSize}>Met à jour la taille</Button>
+                                    <Button size={"lg"} className="w-full font-bold text-lg p-6 mt-8" onClick={onUpdatedSize}>Mettre à jour la taille</Button>
                                 </div>
                             </div>
                         </section>

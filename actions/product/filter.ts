@@ -43,8 +43,11 @@ export const filterSneaker = async (data: z.infer<typeof IFilterSneakerSchema>) 
         categoryThemes.length > 0 ? { themes: { some: { category: { id: { in: categoryThemes } } } } } : {},
         tagSneakers.length > 0 ? { tags: { some: { id: { in: tagSneakers } } } } : {},
         sizes.length > 0 ? { sizes: { some: { size: { in: sizes } } } } : {},
-        colors.length > 0 ? { colorPrimaryName: { in: colors } } : {},
+        colors.length > 0 ? { colorPrimary: { name: {in: colors} } } : {},
         price ? { price: { gte: price.min, lte: price.max } } : {},
+        {NOT:{
+            colorSecondaries: {every: { id: ""}}
+        }}
     ]}
 
     try {

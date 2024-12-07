@@ -1,18 +1,18 @@
 "use client"
 
 import { Typographie } from "../../typographie"
-import { CarouselTheme } from "../section-themes/carousel-themes"
+import { CarouselAttribut } from "../carousel-attribut"
 import { getThemeCards } from "@/actions/category-attribut";
-import { CardThemeProps } from "../section-themes/card-theme";
+import { CardAttributProps } from "../card-attribut";
 
 import { useQuery } from "@tanstack/react-query";
 
 export const SectionTheme = () => {
 
-  const iThemes: CardThemeProps[] = [];
+  const iThemes: CardAttributProps[] = [];
 
   const queryKey = ["themes"];
-  const {data: themes} = useQuery<CardThemeProps[]>({
+  const {data: themes} = useQuery<CardAttributProps[]>({
     queryKey: queryKey,
     queryFn: ()=> getThemeCards(),
     initialData: iThemes,
@@ -22,10 +22,10 @@ export const SectionTheme = () => {
   return (
     <section className='w-full'>
         <section className="container py-10">
-         <div className="px-3">
+         <div className="">
           <Typographie component="h3" variant="h3" size="lg" className="mb-2">Les meilleurs thèmes que nous vous offrions</Typographie>
          </div>
-          <CarouselTheme themes={themes} />
+          <CarouselAttribut entity="theme" attributs={themes} />
         </section>
     </section>
   )

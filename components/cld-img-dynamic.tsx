@@ -8,9 +8,10 @@ const sizes = {
     "crsl-min": "h-16 w-16",
     "card-basket": "h-20 w-20",
     "card-basket-max": "h-32 w-32",
-    "card-theme": "h-40 w-full",
+    "card-attribut": "h-40 w-full",
     "card-sneaker": "h-[300px] w-full",
     "crsl-max": "h-[500px] w-full",
+    "modal-update-size": "h-[400px] w-full",
 };
 
 const roundeds = {
@@ -24,9 +25,10 @@ const sizeInitials = {
     "crsl-min": {height: 150, width: 150},
     "card-basket": {height: 150, width: 150},
     "card-basket-max": {height: 200, width: 150},
-    "card-theme": {height: 250, width: 400},
+    "card-attribut": {height: 250, width: 400},
     "card-sneaker": {height: 250, width: 175},
     "crsl-max": {height: 250, width: 250},
+    "modal-update-size": {height: 200, width: 250},
 }
 
 interface ICldImgDynamic {

@@ -25,6 +25,6 @@ export const ThemeSchema = z.object({
 
 export const CategoryThemeSchema = z.object({
     name: z.string(),
-    globalName: z.string(),
+    secondName: z.string(),
     description: z.string(),
 });

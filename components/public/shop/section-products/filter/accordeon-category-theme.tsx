@@ -26,11 +26,11 @@ export const AccordeonCategoryTheme = () => {
             idx={2}
             label="category themes"
         >
-            {dbCategories?.map(({id, name, globalName}) => (
+            {dbCategories?.map(({id, name, secondName}) => (
                 <CheckboxLabel
                     key={id}
                     value={id}
-                    label={`${globalName}/${name}`}
+                    label={`${secondName}/${name}`}
                     onChange={setCategories}
                     values={categories}
                     updated={updatedCategories}

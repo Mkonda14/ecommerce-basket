@@ -37,7 +37,7 @@ export const SectionCustom = () => {
             </div>
             <div className="w-1/2">
                 <Image
-                    src={"/assets/pngs/sneaker-customer.png"}
+                    src={"/assets/pngs/img-graffiti-1.png"}
                     alt={"sneaker-white"}
                     height={400}
                     width={500}

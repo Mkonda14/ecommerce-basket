@@ -164,7 +164,7 @@ export const FormTheme = ({themeId, theme}: FormThemeProps) => {
                             </FormControl>
                             <SelectContent>
                                 {categories.map(category =>(
-                                    <SelectItem key={category.id} value={category.id}>{category.globalName}/{category.name}</SelectItem>
+                                    <SelectItem key={category.id} value={category.id}>{category.secondName}/{category.name}</SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
