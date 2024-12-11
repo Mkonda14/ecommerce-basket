@@ -21,18 +21,6 @@ export const SectionProductCustoms = () => {
                     {...sneaker}
                 />
             ))}
-            <CardCustom
-                 marque="nike"
-                 model="Air force 1"
-                 description="Une excellente sneaker avec du charisme et l'elegance"
-                 price={240}
-                 isPromo={false}
-                 promoPrice={100}
-                 tags={[{name: "confort"}, {name: "sportive"}]}
-                 images={[{publicId: "/assets/imgs/basket-one.jpg"}]}
-                 slug="airforceSlug"
-                 id="airforceId"
-            />
         </section>
     )
 }

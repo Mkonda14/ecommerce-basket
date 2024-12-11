@@ -1,0 +1,30 @@
+@font-face {
+  font-family: "AdventureScript";
+  src: url("../../../../../public/fonts/AdventureScript.otf");
+}
+@font-face {
+  font-family: "Ghoust Outline";
+  src: url("../../../../../public/fonts/Ghoust Outline.otf");
+}
+
+
+.section {
+  background: #e0e0e0;
+}
+
+.wallTexture {
+  background: linear-gradient(135deg, #d4d4d4, #a6a6a6); /* Exemple de dégradé de mur */
+  border-radius: 20px;
+  box-shadow: 4px 4px 8px #e0e0e0, -4px -4px 8px #ffffff; /* Effet de neomorphisme */
+  background-image: url('../../../../../public/assets/imgs/texture/concrete-wall.png'); /* Texture de mur */
+  background-blend-mode: overlay;
+}
+
+.fontAdventureScript {
+  font-family: "AdventureScript", "Inter", sans-serif;
+}
+
+.fontGhoustOutline {
+  font-family: "Ghoust Outline", "Inter", sans-serif;
+}
+

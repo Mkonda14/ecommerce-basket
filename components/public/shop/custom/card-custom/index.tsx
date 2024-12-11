@@ -36,7 +36,17 @@ export const CardCustom = ({
   description
 }: ICardCustom) => {
   return (
-    <article className={style.card}>
+    <article className={cn(style.card, "relative")}>
+
+      <div
+        className={cn(
+          "w-12 h-12 absolute z-50 bottom-[134px] right-0 px-1.5 py-2 border bg-white",
+          style.shadowBtn
+        )}
+      >
+        <BtnLike sneakerId={id} isFloat={false} className="rounded-full bg-white" />
+      </div>
+
       <Link href={`/shop/custom/${slug}`}>
         <header className="flex justify-between items-center">
           <LogoSneaker marque={marque} />
@@ -62,15 +72,7 @@ export const CardCustom = ({
         </header>
 
         <figure className={cn("relative", style.figure)}>
-          <CldImgDynamic publicId={images[0]?.publicId} size="card-sneaker" />
-          <div
-            className={cn(
-              "w-12 h-12 absolute z-[1000] bottom-0 right-0 flex justify-center items-center bg-emerald-500",
-              style.shadowBtn
-            )}
-          >
-            <BtnLike sneakerId={id} isFloat={true} className="rounded-full bg-white z-[10000]" />
-          </div>
+          <CldImgDynamic publicId={images[0]?.publicId} size="card-sneaker" />  
         </figure>
 
         <footer>
