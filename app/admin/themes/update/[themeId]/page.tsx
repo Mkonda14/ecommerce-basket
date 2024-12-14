@@ -2,7 +2,8 @@
 
 import { Typographie } from '@/components/typographie'
 import { FormTheme } from '@/app/admin/themes/form-theme'
-import { getThemeById } from '@/actions/category-attribut';
+import { getCategoryThemes, getThemeById } from '@/actions/category-attribut';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 
 
 interface ThemeUpdateProps{
@@ -12,6 +13,13 @@ interface ThemeUpdateProps{
 }
 
 export default async function ThemeUpdate({params}: ThemeUpdateProps) {
+
+    const queryClient = new QueryClient();
+
+    await queryClient.prefetchQuery({
+        queryKey: ['categorie-themes'],
+        queryFn: ()=> getCategoryThemes(),
+    });
 
     // Get theme by ID and populate form with data
     
@@ -24,10 +32,12 @@ export default async function ThemeUpdate({params}: ThemeUpdateProps) {
 
     return (
         <main className=''>
-        <Typographie component={"h1"} variant='h1' size="lg" className='p-4'>Updated theme</Typographie>
-        <main className='w-full'>
-                <FormTheme themeId={params.themeId} theme={theme} />
-        </main>
+            <Typographie component={"h1"} variant='h1' size="lg" className='p-4'>Updated theme</Typographie>
+            <main className='w-full'>
+                <HydrationBoundary state={dehydrate(queryClient)}>
+                    <FormTheme themeId={params.themeId} theme={theme} />
+                </HydrationBoundary>
+            </main>
         </main>
     )
 }

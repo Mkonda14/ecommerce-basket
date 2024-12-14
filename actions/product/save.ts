@@ -47,9 +47,9 @@ export const saveProduct = authAdminAction
           },
 
           colorSecondaries: secondary ? {
-            create: secondary.map((color) => ({
-              color: color.code,
-              name: color.name,
+            create: secondary?.map((color) => ({
+              color: color?.code || "",
+              name: color?.name || "",
             })),
           } : {},
 
@@ -65,7 +65,7 @@ export const saveProduct = authAdminAction
             },
           },
           themes: {
-            connect: themes.map((theme) => ({
+            connect: themes?.map((theme) => ({
               id: theme,
             })),
           },

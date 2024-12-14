@@ -1,77 +1,34 @@
-"use client"
+"use server"
 
+import { getSneakerBySlug } from "@/actions/public-actions/show";
+
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import { CompClient } from "./comp-client";
 import { HeroShop } from "@/components/public/shop/hero-shop";
 
-import { useQuery } from "@tanstack/react-query";
-import { notFound } from "next/navigation";
 
-import { TabDescriptif } from "@/components/public/shop/show-product/tab-descriptif";
-
-import { SectionSuggestion } from "@/components/public/shop/show-product/section-suggestion";
-import { ISneaker } from "@/components/public/home/section-dernier-creations";
-import { getCardSuggestions } from "@/actions/product/suggestion";
-import { getSneakerBySlug } from "@/actions/product";
-import { Container } from "@/components/container";
-import { LoaderSpin } from "@/components/loader-spin";
-import { SectionDetailProduct } from "@/components/public/shop/show-product/section-detail-product";
-
-
-interface PageShowProps{
-    params: {
+interface IPageShowProps{
+    params: Promise<{
         slug: string
-    }
+    }>
 } 
 
-export default function PageShow({params}: PageShowProps) {
+export default async function PageShow(props: IPageShowProps) {
 
-    const { slug } = params;
+    const { slug } = await props.params;
+    const queryClient = new QueryClient();
 
-    const queryKey = [`show_product_${slug}`];
-    const queryKey2 = [`sneakers_suggestion_${slug}`];
-
-    const iSneakers: ISneaker[] = [];
-
-
-    const {data: sneaker, isLoading} = useQuery({
-        queryKey: queryKey,
+    await queryClient.prefetchQuery({
+        queryKey: [`show_product_${slug}`],
         queryFn: ()=> getSneakerBySlug(slug),
     })
 
-    const {data: sneakers} = useQuery<ISneaker[]>({
-        queryKey: queryKey2,
-        queryFn: ()=> getCardSuggestions({themeIds: sneaker?.themes.map(theme=>theme.id), sneakerId: sneaker?.id}),
-        initialData: iSneakers,
-    })
-
-
-    if((!sneaker) && !isLoading) {
-        return notFound();
-    } 
-    if(isLoading){
-        return (
-            <main className="w-full h-[50vh] flex justify-center items-center">
-                <LoaderSpin size="xl" />
-            </main>
-        )
-    };
-
     return (
-        <main>
-            <HeroShop title={"Show detail sneaker"} label={sneaker?.model} />
-            <Container maxWidth>
-                {/* section description */}
-                <SectionDetailProduct sneaker={sneaker} />
-                {/* section tab */}
-                <section className="mt-8 w-full">
-                    <TabDescriptif 
-                        categorySneaker={sneaker?.category} 
-                        themes={sneaker?.themes}
-                        tags={sneaker?.tags}
-                        />
-                </section>
-            </Container>
-            {/* section suggestion */}
-            <SectionSuggestion sneakers={sneakers} />
-        </main>
+        <HydrationBoundary state={dehydrate(queryClient)}>
+            <main>
+                <HeroShop title={"Show detail sneaker"} />
+                <CompClient slug={slug} />
+            </main>
+        </HydrationBoundary>
     )
 }

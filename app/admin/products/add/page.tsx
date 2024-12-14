@@ -6,8 +6,25 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { AiOutlineUnorderedList } from 'react-icons/ai'
 
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+import { getCategorySneakers, getTagSneakers, getThemes } from '@/actions/category-attribut'
+
 
 export default async function ProductAdd() {
+  const queryClient = new QueryClient()
+
+  await queryClient.prefetchQuery({
+    queryKey: ['categories'],
+    queryFn: ()=> getCategorySneakers(),
+  })
+  await queryClient.prefetchQuery({
+    queryKey: ['themes'],
+    queryFn: ()=> getThemes(),
+  })
+  await queryClient.prefetchQuery({
+    queryKey: ['tags'],
+    queryFn: ()=> getTagSneakers(),
+  })
 
   return (
     <main className=''>
@@ -21,7 +38,9 @@ export default async function ProductAdd() {
           </Button>
       </header>
       <main className='w-full'>
+      <HydrationBoundary state={dehydrate(queryClient)}>
             <FormProduct />
+      </HydrationBoundary>
       </main>
     </main>
   )

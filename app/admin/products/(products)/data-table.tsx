@@ -13,20 +13,34 @@ import {
 
 
 import { DTable } from "@/components/admin/table/products/table";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import type { ColumnDef } from "@tanstack/react-table";
 import { Sneaker } from "@prisma/client";
 import { WrapperTable } from "@/components/admin/table/wrapper-table";
 
+import { columns } from "@/app/admin/products/(products)/columns";
+import { useDataTable } from "@/hooks/stores/use-table-store";
+import { useQuery } from "@tanstack/react-query";
+import { getProducts } from "@/actions/product";
 
-interface DataTableProps{
-  columns: ColumnDef<Sneaker>[];
-  data: Sneaker[];
-}
+
+export function DataTable() {
+
+  const onChangeLoading = useDataTable.use.onChangeLoading();
+    const iSneakers: Sneaker[] = [];
+
+    const queryKey = ["sneakers"]
+    const {data, isLoading} = useQuery<Sneaker[]>({
+        queryKey: queryKey,
+        queryFn: ()=> getProducts(),
+        initialData: iSneakers
+    })
+
+    useEffect(()=>{
+        onChangeLoading(isLoading)
+    },[isLoading, onChangeLoading])
 
 
-export function DataTable({columns, data}: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     []

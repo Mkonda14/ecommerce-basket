@@ -13,21 +13,36 @@ import {
 
 
 import { DTable } from "@/components/admin/table/themes/table";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import type { ColumnDef } from "@tanstack/react-table";
 import { WrapperTable } from "@/components/admin/table/wrapper-table";
 
 import { Theme } from "@prisma/client"
+import { useDataTable } from "@/hooks/stores/use-table-store";
+
+import { useQuery } from "@tanstack/react-query";
+import { getThemeCards } from "@/actions/category-attribut";
+import { columns } from "@/app/admin/themes/(themes)/columns";
 
 
-interface DataTableProps{
-  columns: ColumnDef<Theme>[];
-  data?: Theme[];
-}
+
+export function DataTable() {
+
+  const onChangeLoading = useDataTable.use.onChangeLoading();
+    const themes: Theme[]= [];
+    const queryKey = ["themes"]
+
+    const {data, isLoading} = useQuery<Theme[]>({
+        queryKey: queryKey,
+        queryFn: ()=> getThemeCards(),
+        initialData: themes
+    })
+
+    useEffect(()=>{
+        onChangeLoading(isLoading)
+    },[isLoading, onChangeLoading])
 
 
-export function DataTable({columns, data = []}: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     []

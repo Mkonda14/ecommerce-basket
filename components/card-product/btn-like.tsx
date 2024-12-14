@@ -37,7 +37,7 @@ export const BtnLike = ({sneakerId, isFloat=true, onChange, className}: BtnLikeP
       <Button
         variant={"outline"}
         size={"icon"}
-        className={cn("border-none shadow-none", isFloat && "absolute top-1 right-2 z-20", className)}
+        className={cn("border-none shadow-none bg-black/10 backdrop-blur-md text-white", isFloat && "absolute top-1 right-2 z-20", className)}
         type="button"
         onClick={onLike}
       >

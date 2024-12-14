@@ -13,21 +13,34 @@ import {
 
 
 import { DTable } from "@/components/admin/table/tag-sneakers/table";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import type { ColumnDef } from "@tanstack/react-table";
 import { WrapperTable } from "@/components/admin/table/wrapper-table";
 
 import { TagSneaker } from "@prisma/client"
+import { columns } from "@/app/admin/tag-sneakers/(tags)/columns";
+import { useDataTable } from "@/hooks/stores/use-table-store";
+import { useQuery } from "@tanstack/react-query";
+import { getTagSneakers } from "@/actions/category-attribut";
 
 
-interface DataTableProps{
-  columns: ColumnDef<TagSneaker>[];
-  data?: TagSneaker[];
-}
 
+export function DataTable() {
 
-export function DataTable({columns, data = []}: DataTableProps) {
+  const onChangeLoading = useDataTable.use.onChangeLoading();
+  const tags: TagSneaker[] = [];
+  const queryKey = ["tag-sneakers"]
+
+  const {data, isLoading} = useQuery<TagSneaker[]>({
+      queryKey: queryKey,
+      queryFn: ()=> getTagSneakers(),
+      initialData: tags
+  })
+
+  useEffect(()=>{
+      onChangeLoading(isLoading)
+  },[isLoading, onChangeLoading])
+
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     []

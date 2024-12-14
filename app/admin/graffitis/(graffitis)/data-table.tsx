@@ -13,21 +13,33 @@ import {
 
 
 import { DTable } from "@/components/admin/table/graffitis/table";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import type { ColumnDef } from "@tanstack/react-table";
 import { WrapperTable } from "@/components/admin/table/wrapper-table";
 
 import { Graffiti } from "@prisma/client"
+import { columns } from "./columns";
+import { useDataTable } from "@/hooks/stores/use-table-store";
+import { useQuery } from "@tanstack/react-query";
+import { getGraffitis } from "@/actions/graffiti";
 
 
-interface DataTableProps{
-  columns: ColumnDef<Graffiti>[];
-  data?: Graffiti[];
-}
+export function DataTable() {
 
+  const onChangeLoading = useDataTable.use.onChangeLoading();
+  const themes: Graffiti[] = [];
+  const queryKey = ["graffitis"]
 
-export function DataTable({columns, data = []}: DataTableProps) {
+  const {data, isLoading} = useQuery<Graffiti[]>({
+      queryKey: queryKey,
+      queryFn: ()=> getGraffitis(),
+      initialData: themes
+  })
+
+  useEffect(()=>{
+      onChangeLoading(isLoading)
+  },[isLoading, onChangeLoading])
+
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
     []

@@ -23,33 +23,6 @@ export const getGraffitis = async () => {
     }
 }
 
-export const getGraffitiCards = async () => {
-    try {
-       return await db.graffiti.findMany({
-        include: {
-            image: {
-                select: {
-                    publicId: true,
-                },
-            },
-            _count: {
-                select: {
-                    likes: true,
-                },
-            },
-            category: {
-                select: {
-                    name: true,
-                    secondName: true,
-                },
-            },      
-        }
-       }) 
-    } catch (error) {
-        throw new Error("Error while fetching graffitis card" + error)
-    }
-}
-
 export const getGraffitiById = async (id: string) => {
     try {
         return db.graffiti.findUnique({

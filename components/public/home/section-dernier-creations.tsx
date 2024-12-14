@@ -1,6 +1,6 @@
 "use client"
 
-import { getProductCardDerniers } from "@/actions/product";
+import { getProductCardDerniers } from "@/actions/public-actions/home";
 import { CardProduct } from "../../card-product"
 import { Typographie } from "../../typographie"
 import { Button } from "../../ui/button";

@@ -50,7 +50,7 @@ export const BtnLike = ({themeId, entity, onChange}: BtnLikeProps) => {
       <Button
         variant={"outline"}
         size={"icon"}
-        className="border-none shadow-none absolute top-0 right-0 z-20 text-white"
+        className="border-none shadow-none absolute top-0 right-0 z-20 bg-black/10 backdrop-blur-md text-white"
         type="button"
         onClick={onLike}
       > 

@@ -103,7 +103,7 @@ export const Dropzone: React.FC<DropzoneProps> = ({
         }
     }
 
-    if (folder === "theme" || folder === "graffiti") {
+    if (maxFiles === 1) {
       onChange(imgs[0]);
       return;
     }

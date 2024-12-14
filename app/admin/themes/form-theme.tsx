@@ -54,7 +54,7 @@ export const FormTheme = ({themeId, theme}: FormThemeProps) => {
   });
 
   const {data: categories} = useQuery<CategoryTheme[]>({
-      queryKey: ['categories'],
+      queryKey: ['categorie-themes'],
       queryFn: ()=> getCategoryThemes(),
       initialData: iCategories,
   })

@@ -22,7 +22,7 @@ interface SectionThreeProps{
 
 export const SectionThree = ({form}: SectionThreeProps) => {
 
-    const initialColor = form.getValues().colors?.secondary?.map(() => uuidv4()) || [uuidv4()];
+    const initialColor: string[] | undefined = form.getValues().colors?.secondary?.map(() => uuidv4());
     const initialSize = form.getValues().sizes?.map(() => uuidv4()) || [uuidv4()];
     const isReset = useResetForm.use.isReset();
 
@@ -33,7 +33,7 @@ export const SectionThree = ({form}: SectionThreeProps) => {
         }
     }, [isReset]);
 
-    const [nbColor, setNbColor] = useState<string[]>(initialColor);
+    const [nbColor, setNbColor] = useState<string[]>(initialColor || []);
     const [nbSize, setNbSize] = useState<string[]>(initialSize);
 
 
@@ -51,9 +51,7 @@ export const SectionThree = ({form}: SectionThreeProps) => {
         setNbColor((previous)=> [...previous, uuidv4()] )
     };
     const deleteColor = (id: string) => {
-        if(nbColor.length > 1){
-            setNbColor((previous)=> previous.filter(color => color !== id))
-        }
+        setNbColor((previous)=> previous.filter(color => color !== id))
     };
     
 
@@ -91,7 +89,7 @@ export const SectionThree = ({form}: SectionThreeProps) => {
                     <FormItem>
                         <div className="">
                             <div className="mb-4">
-                                <Label type="question">Product colo </Label>
+                                <Label type="question">Product colors </Label>
                                 <FormDescription>Veuillez insérer chaque couleur ainsi que la quantité</FormDescription>
                             </div>
 

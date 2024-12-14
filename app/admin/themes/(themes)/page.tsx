@@ -1,39 +1,25 @@
-"use client"
-
-import { columns } from "@/app/admin/themes/(themes)/columns";
+"use server"
 
 import { Typographie } from "@/components/typographie";
 import { DataTable } from "./data-table";
 import { Footer } from "@/components/admin/table/footer";
 
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { Theme } from "@prisma/client";
-import { useDataTable } from "@/hooks/stores/use-table-store";
-import { useEffect } from "react";
+import { QueryClient, HydrationBoundary, dehydrate } from "@tanstack/react-query";
+
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { IoMdAdd } from "react-icons/io";
 
-interface TypeData {
-    data: Theme[];
-}
+import { getThemeCards } from "@/actions/category-attribut";
 
-export default function Themes() {
+export default async function Themes() {
 
-    const onChangeLoading = useDataTable.use.onChangeLoading();
-    const themes: TypeData = {data: []};
-    const queryKey = ["themes"]
+    const queryClient = new QueryClient();
 
-    const {data, isLoading} = useQuery<TypeData>({
-        queryKey: queryKey,
-        queryFn: ()=> axios("/api/themes"),
-        initialData: themes
+    await queryClient.prefetchQuery({
+        queryKey: ["themes"],
+        queryFn: ()=> getThemeCards(),
     })
-
-    useEffect(()=>{
-        onChangeLoading(isLoading)
-    },[isLoading, onChangeLoading])
     
     return (
         <main className='min-h-[calc(100vh-68px)] flex flex-col justify-between gap-y-4'>
@@ -47,7 +33,9 @@ export default function Themes() {
                 </Button>
             </header>
             <main className='w-full flex-grow px-4'>
-                    <DataTable data={data.data} columns={columns} />
+                <HydrationBoundary state={dehydrate(queryClient)}>
+                    <DataTable />
+                </HydrationBoundary>
             </main>
             <Footer nbrSelect={0} />
         </main>

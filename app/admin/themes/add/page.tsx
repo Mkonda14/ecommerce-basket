@@ -5,8 +5,16 @@ import { FormTheme } from '@/app/admin/themes/form-theme'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { AiOutlineUnorderedList } from 'react-icons/ai'
+import { HydrationBoundary, QueryClient, dehydrate } from '@tanstack/react-query'
+import { getCategoryThemes } from '@/actions/category-attribut'
 
 export default async function ThemeAdd() {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ['categorie-themes'],
+    queryFn: ()=> getCategoryThemes(),
+  });
 
   return (
     <main className=''>
@@ -20,7 +28,9 @@ export default async function ThemeAdd() {
           </Button>
       </header>
       <main className='w-full'>
+        <HydrationBoundary state={dehydrate(queryClient)}>
             <FormTheme />
+        </HydrationBoundary>
       </main>
     </main>
   )

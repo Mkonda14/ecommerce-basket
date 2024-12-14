@@ -1,77 +1,68 @@
 import { Typographie } from "@/components/typographie"
 import Image from "next/image"
 import { cn } from "@/lib/utils";
-
-import style from "./style.module.css"
 import { Btn } from "./btn";
 
 
 export const SectionGrid = () => {
     return (
-        <section className={cn("mb-10")}>
-            <header className="text-center mb-10">
-                <Typographie component="h2" variant="h2" size="xl">Its not magic. </Typographie>
-                <Typographie component="h2" variant="h2" size="xl">
-                    Its <span className="text-slate-500">Bolt</span>. 
-                </Typographie>
-                <Typographie component="p" variant="p" size="md">
-                    Its Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque ipsa magni quia alias aut! 
-                </Typographie>
-            </header>
-            <section className="grid grid-cols-3 gap-4 rounded-lg">
-                <article className={cn("col-span-2 border rounded-md p-4 relative flex flex-col justify-between h-80 bg-white", style.wallTexture)}>
-                    <header className="flex justify-start">
-                        <Btn className={cn(style.fontAdventureScript, "text-xl tracking-wider")}>The rock stars</Btn>
-                    </header>
-                    <div className="">
+        <section className={cn("mb-20 mt-5 flex justify-between items-center gap-x-20")}>
+            <section className="w-5/12 flex flex-col justify-center gap-y-10">
+                <Typographie component="h2" variant="h2" size="xl">It is difficult for designer is assets how best</Typographie>
+                <div className="flex flex-col gap-y-4">
+                    <Typographie component="h4" variant="h4" size="lg">Best graffitis</Typographie>
+                    <Typographie component="p" variant="p" size="md" className="text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo unde exercitationem consequatur.</Typographie>
+                </div>
+                <div className="flex flex-col gap-y-4">
+                    <Typographie component="h4" variant="h4" size="lg">Best graffitis</Typographie>
+                    <Typographie component="p" variant="p" size="md" className="text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo unde exercitationem consequatur.</Typographie>
+                </div>
+            </section>
+            <section className="w-1/2 flex justify-end gap-x-4">
+                <section className="h-[70vh] flex flex-col gap-y-4">
+                    <div className="h-1/2 w-[256px] flex justify-center items-center relative border">
+                        <Btn>Martin</Btn>
                         <Image
-                            alt="image-graffiti (1)"
-                            src="/assets/pngs/graffiti-3.png"
-                            className="absolute top-8 right-4 w-auto h-3/4 object-contain"
+                            src="/assets/imgs/illustration/graffiti-violet.jpg"
+                            alt="graffiti violet"
                             height={250}
-                            width={280}
+                            width={250}
+                            className="w-full h-full object-cover"
                         />
                     </div>
-                    <footer className="w-1/2">
-                        <h2 className={cn(style.fontGhoustOutline, "text-3xl")}>Get shoppers to the finish line.</h2>
-                        <p className={cn(style.fontAdventureScript, "text-2xl tracking-wider text-muted-foreground")}>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pariatur, dolorem!</p>                    </footer>
-                </article>
-                <article className={cn("col-span-1 border rounded-md p-4 relative flex flex-col justify-between h-80 bg-white", style.wallTexture)}>
-                    <header className="flex justify-start">
-                        <Btn className={cn(style.fontAdventureScript, "text-xl tracking-wider")}>Magic sneaker</Btn>
-                    </header>
-           
-                    <footer>
-                        <h2 className={cn(style.fontGhoustOutline, "text-3xl")}>Get shoppers to the finish line.</h2>
-                        <p className={cn(style.fontAdventureScript, "text-2xl tracking-wider text-muted-foreground")}>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pariatur, dolorem!</p>                    </footer>
-                </article>
-                <article className={cn("col-span-1 border rounded-md p-4 relative flex flex-col justify-between h-80 bg-white", style.wallTexture)}>
-                    <header className="flex justify-start">
-                        <Btn className={cn(style.fontAdventureScript, "text-xl tracking-wider")}>New collections</Btn>
-                    </header>
-                   
-                    <footer>
-                        <h2 className={cn(style.fontGhoustOutline, "text-3xl")}>Get shoppers to the finish line.</h2>
-                        <p className={cn(style.fontAdventureScript, "text-2xl tracking-wider text-muted-foreground")}>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pariatur, dolorem!</p>                    </footer>
-                </article>
-                <article className={cn("col-span-2 border rounded-md p-4 relative flex flex-col justify-between h-80 bg-white", style.wallTexture)}>
-                    <header className="flex justify-start">
-                        <Btn className={cn(style.fontAdventureScript, "text-xl tracking-wider")}>King of the graffitis</Btn>
-                    </header>
-                    <div className="">
+                    <div className="h-1/3 w-[256px] flex justify-center items-center relative border-t-2">
+                        <Btn isColor>Martin</Btn>
                         <Image
-                            alt="image-graffiti (1)"
+                            src="/assets/pngs/graffiti-mk.png"
+                            alt="graffiti-mk"
+                            height={250}
+                            width={250}
+                            className="w-4/5 h-auto object-contain"
+                        />
+                    </div>
+                </section>
+                <section className="h-[70vh] flex flex-col justify-end gap-y-4">
+                    <div className="h-1/3 w-[256px] flex justify-center items-center relative border-b-2">
+                        <Btn isColor>The king</Btn>
+                        <Image
                             src="/assets/pngs/graffiti-1.png"
-                            className="absolute top-8 right-4 w-auto h-3/4 object-contain"
+                            alt="graffiti-1"
                             height={250}
-                            width={280}
+                            width={250}
+                            className="h-full w-4/5 object-contain"
                         />
                     </div>
-                    <footer className="w-1/2">
-                        <h2 className={cn(style.fontGhoustOutline, "text-3xl")}>Get shoppers to the finish line.</h2>
-                        <p className={cn(style.fontAdventureScript, "text-2xl tracking-wider text-muted-foreground")}>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pariatur, dolorem!</p>
-                    </footer>
-                </article>
+                    <div className="h-1/2 w-[256px] flex justify-center items-center relative">
+                        <Btn>Rock</Btn>
+                        <Image
+                            src="/assets/imgs/illustration/bombe-marron.jpg"
+                            alt="bombe colore"
+                            height={250}
+                            width={250}
+                            className="h-full w-full object-cover"
+                        />
+                    </div>
+                </section>
             </section>
         </section>
     )

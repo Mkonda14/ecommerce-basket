@@ -1,40 +1,24 @@
-"use client"
-
-import { columns } from "@/app/admin/tag-sneakers/(tags)/columns";
+"use server"
 
 import { Typographie } from "@/components/typographie";
 import { DataTable } from "./data-table";
 import { Footer } from "@/components/admin/table/footer";
 
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { TagSneaker } from "@prisma/client";
-import { useDataTable } from "@/hooks/stores/use-table-store";
-import { useEffect } from "react";
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
+
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { IoMdAdd } from "react-icons/io";
+import { getTagSneakers } from "@/actions/category-attribut";
 
-interface TypeData {
-    data: TagSneaker[];
-}
+export default async function Tags() {
 
-export default function Tags() {
+    const queryClient = new QueryClient();
 
-    const onChangeLoading = useDataTable.use.onChangeLoading();
-    const tags: TypeData = {data:[]};
-    const queryKey = ["tag-sneakers"]
-
-    const {data, isLoading} = useQuery<TypeData>({
-        queryKey: queryKey,
-        queryFn: ()=> axios("/api/tag-sneakers"),
-        initialData: tags
-    })
-
-    useEffect(()=>{
-        onChangeLoading(isLoading)
-    },[isLoading, onChangeLoading])
-    
+    await queryClient.prefetchQuery({
+        queryKey: ["tag-sneakers"],
+        queryFn: ()=> getTagSneakers(),
+    });  
 
     return (
         <main className='min-h-[calc(100vh-68px)] flex flex-col justify-between gap-y-4'>
@@ -48,7 +32,9 @@ export default function Tags() {
                 </Button>
             </header>
             <main className='w-full flex-grow px-4'>
-                    <DataTable data={data.data} columns={columns} />
+                <HydrationBoundary state={dehydrate(queryClient)}>
+                    <DataTable />
+                </HydrationBoundary>
             </main>
             <Footer nbrSelect={0} />
         </main>

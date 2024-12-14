@@ -65,7 +65,7 @@ export const FormGraffiti = ({graffitiId, graffiti}: FormThemeProps) => {
   });
 
   const {data: categories} = useQuery<CategoryGraffiti[]>({
-      queryKey: ['categories'],
+      queryKey: ['categorie-graffitis'],
       queryFn: ()=> getCategoryGraffitis(),
       initialData: iCategories,
   })

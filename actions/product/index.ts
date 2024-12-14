@@ -6,13 +6,7 @@ export const getProducts = async () => {
     try {
 
         const sneakers = await db.sneaker.findMany({
-            select:{
-                id: true,
-                marque: true,
-                model: true,
-                price: true,
-                isPromo: true,
-                stock: true,
+            include:{
                 images:{
                     select:{
                         publicId: true,
@@ -31,52 +25,6 @@ export const getProducts = async () => {
         
     } catch (error) {
         throw new Error("Error get all sneakers to database: " + error)
-    }
-}
-
-export const getProductCardDerniers = async () => {
-    try {
-        const sneakers = await db.sneaker.findMany({
-            where:{
-                NOT:{
-                    colorSecondaries: {every: { id: ""}}
-                }
-            },
-            include:{
-                images:{
-                    select:{
-                        publicId: true,
-                    },
-                    take: 1,
-                },
-                sizes: {
-                    select:{
-                        size: true,
-                        quantity: true,
-                    },
-                },
-                colorSecondaries:{
-                    select:{
-                        color: true,
-                        name: true,
-                    },
-                },
-                tags:{
-                    select:{
-                        name: true
-                    },
-                    take: 3
-                },
-            },
-            take: 4,
-            orderBy: {
-                createdAt: 'desc',
-            },
-
-        });
-        return sneakers;
-    } catch (error) {
-        throw new Error("Error get sneakers to database: " + error)
     }
 }
 
@@ -193,77 +141,6 @@ export const getSneakerById = async (sneakerId: string)=>{
                 categoryId: true,
                 createdAt: true,
                 updatedAt: true,
-                colorPrimary: {
-                    select:{
-                        color: true,
-                        name: true,
-                    },
-                },
-                category: {
-                    select:{
-                        name: true,
-                        description: true,
-                        designer: true,
-                    }
-                },
-                tags:{
-                    select:{
-                        name: true,
-                        description: true,
-                    },
-                },
-                themes:{
-                    select:{
-                        id: true,
-                        name: true,
-                        description: true,
-                        category: {
-                            select:{
-                                name: true,
-                                description: true,
-                                secondName: true,
-                            }
-                        }
-                    },
-                },
-                colorSecondaries:{
-                    select:{
-                        color: true,
-                        name: true,
-                    },
-                },
-                images :{
-                    select: {
-                        id: true,
-                        publicId: true,  
-                    }
-                },
-                sizes:{
-                    select:{
-                        size: true,
-                        quantity: true,
-                    },
-                },
-                _count: {
-                    select:{
-                        likes: true,
-                    }
-                }
-            },
-        })
-    } catch (error) {
-        throw new Error("Error get sneaker to database: " + error)
-    }
-}
-
-
-export const getSneakerBySlug = async (slug: string)=>{
-    try {
-        return db.sneaker.findUnique({
-            where: {
-                slug,
-            },
-            include:{
                 colorPrimary: {
                     select:{
                         color: true,

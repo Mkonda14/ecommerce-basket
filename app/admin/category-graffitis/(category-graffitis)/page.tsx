@@ -1,43 +1,24 @@
-"use client"
-
-import { columns } from "./columns";
+"use server"
 
 import { Typographie } from "@/components/typographie";
 import { DataTable } from "./data-table";
 import { Footer } from "@/components/admin/table/footer";
 
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { CategoryGraffiti } from "@prisma/client";
-import { useDataTable } from "@/hooks/stores/use-table-store";
-import { useEffect } from "react";
+
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { IoMdAdd } from "react-icons/io";
+import { getCategoryGraffitis } from "@/actions/graffiti/category";
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 
-interface TypeData {
-    data: CategoryGraffiti[];
-}
+export default async function Categories() {
 
+    const queryClient = new QueryClient();
 
-export default function Categories() {
-
-    const onChangeLoading = useDataTable.use.onChangeLoading();
-
-    const categories: TypeData = {data: []};
-    const queryKey = ["category-graffitis"]
-
-    const {data, isLoading} = useQuery<TypeData>({
-        queryKey: queryKey,
-        queryFn: ()=> axios("/api/category-graffitis"),
-        initialData: categories
-    })
-
-
-    useEffect(()=>{
-        onChangeLoading(isLoading)
-    },[isLoading, onChangeLoading])
-
+    await queryClient.prefetchQuery({
+        queryKey: ["category-graffitis"],
+        queryFn: ()=> getCategoryGraffitis(),
+    });
     
     return (
         <main className='min-h-[calc(100vh-68px)] flex flex-col justify-between gap-y-4'>
@@ -51,7 +32,9 @@ export default function Categories() {
                 </Button>
             </header>
             <main className='w-full flex-grow px-4'>
-                    <DataTable data={data.data} columns={columns} />
+                <HydrationBoundary state={dehydrate(queryClient)}>
+                    <DataTable />
+                </HydrationBoundary>
             </main>
             <Footer nbrSelect={0} />
         </main>

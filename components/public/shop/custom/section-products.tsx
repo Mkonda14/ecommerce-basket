@@ -1,6 +1,6 @@
 "use client"
 
-import { getProductCustom } from "@/actions/custom";
+import { getProductCustom } from "@/actions/public-actions/custom";
 import { useQuery } from "@tanstack/react-query";
 import { CardCustom } from "./card-custom";
 

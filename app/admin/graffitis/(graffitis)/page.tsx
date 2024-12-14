@@ -1,39 +1,23 @@
-"use client"
-
-import { columns } from "./columns";
+"use server"
 
 import { Typographie } from "@/components/typographie";
 import { DataTable } from "./data-table";
 import { Footer } from "@/components/admin/table/footer";
 
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { Graffiti } from "@prisma/client";
-import { useDataTable } from "@/hooks/stores/use-table-store";
-import { useEffect } from "react";
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { IoMdAdd } from "react-icons/io";
+import { getGraffitis } from "@/actions/graffiti";
 
-interface TypeData {
-    data: Graffiti[];
-}
+export default async function Graffitis() {
 
-export default function Graffitis() {
+    const queryClient = new QueryClient();
 
-    const onChangeLoading = useDataTable.use.onChangeLoading();
-    const themes: TypeData = {data: []};
-    const queryKey = ["graffitis"]
-
-    const {data, isLoading} = useQuery<TypeData>({
-        queryKey: queryKey,
-        queryFn: ()=> axios("/api/graffitis"),
-        initialData: themes
-    })
-
-    useEffect(()=>{
-        onChangeLoading(isLoading)
-    },[isLoading, onChangeLoading])
+    await queryClient.prefetchQuery({
+        queryKey: ['graffitis'],
+        queryFn: ()=> getGraffitis(),
+    });
     
     return (
         <main className='min-h-[calc(100vh-68px)] flex flex-col justify-between gap-y-4'>
@@ -47,7 +31,9 @@ export default function Graffitis() {
                 </Button>
             </header>
             <main className='w-full flex-grow px-4'>
-                    <DataTable data={data.data} columns={columns} />
+                <HydrationBoundary state={dehydrate(queryClient)}>
+                    <DataTable /> 
+                </HydrationBoundary>
             </main>
             <Footer nbrSelect={0} />
         </main>

@@ -1,41 +1,24 @@
-"use client"
-
-import { columns } from "@/app/admin/category-sneakers/(categories)/columns";
+"use server"
 
 import { Typographie } from "@/components/typographie";
 import { DataTable } from "./data-table";
 import { Footer } from "@/components/admin/table/footer";
 
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { CategorySneaker } from "@prisma/client";
-import { useDataTable } from "@/hooks/stores/use-table-store";
-import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { IoMdAdd } from "react-icons/io";
-
-interface TypeData {
-    data: CategorySneaker[];
-}
+import { getCategorySneakers } from "@/actions/category-attribut";
+import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 
 
-export default function Categories() {
+export default async function Categories() {
 
-    const onChangeLoading = useDataTable.use.onChangeLoading();
+    const queryClient = new QueryClient();
 
-    const categories: TypeData = {data: []};
-    const queryKey = ["category-sneakers"]
-
-    const {data, isLoading} = useQuery<TypeData>({
-        queryKey: queryKey,
-        queryFn: ()=> axios("/api/category-sneakers"),
-        initialData: categories
-    })
-
-    useEffect(()=>{
-        onChangeLoading(isLoading)
-    },[isLoading, onChangeLoading])
+    await queryClient.prefetchQuery({
+        queryKey: ["category-sneakers"],
+        queryFn: ()=> getCategorySneakers(),
+    });
 
     
     return (
@@ -50,7 +33,9 @@ export default function Categories() {
                 </Button>
             </header>
             <main className='w-full flex-grow px-4'>
-                    <DataTable data={data.data} columns={columns} />
+                <HydrationBoundary state={dehydrate(queryClient)}>
+                    <DataTable />
+                </HydrationBoundary>
             </main>
             <Footer nbrSelect={0} />
         </main>
