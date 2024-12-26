@@ -29,7 +29,7 @@ export const useFilters = createSelectors(create<IFilter>()((set) => ({
         categoryThemes: [], 
         sizes: [], 
         colors: [], 
-        price: {min: 0, max: 200}, 
+        price: {min: 0, max: 1000}, 
         sorts: {alphabet: "asc", price: "asc"}, 
         tagSneakers: [],
         page: 1,

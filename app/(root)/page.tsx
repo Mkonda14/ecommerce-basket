@@ -8,7 +8,7 @@ import { SectionTheme } from "@/components/public/home/section-theme";
 
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { getThemeCards } from "@/actions/public-actions/home";
-import { getProductCardDerniers } from "@/actions/public-actions/home";
+import { getLastCustoms } from "@/actions/public-actions/home";
 
 export default  async function Home() {
     const queryClient = new QueryClient();
@@ -19,8 +19,8 @@ export default  async function Home() {
     })
 
     await queryClient.prefetchQuery({
-        queryKey: ["sneakers"],
-        queryFn: ()=> getProductCardDerniers(),
+        queryKey: ["customs", "last-customs"],
+        queryFn: ()=> getLastCustoms(),
     })
 
     return (

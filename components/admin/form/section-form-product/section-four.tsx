@@ -4,17 +4,18 @@ import { ProductSchema } from "@/models/product";
 import { UseFormReturn } from "react-hook-form";
 
 
-import { FormControl, FormField, FormItem, FormMessage, FormDescription, FormLabel } from "@/components/ui/form"
+import { FormControl, FormDescription, FormField, FormItem, FormMessage } from "@/components/ui/form"
 import { SectionForm } from "../section-form";
 import { Label } from "../label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
 import Select2 from 'react-select';
 
 import { useQuery } from "@tanstack/react-query";
 
-import { getCategorySneakers, getTagSneakers, getThemes } from "@/actions/category-attribut";
-import { CategorySneaker, TagSneaker, Theme } from "@prisma/client";
+import { getCategorySneakers } from "@/actions/product/category";
+import { getTagSneakers } from "@/actions/product/tag";
+import { CategorySneaker, TagSneaker } from "@prisma/client";
+import { Switch } from "@/components/ui/switch";
 
 interface SectionFourProps{
     form: UseFormReturn<z.infer<typeof ProductSchema>>;
@@ -23,19 +24,12 @@ interface SectionFourProps{
 export const SectionFour = ({form}: SectionFourProps) => {
 
     const iCategories: CategorySneaker[] = [];
-    const iThemes: Theme[] = [];
     const iTags: TagSneaker[] = [];
 
     const {data: categories} = useQuery<CategorySneaker[]>({
         queryKey: ['categories'],
         queryFn: ()=> getCategorySneakers(),
         initialData: iCategories,
-    })
-   
-    const {data: themes} = useQuery<Theme[]>({
-        queryKey: ['themes'],
-        queryFn: ()=> getThemes(),
-        initialData: iThemes,
     })
 
     const {data: tags} = useQuery<TagSneaker[]>({
@@ -72,54 +66,6 @@ export const SectionFour = ({form}: SectionFourProps) => {
                 )}
             />
 
-            <FormField
-                name="themes"
-                control={form.control}
-                render={({})=>(
-                <FormItem>
-                    <div className="mb-4">
-                    <Label type="question"> Thèmes </Label>
-                    <FormDescription>Sélectionnez des thèmes pour votre produit.</FormDescription>
-                    </div>
-                    <div className="grid grid-cols-3 gap-y-4">
-                    {themes.map((theme) => (
-                    <FormField
-                        key={theme.id}
-                        control={form.control}
-                        name="themes"
-                        render={({ field }) => {
-                        return (
-                            <FormItem
-                                key={theme.id}
-                                className="flex flex-row items-start space-x-3 space-y-0"
-                            >
-                            <FormControl>
-                                <Checkbox
-                                checked={field.value?.includes(theme.id)}
-                                onCheckedChange={(checked) => {
-                                    return checked
-                                    ? field.onChange([...field.value, theme.id])
-                                    : field.onChange(
-                                        field.value?.filter(
-                                            (value) => value !== theme.id
-                                        )
-                                        )
-                                }}
-                                />
-                            </FormControl>
-                            <FormLabel className="font-normal">
-                                {theme.name}
-                            </FormLabel>
-                            </FormItem>
-                        )
-                        }}
-                    />
-                    ))}
-                    </div>
-                    <FormMessage />
-                </FormItem>
-                )}
-            />
 
             <FormField
                 name="tags"
@@ -141,6 +87,29 @@ export const SectionFour = ({form}: SectionFourProps) => {
                 </FormItem>
                 )}
             />
+
+            <div className="border-t border-slate-200 space-y-4 pt-4">
+                <FormField
+                    control={form.control}
+                    name="isCustomByGraffiti"
+                    render={({ field }) => (
+                        <FormItem className="flex flex-row justify-between">
+                            <div className="space-y-0.5">
+                                <Label type="question"> Is customizable by graffiti</Label>
+                                <FormDescription>
+                                    Receive emails about new customs, features, and more.
+                                </FormDescription>
+                            </div>
+                            <FormControl>
+                                <Switch
+                                    checked={field.value}
+                                    onCheckedChange={field.onChange}
+                                />
+                            </FormControl>
+                        </FormItem>
+                    )}
+                />
+            </div>
             
         </SectionForm>
     )

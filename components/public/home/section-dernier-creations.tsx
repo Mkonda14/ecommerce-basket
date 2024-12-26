@@ -1,6 +1,6 @@
 "use client"
 
-import { getProductCardDerniers } from "@/actions/public-actions/home";
+import { getLastCustoms } from "@/actions/public-actions/home";
 import { CardProduct } from "../../card-product"
 import { Typographie } from "../../typographie"
 import { Button } from "../../ui/button";
@@ -8,6 +8,7 @@ import Link from "next/link";
 
 import { useQuery } from "@tanstack/react-query";
 import { BsChevronRight } from "react-icons/bs";
+import { TtransToCardCustom } from "@/actions/translate";
 
 
 export interface ISneaker {
@@ -34,37 +35,39 @@ export interface ISneaker {
       publicId: string
     }[];
 }
-  
+
 
 export const  DernierCreations = () => {
 
-    const iSneakers: ISneaker[] = [];
+    const iCustoms: TtransToCardCustom[] = [];
 
-    const queryKey = ["sneakers"];
-    const {data: sneakers} = useQuery<ISneaker[]>({
+    const queryKey = ["customs", "last-customs"];
+    const {data: customs} = useQuery<TtransToCardCustom[]>({
         queryKey: queryKey,
-        queryFn: ()=> getProductCardDerniers(),
-        initialData: iSneakers,
+        queryFn: ()=> getLastCustoms(),
+        initialData: iCustoms,
     })
 
     return (
         <section className="container px-2 mt-8">
             <Typographie component="h3" variant="h3" size="lg">Nos derniers créations</Typographie>
             <section className="w-full grid grid-cols-4 gap-4 py-6">
-                {sneakers.map(({id, slug, model, marque, price, images, sizes, colorSecondaries, isPromo, promoPrice, tags})=>(
+                {customs.map((custom)=>(
                     <CardProduct 
-                        key={id} 
-                        slug={slug}
-                        id={id}
-                        marque={marque} 
-                        model={model} 
-                        price={price} 
-                        public_id={images[0]?.publicId}
-                        sizes={sizes}
-                        colorSecondaries={colorSecondaries}
-                        isPromo={isPromo}
-                        promoPrice={promoPrice}
-                        tags={tags}
+                        key={custom?.id} 
+                        slug={custom?.slug || ""}
+                        id={custom?.id}
+                        marque={custom?.sneaker.marque} 
+                        model={custom?.sneaker.model} 
+                        price={custom?.price || 0.0} 
+                        reducprice={custom?.reducprice} 
+                        publicId={custom?.image || ""}
+                        sizes={custom?.sizes}
+                        colorSecondaries={custom?.colorSecondaries}
+                        isPromo={custom?.sneaker.isPromo} 
+                        reduction={custom?.sneaker.reduction}
+                        tags={custom?.sneaker.tags}
+                        isCustomByGraffiti={custom?.sneaker.isCustomByGraffiti}
                     />
                 ))}
             </section>

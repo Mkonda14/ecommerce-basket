@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { IoMdAdd } from "react-icons/io";
 
-import { getThemeCards } from "@/actions/category-attribut";
+import { getThemeCards } from "@/actions/theme";
 
 export default async function Themes() {
 

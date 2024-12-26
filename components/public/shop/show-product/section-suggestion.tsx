@@ -2,14 +2,14 @@ import { Typographie } from "@/components/typographie"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { BsArrowRight } from "react-icons/bs"
-import { ISneaker } from "../../home/section-dernier-creations";
 import { CardProduct } from "@/components/card-product";
+import { TtransToCardCustom } from "@/actions/translate";
 
 interface ISectionSuggestion{
-    sneakers: ISneaker[];
+    customs: TtransToCardCustom[];
 }
 
-export const SectionSuggestion = ({sneakers}: ISectionSuggestion) => {
+export const SectionSuggestion = ({customs}: ISectionSuggestion) => {
     return (
         <section>
             <section className="container grid grid-cols-4 my-10 gap-4">
@@ -23,20 +23,21 @@ export const SectionSuggestion = ({sneakers}: ISectionSuggestion) => {
                         </Link>
                     </Button>
                 </div>
-                {sneakers.map(({id, slug, model, marque, price, images, sizes, colorSecondaries, isPromo, promoPrice, tags})=>(
+                {customs.map((custom)=>(
                     <CardProduct 
-                        key={id} 
-                        id={id}
-                        slug={slug}
-                        marque={marque} 
-                        model={model} 
-                        price={price} 
-                        public_id={images[0]?.publicId}
-                        sizes={sizes}
-                        colorSecondaries={colorSecondaries}
-                        isPromo={isPromo}
-                        promoPrice={promoPrice}
-                        tags={tags}
+                        key={custom?.id} 
+                        slug={custom?.slug || ""}
+                        id={custom?.id}
+                        marque={custom?.sneaker.marque} 
+                        model={custom?.sneaker.model} 
+                        price={custom?.price || 0.0} 
+                        reducprice={custom?.reducprice} 
+                        publicId={custom?.image || ""}
+                        sizes={custom?.sizes}
+                        colorSecondaries={custom?.colorSecondaries}
+                        isPromo={custom?.sneaker.isPromo} 
+                        reduction={custom?.sneaker.reduction}
+                        tags={custom?.sneaker.tags}
                     />
                 ))}
             </section>

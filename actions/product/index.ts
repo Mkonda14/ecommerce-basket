@@ -6,13 +6,10 @@ export const getProducts = async () => {
     try {
 
         const sneakers = await db.sneaker.findMany({
+            orderBy:{
+                createdAt:'desc'
+            },
             include:{
-                images:{
-                    select:{
-                        publicId: true,
-                    },
-                    take: 1,
-                },
                 category: {
                     select:{
                         name: true,
@@ -28,7 +25,7 @@ export const getProducts = async () => {
     }
 }
 
-export const getProductCard = async (id: string) => {
+export const getSneakerUpdatedById = async (id: string) => {
     try {
         const sneaker = await db.sneaker.findUnique({
             where: {
@@ -36,169 +33,39 @@ export const getProductCard = async (id: string) => {
             },
             select:{
                 id: true,
-                marque: true,
-                model: true,
-                price: true,
-                isPromo: true,
-                stock: true,
-                images:{
-                    select:{
-                        publicId: true,
-                    },
-                    take: 1,
-                },
-                sizes: {
-                    select:{
-                        size: true,
-                        quantity: true,
-                    },
-                },
-                colorSecondaries:{
-                    select:{
-                        color: true,
-                        name: true,
-                    },
-                }
-            },
-
-        });
-        return sneaker;
-    } catch (error) {
-        throw new Error("Error get sneaker to database: " + error)
-    }
-}
-
-export const getProductById = async (id: string) => {
-    try {
-        const sneaker = await db.sneaker.findUnique({
-            where: {
-                id
-            },
-            select:{
-                id: true,
-                slug: true,
                 marque: true,
                 model: true,
                 description: true,
+                reduction: true,
                 price: true,
                 isPromo: true,
-                promoPrice: true,
+                isCustomByGraffiti: true,
                 stock: true,
                 categoryId: true,
                 createdAt: true,
                 updatedAt: true,
-                colorPrimary: {
+                colorPrimaries: {
                     select:{
                         color: true,
                         name: true,
+                        sizes:{
+                            select:{
+                                size: true,
+                                quantity: true,
+                            },
+                        },
                     },
                 },
                 tags:{
                     select:{
                         id: true,
                         name: true,
-                    },
-                },
-                themes:{
-                    select:{
-                        id: true,
-                    },
-                },
-                colorSecondaries:{
-                    select:{
-                        color: true,
-                        name: true,
-                    },
-                },
-                sizes:{
-                    select:{
-                        size: true,
-                        quantity: true,
                     },
                 },
             }
         });
         return sneaker;
         
-    } catch (error) {
-        throw new Error("Error get sneaker to database: " + error)
-    }
-}
-
-export const getSneakerById = async (sneakerId: string)=>{
-    try {
-        return db.sneaker.findUnique({
-            where: {id: sneakerId},
-            select:{
-                id: true,
-                marque: true,
-                model: true,
-                description: true,
-                price: true,
-                isPromo: true,
-                promoPrice: true,
-                stock: true,
-                categoryId: true,
-                createdAt: true,
-                updatedAt: true,
-                colorPrimary: {
-                    select:{
-                        color: true,
-                        name: true,
-                    },
-                },
-                category: {
-                    select:{
-                        name: true,
-                        description: true,
-                        designer: true,
-                    }
-                },
-                tags:{
-                    select:{
-                        name: true,
-                        description: true,
-                    },
-                },
-                themes:{
-                    select:{
-                        id: true,
-                        name: true,
-                        description: true,
-                        category: {
-                            select:{
-                                name: true,
-                                description: true,
-                                secondName: true,
-                            }
-                        }
-                    },
-                },
-                colorSecondaries:{
-                    select:{
-                        color: true,
-                        name: true,
-                    },
-                },
-                images :{
-                    select: {
-                        id: true,
-                        publicId: true,  
-                    }
-                },
-                sizes:{
-                    select:{
-                        size: true,
-                        quantity: true,
-                    },
-                },
-                _count: {
-                    select:{
-                        likes: true,
-                    }
-                }
-            },
-        })
     } catch (error) {
         throw new Error("Error get sneaker to database: " + error)
     }

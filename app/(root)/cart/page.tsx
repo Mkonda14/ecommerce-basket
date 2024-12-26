@@ -9,29 +9,15 @@ import Link from "next/link";
 import { useLocalStorage } from "@/hooks/use-localstorage";
 import { useQuery } from "@tanstack/react-query";
 import { useUpdatedBasket } from "@/hooks/stores/use-basket-store";
-import { getBasketByKeys } from "@/actions/product/basket";
+import { getBasketByKeys } from "@/actions/custom/basket";
 import { useEffect, useState } from "react";
 import { CartItem } from "@/components/public/cart/card-item";
 import { Separator } from "@/components/ui/separator";
 import { LoaderSpin } from "@/components/loader-spin";
+import { TtransToCardCustom } from "@/actions/translate";
 
-type TSneakers = {
-    model: string;
-    id: string;
-    marque: string;
-    price: number;
-    promoPrice: number;
-    isPromo: boolean;
-    sizes: {
-        size: number;
-        quantity: number;
-    }[];
-    images: {
-        publicId: string;
-    }[]
-};
 
-type TBaskets = TSneakers & {
+type TBaskets = TtransToCardCustom & {
     quantity: number;
     size: number;
 };
@@ -42,9 +28,9 @@ export default function PageCard () {
 
     const [baskets, setBaskets] = useState<TBaskets[]>();
 
-    const queryKey = ["baskets", ...getBasket().map((basket)=> basket.id)]
+    const queryKey = ["baskets", getBasket().map((basket)=> basket.id).join("-")];
 
-    const {data: sneakers, isLoading} = useQuery<TSneakers[]>({
+    const {data: sneakers, isLoading} = useQuery<TtransToCardCustom[]>({
         queryKey,
         queryFn: ()=> getBasketByKeys(getBasket().map((basket)=> basket.id)),
     })

@@ -7,27 +7,20 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/h
 import { useUpdatedBasket } from "@/hooks/stores/use-basket-store";
 import { useEffect, useState } from "react";
 import { useLocalStorage } from "@/hooks/use-localstorage";
-import { basketModal } from "@/actions/product/basket";
+import { basketModal } from "@/actions/custom/basket";
 import { BasketItem } from "./basket-item";
+import { TtransToCardCustom } from "@/actions/translate";
 
-type TSneaker = {
-    model: string;
-    id: string;
-    marque: string;
-    price: number;
-    promoPrice: number;
-    isPromo: boolean;
+
+type TCustom = TtransToCardCustom & {
     size: number;
     quantity: number;
-    images: {
-        publicId: string;
-    }[];
 }
 
 export const BtnCart = () => {
     const length = useUpdatedBasket.use.length();
     const {getBasket} = useLocalStorage("customers_sneaker_baskets")
-    const [sneaker, setSneaker] = useState<TSneaker | undefined>();
+    const [sneaker, setCustom] = useState<TCustom | undefined>();
     const [lengthBasket, setLengthBasket] = useState<number>();
     useEffect(()=>{
         const baskets = getBasket();
@@ -38,7 +31,7 @@ export const BtnCart = () => {
             basketModal(lastBasket?.id)
                 .then((res)=> {
                     if(!res) return;
-                    setSneaker({...res, ...lastBasket})
+                    setCustom({...res, ...lastBasket})
                 });
         }
         
@@ -65,9 +58,6 @@ export const BtnCart = () => {
                         {sneaker && (
                             <BasketItem 
                                 {...sneaker}
-                                size={sneaker?.size}
-                                publicId={sneaker?.images[0]?.publicId || ""}
-                                quantity={sneaker?.quantity}
                             />
                         )}
                     </div>

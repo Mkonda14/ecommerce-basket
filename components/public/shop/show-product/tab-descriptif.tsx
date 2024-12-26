@@ -39,7 +39,7 @@ export const TabDescriptif = ({categorySneaker, themes = [], tags = []}: TabDesc
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2">
-                  {themes.map((theme, idx) =>(
+                  {themes?.map((theme, idx) =>(
                     <>
                       <li key={theme.name}><span className="text-base font-bold text-emerald-500 capitalize underline">{theme.name}</span></li>
                       <li key={theme.name} className="flex gap-x-2"><InnerHTML className="text-slate-500" text={theme.description} /></li>
@@ -66,7 +66,7 @@ export const TabDescriptif = ({categorySneaker, themes = [], tags = []}: TabDesc
               </CardHeader>
               <CardContent>
                 <ul className="space-y-2">
-                  {tags.map((tag, idx) =>(
+                  {tags?.map((tag, idx) =>(
                     <>
                       <li key={tag.name}><span className="text-base font-bold text-emerald-500 capitalize underline">{tag.name}</span></li>
                       <li key={tag.name} className="flex gap-x-2"><InnerHTML className="text-slate-500" text={tag.description} /></li>

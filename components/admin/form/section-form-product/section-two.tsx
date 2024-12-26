@@ -26,7 +26,7 @@ export const SectionTwo = ({form}: SectionTwoProps) => {
                         control={form.control}
                         render={({field})=>(
                         <FormItem className="w-1/2">
-                            <Label type="question"> Amount</Label>
+                            <Label type="question">Price</Label>
                             <FormControl>
                             <Input
                                 type="number"
@@ -40,16 +40,18 @@ export const SectionTwo = ({form}: SectionTwoProps) => {
                     />
 
                     <FormField
-                        name="promoPrice"
+                        name="reduction"
                         control={form.control}
                         render={({field})=>(
                         <FormItem className="w-1/2">
-                            <Label type="question"> Promo price</Label>
+                            <Label type="question">Pourcentage de reduction</Label>
                             <FormControl>
                             <Input
                                 {...field}
                                 type="number"
-                                placeholder="0.00"
+                                max={99}
+                                min={0}
+                                placeholder="0%"
                                 className="py-5"
                             />
                             </FormControl>
@@ -66,7 +68,7 @@ export const SectionTwo = ({form}: SectionTwoProps) => {
                         render={({ field }) => (
                         <FormItem className="flex flex-row justify-between">
                             <div className="space-y-0.5">
-                            <Label type="question"> Is promotion</Label>
+                            <Label type="question">Promotion</Label>
                             <FormDescription>
                                 Receive emails about new products, features, and more.
                             </FormDescription>

@@ -1,7 +1,7 @@
 "use client"
 
 import { z } from "zod";
-import { ProductSchema } from "@/models/product";
+import { CustomSchema } from "@/models/custom";
 import { FormControl, FormField, FormItem } from "./ui/form"
 import { Input } from "@/components/ui/input";
 
@@ -13,14 +13,14 @@ import { UseFormReturn } from "react-hook-form";
 import { AiOutlineBgColors } from "react-icons/ai"; 
 
 interface ColorPickerProps{
-    nameCode: "colors" | `colors.primary.code` | `colors.secondary.${number}.code`; 
-    nameColor?: "colors" | "colors.primary.name" | `colors.secondary.${number}.name`;
-    form: UseFormReturn<z.infer<typeof ProductSchema>>;
+    nameCode: "colorSecondaries" | `colorSecondaries.${number}.code`; 
+    nameColor?: "colorSecondaries" | `colorSecondaries.${number}.name`;
+    form: UseFormReturn<z.infer<typeof CustomSchema>>;
     key?: string;
     value?: string
 }
 
-export const ColorPicker = ({nameCode, nameColor="colors", form, key, value = "#333"}: ColorPickerProps) => {
+export const ColorPicker = ({nameCode, nameColor="colorSecondaries", form, key, value = "#333"}: ColorPickerProps) => {
 
     const [state, setState] = useState({
         open: false,

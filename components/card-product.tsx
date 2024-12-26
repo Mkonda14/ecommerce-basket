@@ -9,41 +9,46 @@ import { Size } from "./card-product/size";
 import { Color } from "./card-product/color";
 import Link from "next/link";
 import { CldImgDynamic } from "./cld-img-dynamic";
+import { BiEdit } from "react-icons/bi";
 
 
 export interface CardProductProps{
     id?: string;
     slug: string;
-    marque: string;
-    model: string;
+    marque?: string;
+    model?: string;
     description?: string;
     price: number;
-    public_id: string;
+    reducprice?: number;
+    publicId: string;
     colorSecondaries?: {name: string, color: string}[];
     sizes?: {size: number, quantity: number}[];
     isPromo?: boolean;
-    promoPrice?: number;
-    tags?: {name: string}[]
+    reduction?: number | null;
+    tags?: {name: string}[],
+    isCustomByGraffiti?: boolean;
 }
 
 export const CardProduct = ({
         id,
         slug,
-        marque, 
-        model, 
+        marque = 'Nike', 
+        model = "Air force 1", 
         price, 
-        public_id, 
+        publicId, 
+        reducprice,
         sizes = [], 
         colorSecondaries = [], 
         isPromo, 
-        promoPrice,
+        reduction,
+        isCustomByGraffiti,
         tags = [],
     }: CardProductProps) => {
     
-
     return (     
         <article className={`${"w-full"} shadow-sm rounded-md relative`}>    
             <BtnLike sneakerId={id}  />
+            
             <Link href={`/shop/${slug}`}>
                 <figure className="relative">
                     <div className="w-full absolute z-10">
@@ -53,7 +58,7 @@ export const CardProduct = ({
                     </div>
                     <div className="">
                         <CldImgDynamic 
-                            publicId={public_id}
+                            publicId={publicId}
                             size={"card-sneaker"}
                             alt={model}
                         />
@@ -61,13 +66,18 @@ export const CardProduct = ({
                 </figure>
                 <div className="p-2 bg-white">
                     <div className="flex items-center gap-x-2">
-                        <Typographie component="h3" variant="h3" size="lg" className="capitalize">{model || "AIR STRUCTURE"}</Typographie>
-                        {tags?.find(tag => tag.name.toLowerCase() === "new") && <Badge className="rounded-sm py-0 px-1 text-sm uppercase">new</Badge>}                        
+                        <Typographie component="h3" variant="h3" size="lg" className="capitalize">{model.slice(0, 17) || "AIR STRUCTURE"}</Typographie>
+                        {reduction ? <Badge className="bg-emerald-500">{reduction}%</Badge> : null}                       
                     </div>
-                    <div className="space-x-2 mb-4">
-                        {tags.map((tag, idx)=>(
-                            <span key={idx} className="uppercase text-sm">{tag.name}</span>
-                        ))}                        
+                    <div className="flex gap-x-4">
+                        <div className="space-x-2 mb-4">
+                            {tags.map((tag, idx)=>(
+                                <span key={idx} className="uppercase text-sm">{tag.name}</span>
+                            ))}                        
+                        </div>
+                        {isCustomByGraffiti && (
+                            <span className=""><BiEdit className="size-6" /></span>
+                        )}
                     </div>
                     
                     <Typographie component="h4" variant="h4" size={"md"} className="mb-2">SIZES</Typographie>
@@ -90,7 +100,7 @@ export const CardProduct = ({
                             ))}               
                         </div>
                         {/* Price */}
-                        <Price price={price} isPromo={isPromo} promoPrice={promoPrice} />
+                        <Price price={price} isPromo={isPromo} reducprice={reducprice} />
                     </div>
                 </div>
             </Link>           

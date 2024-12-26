@@ -1,38 +1,40 @@
 "use client"
 
+import { TtransToCardCustom } from "@/actions/translate";
 import { CardProduct } from "@/components/card-product";
-import { ISneaker } from "@/components/public/home/section-dernier-creations"
 import { Typographie } from "@/components/typographie";
 
 interface ProductsProps{
-    products?: ISneaker[];
+    customs?: TtransToCardCustom[];
 }
 
-export const Products = ({products}: ProductsProps) => {
+export const Products = ({customs}: ProductsProps) => {
 
     return (
         <section className="min-h-40 flex justify-center items-center">
-            {!products?.length ? (
+            {!customs?.length ? (
                 <div className="h-full flex flex-col justify-center items-center gap-y-2 text-center">
                     <Typographie component="h3" variant="h3" size="lg">Aucun product trouver</Typographie>
                     <Typographie component="p" variant="p" size="md">veuillez patiente jusqu{"'"}à la fin du chargement ou <br /> veuillez essayer d{"'"}autre filtres </Typographie>
                 </div>
             ) :(
                 <section className="w-full grid grid-cols-3 gap-4 py-4">
-                    {products.map(({id, slug, model, marque, price, images, sizes, colorSecondaries, isPromo, promoPrice, tags})=>(
+                    {customs.map((custom)=>(
                         <CardProduct 
-                            key={id}
-                            id={id}
-                            slug={slug}
-                            marque={marque} 
-                            model={model} 
-                            price={price} 
-                            public_id={images[0]?.publicId}
-                            sizes={sizes}
-                            colorSecondaries={colorSecondaries}
-                            isPromo={isPromo}
-                            promoPrice={promoPrice}
-                            tags={tags}
+                            key={custom?.id} 
+                            slug={custom?.slug || ""}
+                            id={custom?.id}
+                            marque={custom?.sneaker.marque} 
+                            model={custom?.sneaker.model} 
+                            price={custom?.price || 0.0} 
+                            reducprice={custom?.reducprice} 
+                            publicId={custom?.image || ""}
+                            sizes={custom?.sizes}
+                            colorSecondaries={custom?.colorSecondaries}
+                            isPromo={custom?.sneaker.isPromo} 
+                            reduction={custom?.sneaker.reduction}
+                            tags={custom?.sneaker.tags}
+                            isCustomByGraffiti={custom?.sneaker.isCustomByGraffiti}
                         />
                     ))}
                 </section>

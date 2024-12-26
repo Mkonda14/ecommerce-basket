@@ -29,7 +29,7 @@ export const SectionCustom = () => {
                     </Typographie>
 
                     <Button variant={"default"} className="my-4" asChild>
-                        <Link href="/shop/custom">
+                        <Link href="/custom-info">
                             <FcIdea /> <span>savoir plus</span>
                         </Link>
                     </Button>

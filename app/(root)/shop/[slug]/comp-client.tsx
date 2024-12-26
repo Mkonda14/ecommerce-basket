@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useQuery } from "@tanstack/react-query";
 import { notFound } from "next/navigation";
@@ -6,65 +6,65 @@ import { notFound } from "next/navigation";
 import { TabDescriptif } from "@/components/public/shop/show-product/tab-descriptif";
 
 import { SectionSuggestion } from "@/components/public/shop/show-product/section-suggestion";
-import { ISneaker } from "@/components/public/home/section-dernier-creations";
-import { getCardSuggestions } from "@/actions/product/suggestion";
-import { getSneakerBySlug } from "@/actions/public-actions/show";
+import { getCardSuggestions } from "@/actions/custom/suggestion";
+import { getCustomBySlug } from "@/actions/public-actions/show";
 import { Container } from "@/components/container";
 import { LoaderSpin } from "@/components/loader-spin";
 import { SectionDetailProduct } from "@/components/public/shop/show-product/section-detail-product";
+import { TtransToCardCustom, TtransToShowCustom } from "@/actions/translate";
 
-interface ICompClient{
-    slug: string | undefined;
+interface ICompClient {
+  slug: string | undefined;
 }
 
-export const CompClient = ({slug}: ICompClient) => {
+export const CompClient = ({ slug }: ICompClient) => {
+  const queryKey = ["customs",`${slug}`];
+  const queryKey2 = ["customs",`${slug}`,`suggestions`];
 
+  const iSneakers: TtransToCardCustom[] = [];
 
-    const queryKey = [`show_product_${slug}`];
-    const queryKey2 = [`sneakers_suggestion_${slug}`];
+  const { data: custom, isLoading } = useQuery<TtransToShowCustom>({
+    queryKey: queryKey,
+    queryFn: () => getCustomBySlug(slug || ""),
+    enabled: !!slug,
+  });
 
-    const iSneakers: ISneaker[] = [];
+  const { data: customs } = useQuery<TtransToCardCustom[]>({
+    queryKey: queryKey2,
+    queryFn: () =>
+      getCardSuggestions({slug}),
+    initialData: iSneakers,
+  });
 
+  if (!custom && !isLoading) {
+    return notFound();
+  }
 
-    const {data: sneaker, isLoading} = useQuery({
-        queryKey: queryKey,
-        queryFn: ()=> getSneakerBySlug(slug || ""),
-        enabled: !!slug
-    })
-
-    const {data: sneakers} = useQuery<ISneaker[]>({
-        queryKey: queryKey2,
-        queryFn: ()=> getCardSuggestions({themeIds: sneaker?.themes.map(theme=>theme.id), sneakerId: sneaker?.id}),
-        initialData: iSneakers,
-    })
-
-
-    if((!sneaker) && !isLoading) {
-        return notFound();
-    } 
-    if(isLoading){
-        return (
-            <main className="w-full h-[50vh] flex justify-center items-center">
-                <LoaderSpin size="xl" />
-            </main>
-        )
-    };
-
-
+  if (isLoading) {
     return (
-        <Container maxWidth>
-            {/* section description */}
-            <SectionDetailProduct sneaker={sneaker} />
-            {/* section tab */}
-            <section className="mt-8 w-full">
-                <TabDescriptif 
-                    categorySneaker={sneaker?.category} 
-                    themes={sneaker?.themes}
-                    tags={sneaker?.tags}
-                    />
-            </section>
-            {/* section suggestion */}
-            <SectionSuggestion sneakers={sneakers} />
-        </Container>
-    )
-}
+      <main className="w-full h-[50vh] flex justify-center items-center">
+        <LoaderSpin size="xl" />
+      </main>
+    );
+  }
+
+  return (
+    <Container maxWidth>
+      {/* section description */}
+      <SectionDetailProduct data={custom || null} />
+      {/* section tab */}
+      <section className="mt-8 flex gap-x-8 w-full">
+        <section className="w-5/12"></section>
+        <section className="w-6/12 flex-1">
+          <TabDescriptif
+            categorySneaker={custom?.sneaker.category}
+            themes={custom?.themes || []}
+            tags={custom?.sneaker.tags || []}
+          />
+        </section>
+      </section>
+      {/* section suggestion */}
+      <SectionSuggestion customs={customs} />
+    </Container>
+  );
+};

@@ -7,9 +7,9 @@ import { Sorts } from "./section-products/sorts";
 
 import { useFilters } from "@/hooks/stores/use-filter-store"
 import { useEffect, useState } from "react"
-import { filterSneaker } from "@/actions/product/filter";
-import { ISneaker } from "../home/section-dernier-creations";
+import { filterCustom } from "@/actions/custom/filter";
 import { usePathname, useSearchParams } from "next/navigation";
+import { TtransToCardCustom } from "@/actions/translate";
 
 
 export const SectionProducts = () => {
@@ -17,7 +17,7 @@ export const SectionProducts = () => {
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const data = useFilters.use.data();
-    const [products, setProducts] = useState<ISneaker[] | undefined>([]);
+    const [customs, setCustoms] = useState<TtransToCardCustom[] | undefined>([]);
     const [total, setTotal] = useState<number | undefined>();
 
     useEffect(() => {
@@ -33,8 +33,8 @@ export const SectionProducts = () => {
             params.forEach((value, key) => {
                 newFilter[key] = JSON.parse(value || "");
             });
-            const resultat = await filterSneaker(newFilter.data);
-            setProducts(()=> resultat?.sneakers);
+            const resultat = await filterCustom(newFilter.data);
+            setCustoms(resultat?.customs);
             setTotal(()=> resultat?.total);
         };
         handleRouteChange();
@@ -46,7 +46,7 @@ export const SectionProducts = () => {
                 <Filter />
                 <section className="w-3/4 space-y-4">
                     <Sorts />
-                    <Products products={products} />
+                    <Products customs={customs} />
                     <Paginations length={total} />
                 </section>
             </section>

@@ -7,39 +7,25 @@ export const ProductSchema = z.object({
     description: z.string().min(15, "minimum 15 caracters"),
 
     price: z.string().transform((input)=> parseInt(input, 10).toFixed(2)),
-    promoPrice: z.string().transform((input)=> parseInt(input, 10).toFixed()).default('0'),
+    reduction: z.string()
+                .max(2, "veuillez insérer uniquement les nombres a moins de 3 chiffres").default('0'),
     isPromo: z.boolean().default(false),
 
+    stock: z.string(),
+    isCustomByGraffiti: z.boolean().default(false),
+
     category: z.string(),
-    themes: z.array(z.string()).optional(),
     tags: z.array(z.object({
         label: z.string(),
         value: z.string()
     })),
 
-    stock: z.string().default('1'),
-
-    colors: z.object({
-        primary: z.object({
-            code: z.string(),
-            name: z.string()
-        }),
-        secondary: z.array(z.object({
-            code: z.string(),
-            name: z.string()
-        }).optional()).optional(),
-    }),
-
-    sizes: z.array(z.object({
-        size: z.string(),
-        quantity: z.string()
+    colorPrimaries: z.array(z.object({
+        code: z.string(),
+        name: z.string(),
+        sizes: z.array(z.object({
+            size: z.string(),
+            quantity: z.string()
+        })),
     })),
-
-    images: z.array(z.object({
-        secure_url: z.string().default(""),
-        public_id: z.string().default("")
-    })).optional(),
-}).refine((values)=> parseInt(values.stock) === values.sizes.map(val => parseInt(val.quantity)).reduce((sum, q)=> sum + q, 0) ,{
-    message: "La somme des quantités sizes doit être égal au stock",
-    path: ["sizes"]
 })

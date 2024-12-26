@@ -3,7 +3,6 @@
 import { ProductSchema } from "@/models/product";
 import { db } from "@/lib/db";
 import { ActionError, authAdminAction } from "@/lib/safe-actions";
-import { generateSlug } from "../help";
 
 export const saveProduct = authAdminAction
   .schema(ProductSchema)
@@ -15,71 +14,52 @@ export const saveProduct = authAdminAction
       model,
       description,
       price,
-      promoPrice,
+      reduction,
+      isCustomByGraffiti,
       isPromo,
       category,
-      themes,
       tags,
-      stock,
-      colors,
-      sizes,
-      images,
+      colorPrimaries,
+      stock
     } = data;
-
-    const { primary, secondary } = colors;
 
       const sneaker = await db.sneaker.create({
         data: {
-          slug: generateSlug(marque, model),
           marque,
           model,
           description,
           price: parseFloat(price.toString()),
-          promoPrice: parseFloat(promoPrice.toString()),
+          reduction: (parseInt(reduction) / 100),
+          isCustomByGraffiti,
           isPromo,
-          stock: parseInt(stock, 10),
+          stock: parseInt(stock),
 
-          colorPrimary: {
-            create: {
-              color: primary.code,
-              name: primary.name,
-            },
+          colorPrimaries: {
+            create: colorPrimaries.map((colorPrimary)=>({
+              color: colorPrimary.code,
+              name: colorPrimary.name,
+              quantity: colorPrimary.sizes.map((size)=> parseInt(size.quantity)).reduce((prev, curr)=> prev + curr, 0),
+              sizes: {
+                create: colorPrimary.sizes.map((size) => ({
+                  size: parseInt(size.size, 10),
+                  quantity: parseInt(size.quantity, 10),
+                })),
+              },
+            }))
           },
 
-          colorSecondaries: secondary ? {
-            create: secondary?.map((color) => ({
-              color: color?.code || "",
-              name: color?.name || "",
-            })),
-          } : {},
-
-          sizes: {
-            create: sizes.map((size) => ({
-              size: parseInt(size.size, 10),
-              quantity: parseInt(size.quantity, 10),
-            })),
-          },
           category: {
             connect: {
               id: category,
             },
           },
-          themes: {
-            connect: themes?.map((theme) => ({
-              id: theme,
-            })),
-          },
+     
           tags: {
             connect: tags.map((tag) => ({
               id: tag.value,
             })),
           },
-          images: {
-            create: images?.map((image) => ({
-              secureUrl: image.secure_url,
-              publicId: image.public_id,
-            })),
-          },
+  
           createdAt: new Date(),
         },
       });

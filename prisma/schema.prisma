@@ -48,7 +48,7 @@ model User {
   role          UserRole @default(USER)
 
   likeThemes    LikeTheme[]
-  likeSneakers  LikeSneaker[]
+  likeCustoms  LikeCustom[]
   likeGraffitis LikeGraffiti[]
 
   customizations Customization[]
@@ -90,70 +90,51 @@ model ResetPasswordToken {
   @@map("passwordresettokens")
 }
 
-// ---------------------------------------
-model Sneaker{
+// --------------------------------------- END MEDELS USER --------------------------------
+model Sneaker {
   id          String @id @default(cuid())
-  slug        String @unique
   marque      String 
   model       String
   description String @db.Text
   
   price       Float
-  promoPrice  Float
+  reduction   Float? @default(0)
   isPromo     Boolean
+  isCustomByGraffiti Boolean @default(false)
 
   stock Int
 
-  colorSecondaries ColorSecondary[]
-  colorPrimary ColorPrimary?
-  sizes Size[]
-
+  colorPrimaries ColorPrimary[]
   categoryId  String?
   category CategorySneaker? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   
-  themes Theme[]
   tags TagSneaker[]
-
-  likes LikeSneaker[]
-
-  images ImageSneaker[]
 
   customizations Customization[]
 
-  createdAt DateTime
-  updatedAt DateTime @updatedAt
-}
+  createdAt DateTime  
+  updatedAt DateTime  @updatedAt
+
+  @@index([price])
+} 
 
 model Size{
   id String @id @default(cuid())
   size Int
   quantity Int
-  sneakerId String
-  sneaker Sneaker @relation(fields:[sneakerId], references: [id], onDelete: Cascade)
+  colorPrimaryId String
+  colorPrimary ColorPrimary @relation(fields:[colorPrimaryId], references: [id], onDelete: Cascade)
 }
 
-model ColorPrimary{
-  id String @id @default(cuid())
-  name String
-  color String
-
-  sneakerId String @unique
-  sneaker Sneaker @relation(fields:[sneakerId], references: [id], onDelete: Cascade)
-}
-model ColorSecondary{
-  id String @id @default(cuid())
-  name String
-  color String
-  sneakerId String
-  sneaker Sneaker @relation(fields:[sneakerId], references: [id], onDelete: Cascade)
-}
-
-model ImageSneaker{
-  id String @id @default(cuid())
-  publicId String
-  secureUrl String
+model ColorPrimary { 
+  id String @id @default(cuid()) 
+  quantity Int 
+  name String 
+  color String 
+  sizes Size[] 
+  customs Custom[] 
   sneakerId String 
-  sneaker Sneaker @relation(fields: [sneakerId], references: [id], onDelete: Cascade)
+  sneaker Sneaker @relation(fields: [sneakerId], references: [id], onDelete: Cascade) 
 }
 
 model CategorySneaker{
@@ -180,17 +161,72 @@ model TagSneaker{
   updatedAt DateTime @updatedAt
 }
 
-model LikeSneaker{
+
+// ------------------- CUSTOM MODEL --------------------------------
+model Custom{
+  id          String @id @default(cuid())
+  name        String
+  description String
+  slug        String @unique
+
+  price       Float
+  colorPrimaryId String
+  colorPrimary ColorPrimary @relation(fields:[colorPrimaryId], references: [id], onDelete: Cascade)
+
+  categories CategoryCustom[]
+
+  colorSecondaries ColorSecondary[]
+  themes Theme[]
+  images ImageCustom[]
+  likes LikeCustom[]
+
+  createdAt DateTime
+  updatedAt DateTime @updatedAt
+}
+
+model CategoryCustom{
+  id String @id @default(cuid())
+  name String
+  description String @db.Text
+
+  maintenance String
+  properties String
+  materials String
+  creationTime DateTime
+  popularity Int @default(0)
+  customs Custom[]
+
+  createdAt DateTime
+  updatedAt DateTime @updatedAt
+}
+
+model ColorSecondary{
+  id String @id @default(cuid())
+  name String
+  color String
+  customId String
+  custom Custom @relation(fields:[customId], references: [id], onDelete: Cascade)
+}
+
+model ImageCustom{
+  id String @id @default(cuid())
+  publicId String
+  secureUrl String
+  customId String 
+  custom Custom @relation(fields: [customId], references: [id], onDelete: Cascade)
+}
+
+model LikeCustom{
   id        String  @id @default(cuid())
 
-  sneakerId String
-  sneaker   Sneaker @relation(fields: [sneakerId], references: [id], onDelete: Cascade)
+  customId String
+  custom   Custom @relation(fields: [customId], references: [id], onDelete: Cascade)
 
   userId    String?
   user      User? @relation(fields: [userId], references: [id], onDelete: SetNull)
 }
 
-// ----- Thèmes
+// ---------------------------- Thèmes ----------------------------------
 
 model Theme{
   id String @id @default(cuid())
@@ -200,7 +236,7 @@ model Theme{
   image ImageTheme?
 
   popularity Int @default(0)
-  sneakers Sneaker[]
+  customs Custom[]
 
   categoryId String?
   category CategoryTheme? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
@@ -244,12 +280,15 @@ model LikeTheme{
 
 }
 
-// -----------Graffiti--------
+// ----------------------------- Graffiti -----------------------------
 
 model Graffiti {
   id String @id @default(cuid())
   name String
   description String @db.Text
+
+  price Float
+
   image ImageGraffiti?
 
   categoryId String?
@@ -312,6 +351,8 @@ model LikeGraffiti{
 
 }
 
+// ----------------------------------------------------------------
+
 model Customization{
   id String @id @default(cuid())
   text String
@@ -342,7 +383,6 @@ model ColorCustomization{
   customizationId String
   customization Customization @relation(fields:[customizationId], references: [id], onDelete: Cascade)
 }
-
 
 // ---------------------------
 

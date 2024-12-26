@@ -18,10 +18,11 @@ interface SectionFormProps{
     color: keyof typeof colors,
     isFirst?: boolean,
     backHref?: string,
-    children: React.ReactNode
+    children: React.ReactNode,
+    description?: string
 }
 
-export const SectionForm = ({title, color, isFirst, children, backHref = "#"}: SectionFormProps) => {
+export const SectionForm = ({title, color, isFirst, children, backHref = "#", description}: SectionFormProps) => {
   return (
     <Card className="w-full p-4 bg-white space-y-6 rounded-lg">
         <CardHeader className="">
@@ -30,7 +31,7 @@ export const SectionForm = ({title, color, isFirst, children, backHref = "#"}: S
                     <div className={cn("h-8 w-3", colors[color])}></div>
                     <div className="">
                         <CardTitle>{title}</CardTitle>
-                        <CardDescription>Lorem ipsum dolor sit amet consectetur adipisicing.</CardDescription>
+                        <CardDescription>{description || "Lorem ipsum dolor sit amet consectetur adipisicing."}</CardDescription>
                     </div>
                 </div>
                 {isFirst && (

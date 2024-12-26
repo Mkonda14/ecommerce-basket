@@ -9,22 +9,16 @@ import { Button } from "@/components/ui/button";
 import { useLocalStorage } from "@/hooks/use-localstorage";
 import { useUpdatedBasket } from "@/hooks/stores/use-basket-store";
 import { useState } from "react";
+import { TtransToCardCustom } from "@/actions/translate";
+import { Badge } from "@/components/ui/badge";
 
 
-interface ICartItem{
-    model: string;
-    id: string;
-    marque: string;
-    price: number;
-    promoPrice: number;
-    isPromo: boolean;
+type ICartItem = TtransToCardCustom &{
     size: number;
-    sizes: {size: number, quantity: number}[]
     quantity: number;
-    images: {publicId: string}[];
 }
 
-export const CartItem = ({model, id, marque, promoPrice, isPromo, size, quantity, images, price, sizes}: ICartItem) => {
+export const CartItem = ({id, sneaker,reducprice, size, quantity, image, price, sizes}: ICartItem) => {
 
     const {removeBasket} = useLocalStorage("customers_sneaker_baskets")
     const onUpdatedBasket = useUpdatedBasket.use.onUpdatedBasket();
@@ -39,16 +33,17 @@ export const CartItem = ({model, id, marque, promoPrice, isPromo, size, quantity
     return (
         <article className="w-full flex gap-x-4">
             <figure className="">
-                <CldImgDynamic size="card-basket-max" publicId={images[0]?.publicId || ""} />
+                <CldImgDynamic size="card-basket-max" publicId={image || ""} />
             </figure>
             <div className="flex-1 flex justify-between items-center relative">
                 <div className="flex flex-col">
-                    <Typographie component="h3" variant="h3" size="lg">{marque}</Typographie>
-                    <Typographie component="p" variant="p" size="md" className="text-muted-foreground text-xl">{model}</Typographie>
+                    <Typographie component="h3" variant="h3" size="lg">{sneaker?.marque}</Typographie>
+                    <Typographie component="p" variant="p" size="md" className="text-muted-foreground text-xl">{sneaker?.model}</Typographie>
 
-                    <Typographie component="h4" variant="h4" size="md"  className="space-x-3 text-xl">
-                        {(isPromo && promoPrice) && <span>{promoPrice}$</span>}
-                        <span className={isPromo ? "line-through text-slate-400" : ""}>{price}$</span>
+                    <Typographie component="h4" variant="h4" size="md"  className="flex items-center gap-x-3 text-xl">
+                        {(reducprice) && <span>{reducprice}$</span>}
+                        <span className={reducprice ? "line-through text-slate-400" : ""}>{price}$</span>
+                        {(reducprice) && <Badge className="bg-emerald-500">{sneaker.reduction}%</Badge>}
                     </Typographie>
 
                     <Typographie component="p" variant="p" size="md" className="text-xl">
@@ -56,13 +51,13 @@ export const CartItem = ({model, id, marque, promoPrice, isPromo, size, quantity
                         <DialogChangeSize 
                             size={size} 
                             price={price}
-                            isPromo={isPromo}
-                            promoPrice={promoPrice}
-                            marque={marque}
-                            model={model}
+                            isPromo={sneaker?.isPromo}
+                            promoPrice={reducprice}
+                            marque={sneaker?.marque}
+                            model={sneaker?.model}
                             sneakerId={id} 
                             sizes={sizes} 
-                            publicId={images[0]?.publicId || ""} 
+                            publicId={image || ""} 
                         /> 
                     </Typographie>
                 </div>
@@ -75,8 +70,8 @@ export const CartItem = ({model, id, marque, promoPrice, isPromo, size, quantity
                 />
 
                 <Typographie component="h4" variant="h4" size="md"  className="space-x-3 text-xl">
-                    {(isPromo && promoPrice) ? (<span>{promoPrice * quantity}$</span>)
-                    : (<span className={isPromo ? "line-through text-slate-400" : ""}>{price * qt}$</span>)}
+                    {(sneaker?.isPromo && reducprice) ? (<span>{reducprice * quantity}$</span>)
+                    : (<span className={sneaker?.isPromo ? "line-through text-slate-400" : ""}>{price * qt}$</span>)}
                 </Typographie>
 
                 <Button variant={"destructive"} size={"icon"} className="absolute top-0 right-0" onClick={onDelete}>

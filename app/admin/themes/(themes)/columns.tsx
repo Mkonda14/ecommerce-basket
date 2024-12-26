@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { Theme } from "@prisma/client"
-import { InnerHTML } from "@/components/InnerHTML"
 import { dateFormat } from "@/lib/utils"
 import { BiMessageSquareEdit } from "react-icons/bi"
 import Link from "next/link"
@@ -80,20 +79,24 @@ export const columns: ColumnDef<Theme>[] = [
       <div className="capitalize">{row.getValue("name")}</div>
     ),
   },
+  
   {
-    accessorKey: "description",
-    header: "Description",
-    cell: ({ row }) => (
-      <InnerHTML text={row.getValue("description")} />
-    ),
+    accessorKey: "_count",
+    header: "Likes",
+    cell: ({ row }) => {
+      const like : {likes: number} = row.getValue("_count");
+      return (
+        <div className="capitalize">{like.likes}</div>
+      )
+    },
   },
   {
     accessorKey: "category",
     header: "Category",
     cell: ({ row }) => {
-      const category : {name: string, globalName: string} = row.getValue("category");
+      const category : {name: string, secondName: string} = row.getValue("category");
       return (
-        <div className="capitalize">{category?.globalName} / {category.name}</div>
+        <div className="capitalize">{category?.secondName} / {category.name}</div>
       )
     },
   },

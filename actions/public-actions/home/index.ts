@@ -1,50 +1,65 @@
 "use server"
 
 import { db } from "@/lib/db";
+import { transToCardCustom } from "@/actions/translate"
 
-export const getProductCardDerniers = async () => {
-    try {
-        const sneakers = await db.sneaker.findMany({
-            where:{
-                NOT:{
-                    colorSecondaries: {every: { id: ""}}
-                }
+
+export const getLastCustoms = async (limit?: number)=> {
+    try{        
+        const customs = await db.custom.findMany({
+            take: limit || 4,
+            orderBy:{
+                createdAt: "desc"
             },
-            include:{
-                images:{
-                    select:{
-                        publicId: true,
-                    },
-                    take: 1,
-                },
-                sizes: {
-                    select:{
-                        size: true,
-                        quantity: true,
-                    },
-                },
-                colorSecondaries:{
-                    select:{
+            select: {
+                id: true,
+                slug: true,
+                name: true,
+                price: true,
+                colorSecondaries: {
+                    select: {
                         color: true,
                         name: true,
-                    },
+                    }
                 },
-                tags:{
+                colorPrimary:{
                     select:{
-                        name: true
+                        sneaker: {
+                            select:  {
+                                marque: true,
+                                model: true,
+                                price: true,
+                                reduction: true,
+                                isPromo: true,
+                                isCustomByGraffiti: true,
+                                tags: {
+                                    select: {
+                                        name: true
+                                    }
+                                }
+                            }
+                        },
+                        sizes: {
+                            select: {
+                                size: true,
+                                quantity: true,
+                            }
+                        }
+                    }
+                },
+                images: {
+                    select: {
+                        publicId: true
                     },
-                    take: 3
+                    take: 1
                 },
             },
-            take: 4,
-            orderBy: {
-                createdAt: 'desc',
-            },
+        })
 
-        });
-        return sneakers;
-    } catch (error) {
-        throw new Error("Error get sneakers to database: " + error)
+        return customs.map((custom)=> transToCardCustom(custom))
+
+    }catch(err){
+        throw new Error("error an get last customs from the database" + err)
     }
 }
 

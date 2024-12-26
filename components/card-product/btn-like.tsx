@@ -2,7 +2,7 @@
 
 import { Button } from "../ui/button";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { isLikeSneaker, likedSneaker } from "@/actions/product/like";
+import { isLikeCustom, likedCustom } from "@/actions/custom/like";
 
 import { AiFillHeart } from "react-icons/ai"; 
 import { AiOutlineHeart } from "react-icons/ai";
@@ -21,13 +21,13 @@ export const BtnLike = ({sneakerId, isFloat=true, onChange, className}: BtnLikeP
 
   useEffect(() => {
     (async () => {
-      const res = await isLikeSneaker(sneakerId);
+      const res = await isLikeCustom(sneakerId);
       setLike(res);     
     })()
   }, [sneakerId, onChange])
 
   const onLike = () => {
-    likedSneaker(sneakerId).then((res) => {
+    likedCustom(sneakerId).then((res) => {
       setLike(res);
       if(onChange) onChange((state)=> res ? state + 1 : state - 1);
     });

@@ -1,10 +1,11 @@
 "use server"
 
-import { getSneakerBySlug } from "@/actions/public-actions/show";
+import { getCustomBySlug } from "@/actions/public-actions/show";
 
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { CompClient } from "./comp-client";
 import { HeroShop } from "@/components/public/shop/hero-shop";
+import { getCardSuggestions } from "@/actions/custom/suggestion";
 
 
 interface IPageShowProps{
@@ -19,14 +20,19 @@ export default async function PageShow(props: IPageShowProps) {
     const queryClient = new QueryClient();
 
     await queryClient.prefetchQuery({
-        queryKey: [`show_product_${slug}`],
-        queryFn: ()=> getSneakerBySlug(slug),
+        queryKey: ["customs",`${slug}`],
+        queryFn: ()=> getCustomBySlug(slug),
+    })
+
+    await queryClient.prefetchQuery({
+        queryKey: ["customs",`${slug}`,`suggestions`],
+        queryFn: ()=> getCardSuggestions({slug}),
     })
 
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
             <main>
-                <HeroShop title={"Show detail sneaker"} />
+                <HeroShop title={"Show detail sneaker"} label="Custom detail" />
                 <CompClient slug={slug} />
             </main>
         </HydrationBoundary>

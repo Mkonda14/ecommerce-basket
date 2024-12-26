@@ -6,7 +6,7 @@ import { CheckboxLabel } from "./checkbox-label"
 import { useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { CategorySneaker } from "@prisma/client"
-import { getCategorySneakers } from "@/actions/category-attribut"
+import { getCategorySneakers } from "@/actions/product/category"
 import { useFilters } from "@/hooks/stores/use-filter-store"
 
 

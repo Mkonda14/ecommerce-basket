@@ -51,17 +51,17 @@ export const EntiteGraffiti = () => {
                                     <SidebarMenuSub>
                                         <SidebarMenuSubItem>
                                                 <SidebarMenuSubButton>
-                                                    <Link href={"/admin/category-graffitis/dashboard"}>Dashboard</Link>
+                                                    <Link href={"/admin/graffitis/categories/dashboard"}>Dashboard</Link>
                                                 </SidebarMenuSubButton>
                                         </SidebarMenuSubItem>
                                         <SidebarMenuSubItem>
                                                 <SidebarMenuSubButton>
-                                                    <Link href={"/admin/category-graffitis"}>Catégories</Link>
+                                                    <Link href={"/admin/graffitis/categories"}>Catégories</Link>
                                                 </SidebarMenuSubButton>
                                         </SidebarMenuSubItem>
                                         <SidebarMenuSubItem>
                                                 <SidebarMenuSubButton>
-                                                    <Link href={"/admin/category-graffitis/add"}>Add</Link>
+                                                    <Link href={"/admin/graffitis/categories/add"}>Add</Link>
                                                 </SidebarMenuSubButton>
                                         </SidebarMenuSubItem>
                                     </SidebarMenuSub>
