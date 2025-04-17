@@ -137,6 +137,7 @@ export const SectionDetailProduct = ({data}: TDetailCustom) => {
           {data?.sneaker.isCustomByGraffiti && (
             <BtnCustom
               chooseSize={chooseSize}
+              colorPrimary={data?.sneaker.colorPrimary.name}
               sneakerId={data?.sneaker.id}
             />
           )}

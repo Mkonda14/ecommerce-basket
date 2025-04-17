@@ -21,6 +21,7 @@ export const ProductSchema = z.object({
     })),
 
     colorPrimaries: z.array(z.object({
+        id: z.string().optional(),
         code: z.string(),
         name: z.string(),
         sizes: z.array(z.object({

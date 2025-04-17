@@ -28,7 +28,7 @@ import { useResetForm } from "@/hooks/stores/use-form-store";
 
 type Product = {
   tags: {id: string, name: string}[],
-  colorPrimaries: {color: string, name: string, sizes: {size: number, quantity: number}[]}[] | null,
+  colorPrimaries: {color: string, name: string, id: string, sizes: {size: number, quantity: number}[]}[] | null,
 }
 
 interface FormProductProps{
@@ -58,6 +58,7 @@ export const FormSneaker = ({sneakerId, sneaker}: FormProductProps) => {
       category: sneaker?.categoryId || "",
       colorPrimaries: sneaker?.colorPrimaries?.map((colorPrimary)=>(
         {
+          id: colorPrimary?.id || undefined,
           name: colorPrimary?.name || "black",
           code: colorPrimary?.color || "#333",
           sizes: colorPrimary?.sizes.map(size => ({size: `${size.size}`, quantity: `${size.quantity}`})) || [{

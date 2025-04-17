@@ -76,7 +76,7 @@ export const CardProduct = ({
                             ))}                        
                         </div>
                         {isCustomByGraffiti && (
-                            <span className=""><BiEdit className="size-6" /></span>
+                            <span className=""><BiEdit className="size-6 text-emerald-500" /></span>
                         )}
                     </div>
                     

@@ -5,7 +5,7 @@ import { CarouselAttribut } from "@/components/public/carousel-attribut"
 import { CardAttributProps } from "@/components/public/card-attribut";
 
 import { useQuery } from "@tanstack/react-query";
-import { getGraffitiCards } from "@/actions/public-actions/custom-info";
+import { getGraffitiCards } from "@/actions/public-actions/custom";
 
 export const SectionGraffiti = () => {
 

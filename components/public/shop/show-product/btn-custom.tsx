@@ -7,13 +7,14 @@ import { BiEdit } from "react-icons/bi";
 
 interface IBtnCustom{
     chooseSize?: number;
+    colorPrimary: string;
     sneakerId: string;
 }
-export const BtnCustom = ({chooseSize, sneakerId}: IBtnCustom) => {
+export const BtnCustom = ({chooseSize, colorPrimary, sneakerId}: IBtnCustom) => {
 
     const router = useRouter();
     const push = ()=>{
-        if(!!chooseSize) router.push(`/shop/custom/${chooseSize}/${sneakerId}`);
+        if(!!chooseSize) router.push(`/custom/${chooseSize}/${colorPrimary}/${sneakerId}`);
         else ToastSave({ type: 'error', message: 'Please select a size to display in your shop' });
     }
     return (

@@ -3,6 +3,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { cn, sizes } from "@/lib/utils";
 import { Dispatch, SetStateAction } from "react";
 
+import {v4 as uuidv4} from "uuid";
+
 interface CheckboxSizeProps{
     size: number;
     onChange: Dispatch<SetStateAction<number | undefined>>;
@@ -12,6 +14,7 @@ interface CheckboxSizeProps{
 export const RadioSize = ({size, value, onChange}: CheckboxSizeProps) => {
     const isChecked = value === size;
     const {usHomme, usFemme, RU, UE} = sizes(size);
+    const idxUnique = uuidv4();
     return (
         <TooltipProvider>
             <Tooltip>
@@ -19,10 +22,10 @@ export const RadioSize = ({size, value, onChange}: CheckboxSizeProps) => {
                     <Button variant={isChecked ? "default" : "outline"} asChild>
                         <label 
                             className={cn("relative !w-20 h-10 cursor-pointer")} 
-                            htmlFor={`${size}`}
+                            htmlFor={`${idxUnique}`}
                         >
                             <input 
-                                id={`${size}`}
+                                id={`${idxUnique}`}
                                 className="hidden" 
                                 type="radio"
                                 name={"size"} 

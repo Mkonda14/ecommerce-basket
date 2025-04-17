@@ -170,6 +170,7 @@ model Custom{
   slug        String @unique
 
   price       Float
+  
   colorPrimaryId String
   colorPrimary ColorPrimary @relation(fields:[colorPrimaryId], references: [id], onDelete: Cascade)
 

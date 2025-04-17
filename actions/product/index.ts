@@ -46,6 +46,7 @@ export const getSneakerUpdatedById = async (id: string) => {
                 updatedAt: true,
                 colorPrimaries: {
                     select:{
+                        id: true,
                         color: true,
                         name: true,
                         sizes:{

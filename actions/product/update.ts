@@ -47,16 +47,30 @@ export const updateProduct = authAdminAction
         stock: parseInt(stock),
 
         colorPrimaries: {
-          deleteMany: {},
-          create: colorPrimaries.map((colorPrimary)=>({
-            color: colorPrimary.code,
-            name: colorPrimary.name,
-            quantity: colorPrimary.sizes.map((size)=> parseInt(size.quantity)).reduce((prev, curr)=> prev + curr, 0),
-            sizes: {
-              create: colorPrimary.sizes.map((size) => ({
-                size: parseInt(size.size, 10),
-                quantity: parseInt(size.quantity, 10),
-              })),
+          upsert: colorPrimaries.map((colorPrimary)=>({
+            where: {id: colorPrimary.id},
+            update: {
+              color: colorPrimary.code,
+              name: colorPrimary.name,
+              quantity: colorPrimary.sizes.map((size)=> parseInt(size.quantity)).reduce((prev, curr)=> prev + curr, 0),
+              sizes: {
+                deleteMany: {},
+                create: colorPrimary.sizes.map((size) => ({
+                  size: parseInt(size.size, 10),
+                  quantity: parseInt(size.quantity, 10),
+                })),
+              }, 
+            },
+            create: {
+              color: colorPrimary.code,
+              name: colorPrimary.name,
+              quantity: colorPrimary.sizes.map((size)=> parseInt(size.quantity)).reduce((prev, curr)=> prev + curr, 0),
+              sizes: {
+                create: colorPrimary.sizes.map((size) => ({
+                  size: parseInt(size.size, 10),
+                  quantity: parseInt(size.quantity, 10),
+                })),
+              }, 
             },
           }))
         },

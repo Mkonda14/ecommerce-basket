@@ -1,6 +1,6 @@
 "use server"
 
-import { getGraffitiCards } from "@/actions/public-actions/custom-info";
+import { getGraffitiCards } from "@/actions/public-actions/custom";
 import { Container } from "@/components/container";
 import { SectionGraffiti } from "@/components/public/custom-info/section-graffiti";
 import { SectionGrid } from "@/components/public/custom-info/section-grid";
@@ -9,7 +9,7 @@ import { Typographie } from "@/components/typographie";
 
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 
-export default async function PageCustom() {
+export default async function PageCustomInfo() {
 
     const queryClient = new QueryClient();
 
@@ -21,7 +21,7 @@ export default async function PageCustom() {
     return (
         <HydrationBoundary state={dehydrate(queryClient)}>
             <section>
-                <HeroShop title="Customization" />
+                <HeroShop title="Customization info" />
                 <Container>
                     <Typographie component="h2" variant="h2" size="lg">Customization sneakers</Typographie>
                     <Typographie component="p" variant="p" size="md" className="text-muted-foreground">

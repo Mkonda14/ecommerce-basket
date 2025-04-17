@@ -35,6 +35,7 @@ export const SectionSuggestion = ({customs}: ISectionSuggestion) => {
                         publicId={custom?.image || ""}
                         sizes={custom?.sizes}
                         colorSecondaries={custom?.colorSecondaries}
+                        isCustomByGraffiti={custom?.sneaker.isCustomByGraffiti}
                         isPromo={custom?.sneaker.isPromo} 
                         reduction={custom?.sneaker.reduction}
                         tags={custom?.sneaker.tags}

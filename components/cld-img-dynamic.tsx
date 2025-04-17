@@ -10,6 +10,7 @@ const sizes = {
     "card-basket-max": "h-32 w-32",
     "card-attribut": "h-40 w-full",
     "card-sneaker": "h-[300px] w-full",
+    "radio-graffitti": "h-[200px] w-full",
     "crsl-max": "h-[500px] w-full",
     "modal-update-size": "h-[400px] w-full",
 };
@@ -27,6 +28,7 @@ const sizeInitials = {
     "card-basket-max": {height: 200, width: 150},
     "card-attribut": {height: 250, width: 400},
     "card-sneaker": {height: 250, width: 175},
+    "radio-graffitti": {height: 250, width: 175},
     "crsl-max": {height: 250, width: 250},
     "modal-update-size": {height: 200, width: 250},
 }

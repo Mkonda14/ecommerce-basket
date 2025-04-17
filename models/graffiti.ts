@@ -22,15 +22,3 @@ export const CategoryGraffitiSchema = z.object({
     secondName: z.string().optional(),
     description: z.string().min(1, "integer property description is required"),
 });
-
-export const CustomizationSchema = z.object({
-    text: z.string().min(1, "integer property text is required"),
-    instruction: z.string().optional(),
-    description: z.string().optional(),
-    colors: z.array(z.object({
-        code: z.string(),
-        name: z.string()
-    })).optional(),
-    sneaker: z.string(),
-    user: z.string(),
-});

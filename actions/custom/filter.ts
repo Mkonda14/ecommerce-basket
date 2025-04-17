@@ -87,6 +87,7 @@ export const filterCustom = async (data: z.infer<typeof IFilterCustomSchema>) =>
                         price: true,
                         reduction: true,
                         isPromo: true,
+                        isCustomByGraffiti: true,
                         tags: {
                             select: {
                                 name: true

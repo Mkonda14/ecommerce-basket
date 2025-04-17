@@ -37,7 +37,7 @@ export const CardAttribut = ({id, image, category, name, popularity, _count, ent
           style.shadowBtn
         )}
       >
-        <BtnLike entity={entity} themeId={id} onChange={setLikes} className="rounded-full bg-white" />
+        <BtnLike entity={entity} attrId={id} onChange={setLikes} className="rounded-full bg-white" />
       </div>
 
       <Link href={`#`}>

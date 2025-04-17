@@ -33,7 +33,7 @@ export const Footer = ({onReset, name, loading}:FooterProps) => {
                 <Button disabled={loading}>
                     {loading ? <LoaderSpin /> : <span>{name || "Save object"}</span> }
                 </Button>
-                <Button variant={"outline"} size={"icon"}><FiMoreVertical /></Button>
+                <Button variant={"outline"} type="button" size={"icon"}><FiMoreVertical /></Button>
            </div>
         </footer>
     )

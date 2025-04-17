@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CustomSchema } from "@/models/custom";
+import { CustomizationSchema } from "@/models/customization";
 import { UseFormReturn } from "react-hook-form";
 
 import { v4 as uuidv4 } from "uuid";
@@ -9,25 +9,24 @@ import {
   FormItem,
   FormMessage,
   FormDescription,
+  FormLabel,
 } from "@/components/ui/form";
-import { SectionForm } from "../section-form";
-import { Label } from "../label";
 import { ColorPicker } from "@/components/color-picker";
 import { AiOutlineClose } from "react-icons/ai";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { useResetForm } from "@/hooks/stores/use-form-store";
-import { CustomizationSchema } from "@/models/customization";
+import { CustomSchema } from "@/models/custom";
 
 interface SectionThreeProps {
-  form: UseFormReturn<z.infer<typeof CustomSchema>>;
+  form: UseFormReturn<z.infer<typeof CustomizationSchema>>;
 }
 
-export const SectionThree = ({ form }: SectionThreeProps) => {
+export const SectionColors = ({ form }: SectionThreeProps) => {
   const initialColor: string[] | undefined = form
     .getValues()
-    .colorSecondaries?.map(() => uuidv4());
+    .colors?.map(() => uuidv4());
   const isReset = useResetForm.use.isReset();
 
   useEffect(() => {
@@ -44,18 +43,16 @@ export const SectionThree = ({ form }: SectionThreeProps) => {
   const deleteColor = (id: string) => {
     setNbColor((previous) => previous.filter((color) => color !== id));
   };
-
   return (
-    <SectionForm title="Colors secondary" color="emerald">
       <div className="w-full">
         <FormField
-          name="colorSecondaries"
+          name="colors"
           control={form.control}
           render={({ field }) => (
             <FormItem>
               <div className="">
                 <div className="mb-4">
-                  <Label type="question">Custom color secondaries </Label>
+                  <FormLabel>Custom colors </FormLabel>
                   <FormDescription>
                     Veuillez insérer chaque couleur secondaire
                   </FormDescription>
@@ -71,12 +68,12 @@ export const SectionThree = ({ form }: SectionThreeProps) => {
                       >
                         <ColorPicker
                           value={
-                            form.getValues().colorSecondaries?.[idx]?.code ||
+                            form.getValues().colors?.[idx]?.code ||
                             "#333"
                           }
                           form={form as UseFormReturn<z.infer<typeof CustomSchema> | z.infer<typeof CustomizationSchema>>}
-                          nameCode={`colorSecondaries.${idx}.code`}
-                          nameColor={`colorSecondaries.${idx}.name`}
+                          nameCode={`colors.${idx}.code`}
+                          nameColor={`colors.${idx}.name`}
                         />
                         <Button
                           type="button"
@@ -107,6 +104,6 @@ export const SectionThree = ({ form }: SectionThreeProps) => {
           )}
         />
       </div>
-    </SectionForm>
   );
 };
+

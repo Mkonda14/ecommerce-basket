@@ -1,7 +1,7 @@
 "use client"
 
 import { InnerHTML } from "@/components/InnerHTML";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -18,9 +18,9 @@ export const TabDescriptif = ({categorySneaker, themes = [], tags = []}: TabDesc
       <section className="w-full">
         <Tabs defaultValue="categorySneaker" className="w-full">
           <TabsList className="flex gap-x-4 justify-start bg-transparent rounded-none">
-              <Button asChild><TabsTrigger value={"categorySneaker"}>Catégorie sneaker</TabsTrigger></Button>
-              <Button asChild><TabsTrigger value={"themes"}>Thèmes</TabsTrigger></Button>
-              <Button asChild><TabsTrigger value={"tags"}>Tags</TabsTrigger></Button>         
+              <TabsTrigger value={"categorySneaker"}>Catégorie sneaker</TabsTrigger>
+              <TabsTrigger value={"themes"}>Thèmes</TabsTrigger>
+              <TabsTrigger value={"tags"}>Tags</TabsTrigger>         
           </TabsList>
           <TabsContent value="categorySneaker">
             <Card>
